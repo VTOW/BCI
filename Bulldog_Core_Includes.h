@@ -6,7 +6,7 @@
 #include "Modules\Core\util.c"
 #include "Modules\Core\motorControl.c"
 #include "Modules\Core\lcdControl.c"
-#include "Modules\Core\pidControl.c"
+#include "Modules\Core\positionPID.c"
 #include "Modules\Core\velocityPID.c"
 #include "Modules\Core\velocityTBH.c"
 #include "Modules\Core\timer.c"

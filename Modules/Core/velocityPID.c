@@ -3,7 +3,7 @@
 
 #include "VelocityPID.h"
 
-void vel_PID_InitController(vel_PID* pid, tSensors sensor, float kP, float kI, float kD, int errorSumThreshold, int integralCap)
+void vel_PID_InitController(vel_PID *pid, tSensors sensor, float kP, float kI, float kD, int errorSumThreshold, int integralCap)
 {
 	pid->kP = kP;
 	pid->kI = kI;
@@ -30,46 +30,10 @@ void vel_PID_InitController(vel_PID* pid, tSensors sensor, float kP, float kI, f
 	pid->outVal = 0.0;
 }
 
-int vel_PID_StepController_POS(vel_PID* pid)
+int vel_PID_StepController(vel_PID *pid)
 {
 	//Calculate timestep
-	pid->dt = (time1[T1] - pid->prevTime) + 1;
-	pid->prevTime = time1[T1];
-
-	//Calculate current velocity
-	//pid->currentVelocity = ((SensorValue[pid->sensor] - pid->prevPosition) / pid->dt) * (500/3);
-	pid->currentVelocity = (1000.0 / pid->dt) * (SensorValue[pid->sensor] - pid->prevPosition) * (60.0 / 360.0);
-	pid->prevPosition = SensorValue[pid->sensor];
-
-	//Calculate error
-	pid->error = pid->targetVelocity - pid->currentVelocity;
-
-	//If error is larger than the error sum threshold, calculate integral
-	if (abs(pid->error) < pid->errorSumThreshold)
-	{
-		pid->integral += pid->error * pid->dt;
-	}
-
-	//Limit integral to avoid windup
-	if (abs(pid->integral) > pid->integralCap)
-	{
-		pid->integral = pid->integralCap;
-	}
-
-	//Calculate derivative
-	pid->derivative = (pid->error - pid->prevError) / pid->dt;
-	pid->prevError = pid->error;
-
-	//Sum outVal to instead compute the change in velocity
-	pid->outVal = (pid->error * pid->kP) + (pid->integral * pid->kI) + (pid->derivative * pid->kD);
-
-	return pid->outVal;
-}
-
-int vel_PID_StepController_VEL(vel_PID* pid)
-{
-	//Calculate timestep
-	pid->dt = (time1[T1] - pid->prevTime) + 1;
+	pid->dt = (time1[T1] - pid->prevTime);
 	pid->prevTime = time1[T1];
 
 	//Calculate current velocity
@@ -102,12 +66,13 @@ int vel_PID_StepController_VEL(vel_PID* pid)
 	return pid->outVal;
 }
 
-int vel_PID_StepController_VEL(vel_PID* pid, int currentVelocity)
+int vel_PID_StepController(vel_PID *pid, int currentVelocity)
 {
 	//Calculate timestep
-	pid->dt = (time1[T1] - pid->prevTime) + 1;
+	pid->dt = (time1[T1] - pid->prevTime);
 	pid->prevTime = time1[T1];
 
+	//Use given velocity
 	pid->currentVelocity = currentVelocity;
 
 	//Calculate error
@@ -132,43 +97,6 @@ int vel_PID_StepController_VEL(vel_PID* pid, int currentVelocity)
 	//Sum outVal to instead compute the change in velocity
 	//pid->outVal += (pid->error * pid->kP) + (pid->integral * pid->kI) + (pid->derivative * pid->kD);
 	pid->outVal = (pid->targetVelocity / PID_SCALE) + (pid->error * pid->kP);
-
-	return pid->outVal;
-}
-
-int vel_PID_StepController_ACCEL(vel_PID *pid)
-{
-	//Calculate timestep
-	pid->dt = (time1[T1] - pid->prevTime) + 1;
-	pid->prevTime = time1[T1];
-
-	//Calculate current velocity
-	pid->currentVelocity = (SensorValue[pid->sensor] - pid->prevPosition) * (DEGPMS_TO_RPM / (pid->dt * 1000));
-	pid->prevPosition = SensorValue[pid->sensor];
-
-	//Calculate error
-	pid->error = pid->targetVelocity - pid->currentVelocity;
-
-	//If error is larger than the error sum threshold, calculate integral
-	if (abs(pid->error) < pid->errorSumThreshold)
-	{
-		pid->integral += pid->error * pid->dt;
-	}
-
-	//Limit integral to avoid windup
-	if (abs(pid->integral) > pid->integralCap)
-	{
-		pid->integral = pid->integralCap;
-	}
-
-	//Calculate derivative
-	pid->derivative = (pid->error - pid->prevError) / pid->dt;
-	pid->prevError = pid->error;
-
-	//Sum outVal to instead compute the change in velocity
-	//pid->outVal += (pid->error * pid->kP) + (pid->integral * pid->kI) + (pid->derivative * pid->kD);
-	//pid->outVal = (pid->targetVelocity / PID_SCALE) + (pid->error * pid->kP);
-	pid->outVal = pid->error * pid->kP;
 
 	return pid->outVal;
 }

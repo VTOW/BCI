@@ -3,7 +3,7 @@
 
 #include "VelocityTBH.h"
 
-void vel_TBH_InitController(vel_TBH* tbh, const tSensors sensor, const float gain, const int outValApprox)
+void vel_TBH_InitController(vel_TBH *tbh, const tSensors sensor, const float gain, const int outValApprox)
 {
 	tbh->gain = gain;
 
@@ -27,7 +27,7 @@ void vel_TBH_InitController(vel_TBH* tbh, const tSensors sensor, const float gai
 	tbh->outVal = 0.0;
 }
 
-void vel_TBH_InitController(vel_TBH* tbh, const tMotor imeMotor, const float gain, const int outValApprox)
+void vel_TBH_InitController(vel_TBH *tbh, const tMotor imeMotor, const float gain, const int outValApprox)
 {
 	tbh->gain = gain;
 
@@ -63,7 +63,7 @@ void vel_TBH_SetTargetVelocity(vel_TBH *tbh, const int targetVelocity, const int
 	}
 }
 
-int vel_TBH_StepVelocity(vel_TBH* tbh)
+int vel_TBH_StepVelocity(vel_TBH *tbh)
 {
 	//Calculate timestep
 	tbh->dt = (time1[T1] - tbh->prevTime) + 1;
@@ -84,7 +84,7 @@ int vel_TBH_StepVelocity(vel_TBH* tbh)
 	return tbh->currentVelocity;
 }
 
-int vel_TBH_StepController_VEL(vel_TBH* tbh)
+int vel_TBH_StepController(vel_TBH *tbh)
 {
 	//Calculate velocity
 	vel_TBH_StepVelocity(tbh);
