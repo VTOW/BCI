@@ -1,14 +1,14 @@
 #ifndef FILTER_H_INCLUDED
 #define FILTER_H_INCLUDED
 
-//Simple moving average filter
-typedef struct SMAFilter
+//Exponential moving average filter
+typedef struct EMAFilter
 {
 	float alpha;
 	float readIn;
 	float output;
 	float output_old;
-} SMAFilter;
+} EMAFilter;
 
 //Five-unit average filter
 typedef struct FUAFilter
@@ -24,9 +24,9 @@ typedef struct TUAFilter
 	int index;
 } TUAFilter;
 
-//Simple moving average filter
-void filter_Init_SMA(SMAFilter *filter);
-float filter_SMA(SMAFilter *filter, const float readIn, const float alpha);
+//Exponential moving average filter
+void filter_Init_EMA(EMAFilter *filter);
+float filter_EMA(EMAFilter *filter, const float readIn, const float alpha);
 
 //Five-unit average filter
 void filter_Init_FUA(FUAFilter *filter);

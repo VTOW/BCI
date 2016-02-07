@@ -3,7 +3,7 @@
 
 #include "filter.h"
 
-void filter_Init_SMA(SMAFilter *filter)
+void filter_Init_EMA(EMAFilter *filter)
 {
 	filter->alpha = 1.0;
 	filter->readIn = 0.0;
@@ -11,7 +11,7 @@ void filter_Init_SMA(SMAFilter *filter)
 	filter->output_old = 0.0;
 }
 
-float filter_SMA(SMAFilter *filter, const float readIn, const float alpha)
+float filter_EMA(EMAFilter *filter, const float readIn, const float alpha)
 {
 	filter->alpha = alpha;
 	filter->readIn = readIn;
