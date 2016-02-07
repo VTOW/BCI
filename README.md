@@ -1,5 +1,5 @@
-BCI
-===
+# BCI
+-----
 Team 2442A's Core Library
 ------------------------
 
@@ -39,3 +39,11 @@ This module contains useful utility functions and definitions used for low level
 Joystick Definitions
 --------------------
 This module contains relative position-based redefinitions of all joystick and partner joystick buttons.
+
+# In-Depth Documentation
+-----------------------
+Filter
+-----
+There are three types of filters, `SMAFilter`, a simple moving average; `FUAFilter`, a five-unit moving average; and `TUAFitler`, a ten-unit moving average. Each filter must be initialized with its respective initialization function before it can be used. Initialization functions take the form `void filter_Init_<FILTER_PREFIX>(<FILTER_TYPE> *filter)`, where `<FILTER_PREFIX>` is the prefix of a filter type which denotes its type (i.e., `SMA`, `FUA`, or `TUA`) and`<FILTER TYPE>` is type of filter.
+
+Once initialized, filters can be used in stepped increments. To use a filter, call its respective stepping function, which takes the form `float filter_<FILTER_PREFIX>(<FILTER_TYPE> *filter, ...)`. This stepping function always returns the newly filtered value. The ellipsis, `...`, denotes varying parameters for different filters. For an SMAFilter, this is `float readIn, float alpha`, where `readIn` is a new data point and alpha is a blending percentage in the range [0, 1]. For an FUAFilter and a TUAFilter, this is `float componentIn`, where `componentIn` is a new data point.
