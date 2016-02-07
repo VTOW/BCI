@@ -65,3 +65,19 @@ This module, like the LCD Control module, uses a centralized main task to perfor
 Before a `driveMotor` can be used by the module, it must be initialized using the function `driveMotor* addMotor(tMotor motor, float slewRate = MOTOR_DEFAULT_SLEW_RATE)`, where `motor` is a motor as declared in RobotC's pragma statements and `slewRate` is any positive slew rate (this number can be floating point). By default, `slewRate` is the default motor slew rate, 10. Once This function returns a `driveMotor` reference of the initialized `driveMotor`.
 
 Once a `driveMotor` is initialized, no further actions need to be taken for motor setup except starting the module's main task, `task motorSlewRateTask()`.
+
+PID
+---
+##### Position PID
+The first PID library operates in the first order domain of position and displacment. This module acts on `pos_PID` types, which must first be initialized using the function `void pos_PID_InitController(pos_PID *pid, tSensors sensor, float kP, float kI, float kD, float kBias = 0.0, int errorThreshold = 5, int integralLimit = 1000, bool isEnabled = true)`, where `pid` is a `pos_PID` reference, `sensor` is a quadrature encoder, `kP` is a proportional gain, `kI` is an integral gain, `kD` is a derivative gain, `kBias` is a bias added to the controller's output (used most often in lifts which need to counteract gravity at standstill), `errorThreshold` is a threshold used for calculating the integral (any error value above this will be added to the integral sum), and `integralLimit` is a hard limit for the integral sum (any sums above this limit will be clipped).
+
+Once a `pos_PID` is initialized, it can be used. A target position can be set using the function `void pos_PID_SetTargetPosition(pod_PID *pid, int targetPos)`, where `pid` is a `pos_PID` reference and `targetPos` is a target position measured in ticks.
+
+Once a `pos_PID` has a target position, it can be used with the function `int pos_PID_StepController(pos_PID *pid)`, where `pid` is a `pos_PID` reference. This function returns a motor power.
+
+##### Velocity PID
+The second PID library operates in the second order domain of velocity and speed. This module acts on `vel_PID` types, which must first be initialized using the function `void vel_PID_InitController(vel_PID *pid, tSensors sensor, float kP, float kI, float kD, int errorSumThreshold, int integralCap)`, where `pid` is a `vel_PID` reference, `sensor` is a quadrature encoder, `kP` is a proportional gain, `kI` is an integral gain, `kD` is a derivative gain, `errorSumThreshold` is a threshold at which the integral is calculated, and `integralCap` is a hard limit for the integral sum.
+
+Once a `vel_PID` is initialized, it can be used. A target velocity can be set using the function `void vel_PID_SetTargetVelocity(vel_PID *pid, int targetVelocity)`, where `pid` is a `vel_PID` reference and `targetVelocity` is an integer target velocity.
+
+Once a `vel_PID` has a target velocity, it can be used with the function `int vel_PID_StepController(vel_PID *pid)`, where `pid` is a `vel_PID` reference. An option parameter, `int currentVelocity` can be used in place of the automatically calculated velocity. This function returns a motor power. In addition, the controller can be used to calculate velocity without stepping any actual math using the function `int vel_PID_StepVelocity(vel_PID *pid)`, where `pid` is a `vel_PID` reference. 
