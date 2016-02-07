@@ -8,6 +8,7 @@ void vel_TBH_InitController(vel_TBH *tbh, const tSensors sensor, const float gai
 	tbh->gain = gain;
 
 	tbh->currentVelocity = 0.0;
+	tbh->currentPosition = 0;
 	tbh->prevPosition = 0;
 	tbh->error = 0;
 	tbh->prevError = 0;
@@ -16,6 +17,7 @@ void vel_TBH_InitController(vel_TBH *tbh, const tSensors sensor, const float gai
 	tbh->outValAtZero = 0.0;
 
 	tbh->dt = 0.0;
+	tbh->currentTime = 0;
 	tbh->prevTime = 0;
 
 	tbh->sensor = sensor;
@@ -32,6 +34,7 @@ void vel_TBH_InitController(vel_TBH *tbh, const tMotor imeMotor, const float gai
 	tbh->gain = gain;
 
 	tbh->currentVelocity = 0.0;
+	tbh->currentPosition = 0;
 	tbh->prevPosition = 0;
 	tbh->error = 0;
 	tbh->prevError = 0;
@@ -40,6 +43,7 @@ void vel_TBH_InitController(vel_TBH *tbh, const tMotor imeMotor, const float gai
 	tbh->outValAtZero = 0.0;
 
 	tbh->dt = 0.0;
+	tbh->currentTime = 0;
 	tbh->prevTime = 0;
 
 	tbh->imeMotor = imeMotor;
@@ -65,21 +69,30 @@ void vel_TBH_SetTargetVelocity(vel_TBH *tbh, const int targetVelocity, const int
 
 int vel_TBH_StepVelocity(vel_TBH *tbh)
 {
-	//Calculate timestep
-	tbh->dt = (time1[T1] - tbh->prevTime) + 1;
-	tbh->prevTime = time1[T1];
-
-	//Calculate current velocity
 	if (tbh->usingIME)
 	{
-		//Use a TUA filter to smooth data
-		tbh->currentVelocity = filter_TUA(&(tbh->filter), getMotorVelocity(tbh->imeMotor));
+		//Calculate timestep
+		getEncoderAndTimeStamp(tbh->imeMotor, tbh->currentPosition, tbh->currentTime);
+		tbh->dt = tbh->currentTime - tbh->prevTime;
+		tbh->prevTime = tbh->currentTime;
+
+		//Calculate velcoity
+		tbh->currentVelocity = (tbh->currentPosition - tbh->prevPosition) * (TBH_DEGPMS_TO_RPM / (tbh->dt * 1000));
+		tbh->prevPosition = tbh->currentPosition;
 	}
 	else
 	{
+		//Calculate timestep
+		tbh->dt = (time1[T1] - tbh->prevTime) + 1;
+		tbh->prevTime = time1[T1];
+
+		//Calculate current velocity
 		tbh->currentVelocity = (SensorValue[tbh->sensor] - tbh->prevPosition) * (TBH_DEGPMS_TO_RPM / (tbh->dt * 1000));
 		tbh->prevPosition = SensorValue[tbh->sensor];
 	}
+
+	//Use a EMA filter to smooth data
+	tbh->currentVelocity = filter_EMA(&(tbh->filter), tbh->currentVelocity, 0.8);
 
 	return tbh->currentVelocity;
 }

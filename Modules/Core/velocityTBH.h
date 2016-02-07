@@ -14,6 +14,7 @@ typedef struct vel_TBH
 
 	//TBH calculations
 	float currentVelocity;
+	int currentPosition;
 	int prevPosition;
 	int error;
 	int prevError;
@@ -23,6 +24,7 @@ typedef struct vel_TBH
 
 	//Timestep
 	float dt;
+	int currentTime;
 	int prevTime;
 
 	//Input
@@ -32,7 +34,7 @@ typedef struct vel_TBH
 	float targetVelocity;
 
 	//Filtering
-	TUAFilter filter;
+	EMAFilter filter;
 
 	//Output
 	float outVal;
