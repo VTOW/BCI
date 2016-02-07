@@ -86,7 +86,7 @@ int vel_TBH_StepVelocity(vel_TBH *tbh)
 
 int vel_TBH_StepController(vel_TBH *tbh)
 {
-	//Calculate velocity
+	//Calculate current velocity
 	vel_TBH_StepVelocity(tbh);
 
 	//Calculate error

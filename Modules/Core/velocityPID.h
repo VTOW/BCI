@@ -43,12 +43,18 @@ typedef struct vel_PID
 } vel_PID;
 
 //Initializes a velocity PID controller
-void vel_PID_InitController(vel_PID *pid, tSensors sensor, float kP, float kI, float kD, int errorSumThreshold, int integralCap);
+void vel_PID_InitController(vel_PID *pid, const tSensors sensor, const float kP, const float kI, const float kD, const int errorSumThreshold, const int integralCap);
+
+//Sets the controller's target velocity
+int vel_PID_SetTargetVelocity(vel_PID *pid, const int targetVelocity);
+
+//Steps the controller's velocity calculations with out stepping math
+int vel_PID_StepVelocity(vel_PID *pid);
 
 //Steps the controller's calculations
 int vel_PID_StepController(vel_PID *pid);
 
 //Steps the controller's calculations with a given current velocity
-int vel_PID_StepController(vel_PID *pid, int currentVelocity);
+int vel_PID_StepController(vel_PID *pid, const int currentVelocity);
 
 #endif //VELOCITYPID_H_INCLUDED

@@ -3,7 +3,7 @@
 
 #include "velocityPID.h"
 
-void vel_PID_InitController(vel_PID *pid, tSensors sensor, float kP, float kI, float kD, int errorSumThreshold, int integralCap)
+void vel_PID_InitController(vel_PID *pid, const tSensors sensor, const float kP, const float kI, const float kD, const int errorSumThreshold, const int integralCap)
 {
 	pid->kP = kP;
 	pid->kI = kI;
@@ -30,7 +30,12 @@ void vel_PID_InitController(vel_PID *pid, tSensors sensor, float kP, float kI, f
 	pid->outVal = 0.0;
 }
 
-int vel_PID_StepController(vel_PID *pid)
+int vel_PID_SetTargetVelocity(vel_PID *pid, const int targetVelocity)
+{
+	pid->targetVelocity = targetVelocity;
+}
+
+int vel_PID_StepVelocity(vel_PID *pid)
 {
 	//Calculate timestep
 	pid->dt = (time1[T1] - pid->prevTime);
@@ -39,6 +44,14 @@ int vel_PID_StepController(vel_PID *pid)
 	//Calculate current velocity
 	pid->currentVelocity = (SensorValue[pid->sensor] - pid->prevPosition) * (DEGPMS_TO_RPM / (pid->dt * 1000));
 	pid->prevPosition = SensorValue[pid->sensor];
+
+	return pid->currentVelocity;
+}
+
+int vel_PID_StepController(vel_PID *pid)
+{
+	//Calculate current velocity
+	vel_PID_StepVelocity(pid);
 
 	//Calculate error
 	pid->error = pid->targetVelocity - pid->currentVelocity;
@@ -66,7 +79,7 @@ int vel_PID_StepController(vel_PID *pid)
 	return pid->outVal;
 }
 
-int vel_PID_StepController(vel_PID *pid, int currentVelocity)
+int vel_PID_StepController(vel_PID *pid, const int currentVelocity)
 {
 	//Calculate timestep
 	pid->dt = (time1[T1] - pid->prevTime);
