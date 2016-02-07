@@ -18,11 +18,11 @@ The LCD Control module provides a powerful and reflective LCD programming system
 
 Motor Control
 -------------
-The motor control module provides slew rate support down to the decimal resolution. This is configuragble for all motors, with support for individual motor slew rate control.
+The motor control module provides slew rate support down to the decimal resolution. This is configurable for all motors, with support for individual motor slew rate control.
 
 PID
 ---
-There are two PID-based position and velocity control modules included, both with suppotr for quadrature encoders and IME's.
+There are two PID-based position and velocity control modules included, both with support for quadrature encoders and IME's.
 
 TBH
 ---
@@ -38,4 +38,4 @@ This module contains useful utility functions and definitions used for low level
 
 Joystick Definitions
 --------------------
-This module contains relative position-based redefinitions of all joystick and partnet joystick buttons.
+This module contains relative position-based redefinitions of all joystick and partner joystick buttons.
