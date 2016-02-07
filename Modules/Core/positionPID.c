@@ -3,7 +3,7 @@
 
 #include "positionPID.h"
 
-void pos_PID_InitController(pos_PID *pid, const tSensors sensor, const float kP, const float kI, const float kD, const float kBias, const int errorThreshold, const int integralLimit, const bool isEnabled)
+void pos_PID_InitController(pos_PID *pid, const tSensors sensor, const float kP, const float kI, const float kD, const float kBias, const int errorThreshold, const int integralLimit)
 {
 	pid->kP = kP;
 	pid->kI = kI;
