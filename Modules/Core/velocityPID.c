@@ -1,7 +1,7 @@
 #ifndef VELOCITYPID_C_INCLUDED
 #define VELOCITYPID_C_INCLUDED
 
-#include "VelocityPID.h"
+#include "velocityPID.h"
 
 void vel_PID_InitController(vel_PID *pid, tSensors sensor, float kP, float kI, float kD, int errorSumThreshold, int integralCap)
 {

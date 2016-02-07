@@ -39,6 +39,6 @@ void dumpLevels();
 void printnVexRCRecieveState();
 
 //Prints the current main battery voltage every 10 seconds
-task printBatteryVolage();
+task printBatteryVoltage();
 
 #endif //#ifndef UTIL_H_INCLUDED

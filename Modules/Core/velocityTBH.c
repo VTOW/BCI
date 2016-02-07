@@ -1,7 +1,7 @@
 #ifndef VELOCITYTBH_C_INCLUDED
 #define VELOCITYTBH_C_INCLUDED
 
-#include "VelocityTBH.h"
+#include "velocityTBH.h"
 
 void vel_TBH_InitController(vel_TBH *tbh, const tSensors sensor, const float gain, const int outValApprox)
 {
@@ -19,7 +19,7 @@ void vel_TBH_InitController(vel_TBH *tbh, const tSensors sensor, const float gai
 	tbh->prevTime = 0;
 
 	tbh->sensor = sensor;
-	tbh->imeMotor = 1010;
+	tbh->usingIME = false;
 	tbh->targetVelocity = 0.0;
 
 	filter_Init_TUA(&tbh->filter);
@@ -42,8 +42,8 @@ void vel_TBH_InitController(vel_TBH *tbh, const tMotor imeMotor, const float gai
 	tbh->dt = 0.0;
 	tbh->prevTime = 0;
 
-	tbh->sensor = 1010;
 	tbh->imeMotor = imeMotor;
+	tbh->usingIME = true;
 	tbh->targetVelocity = 0.0;
 
 	filter_Init_TUA(&tbh->filter);
@@ -70,15 +70,15 @@ int vel_TBH_StepVelocity(vel_TBH *tbh)
 	tbh->prevTime = time1[T1];
 
 	//Calculate current velocity
-	if (tbh->imeMotor == 1010)
-	{
-		tbh->currentVelocity = (SensorValue[tbh->sensor] - tbh->prevPosition) * (TBH_DEGPMS_TO_RPM / (tbh->dt * 1000));
-		tbh->prevPosition = SensorValue[tbh->sensor];
-	}
-	else
+	if (tbh->usingIME)
 	{
 		//Use a TUA filter to smooth data
 		tbh->currentVelocity = filter_TUA(&(tbh->filter), getMotorVelocity(tbh->imeMotor));
+	}
+	else
+	{
+		tbh->currentVelocity = (SensorValue[tbh->sensor] - tbh->prevPosition) * (TBH_DEGPMS_TO_RPM / (tbh->dt * 1000));
+		tbh->prevPosition = SensorValue[tbh->sensor];
 	}
 
 	return tbh->currentVelocity;

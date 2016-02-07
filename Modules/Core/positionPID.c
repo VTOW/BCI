@@ -1,9 +1,9 @@
 #ifndef POSITIONPID_C_INCLUDED
 #define POSITIONPID_C_INCLUDED
 
-#include "pidControl.h"
+#include "positionPID.h"
 
-void pos_PID_InitController(pos_PID *pid, const tSensors sensor, const float kP, const float kI, const float kD, const float kBias = 0.0, const int errorThreshold = 5, const int integralLimit = 1000, const bool isEnabled = true)
+void pos_PID_InitController(pos_PID *pid, const tSensors sensor, const float kP, const float kI, const float kD, const float kBias, const int errorThreshold, const int integralLimit, const bool isEnabled)
 {
 	pid->kP = kP;
 	pid->kI = kI;
@@ -22,7 +22,7 @@ void pos_PID_InitController(pos_PID *pid, const tSensors sensor, const float kP,
 	pid->prevTime = 0;
 
 	pid->sensor = sensor;
-	pid->targetpos = SensorValue[sensor];
+	pid->targetPos = SensorValue[sensor];
 
 	pid->outVal = 0;
 }

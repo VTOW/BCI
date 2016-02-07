@@ -73,7 +73,7 @@ void printnVexRCRecieveState()
 	}
 }
 
-task printBatteryVoltage
+task printBatteryVoltage()
 {
 	while (true)
 	{

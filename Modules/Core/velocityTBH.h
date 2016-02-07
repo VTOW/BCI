@@ -28,6 +28,7 @@ typedef struct vel_TBH
 	//Input
 	tSensors sensor;
 	tMotor imeMotor;
+	bool usingIME;
 	float targetVelocity;
 
 	//Filtering
