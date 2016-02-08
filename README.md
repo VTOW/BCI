@@ -102,4 +102,4 @@ This module contains an enum for joystick states, `TVexRecieverState`, which is 
 
 Joystick Definitions
 --------------------
-This module provides redefinitions of all joystick and partner joystick buttons, with named based on relative position rather than the traditional numbering system. Specific names and numbers can be found in the header file for this module, `joystickDefinitions.h`.
+This module provides redefinitions of all joystick and partner joystick buttons, with names based on relative position rather than the traditional numbering system. Specific names and numbers can be found in the header file for this module, `joystickDefinitions.h`.
