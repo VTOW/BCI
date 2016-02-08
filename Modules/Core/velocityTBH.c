@@ -76,7 +76,7 @@ int vel_TBH_StepVelocity(vel_TBH *tbh)
 		tbh->dt = tbh->currentTime - tbh->prevTime;
 		tbh->prevTime = tbh->currentTime;
 
-		//Calculate velcoity
+		//Calculate current velcoity
 		tbh->currentVelocity = (tbh->currentPosition - tbh->prevPosition) * (TBH_DEGPMS_TO_RPM / (tbh->dt * 1000));
 		tbh->prevPosition = tbh->currentPosition;
 	}
