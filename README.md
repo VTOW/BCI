@@ -93,3 +93,7 @@ Once a `vel_TBH` has a target velocity, it can be used with the function `int ve
 Timer
 -----
 This module operates on `timer` types, which must first be initialized using the function `void timer_Initialize(timer *timer)`, where `timer` is a `timer` reference. Once initialized, timers can be used to get elapsed time since the previous call to this function, `long timer_GetDT(timer *timer)`; get the time when the timer was first initialized, `long timer_GetStartingTime(timer *timer)`; get elapsed time since initialization, `long timer_GetDTFromStart(timer *timer)`; place a marker at a point in time, `void timer_PlaceMarker(timer *timer)`; and get elapsed time since the last placed marker, `long timer_GetDTFromMarker(timer *timer)`.
+
+Util
+----
+This module contains an enum for joystick states, `TVexRecieverState`, which is normally hidden in RobotC intrinsics, an enum for LED states, `LEDState`, an analog to volt conversion factor, `ANALOG_IN_TO_V`, a blocking wait-for-zero macro, `waitForZero(val)`, a blocking wait-for-LCD-button-press macro, `waitForLCDPress()`, a blocking wait-for-LCD-all-button-release macro, `waitForLCDRelease()`, a function to dump all motor and sensor values into the debug stream, `void dumpLevels()`, a function to dump which transmitters are connected, if the competition switch is connected, and which mode the competition is in to the debug stream, `void printnVexRCRecieveState()`, and a task to print the main battery voltage to the debug stream every ten seconds, `task printBatteryVoltage()`.
