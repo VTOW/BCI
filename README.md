@@ -3,9 +3,7 @@
 Team 2442A's Core Library
 ------------------------
 
-This library contains a collection of useful features to help with software development for Vex EDR robots using the RobotC language and development environment. Our team would like to thank, among many others, James Pearman for his starter ideas found throughout this project.
-
-[Skip to the in-depth documentation](#in-depth-documentation)
+This library contains a collection of useful features to help with software development for Vex EDR robots using the RobotC language and development environment.
 
 Filter
 ------
@@ -48,7 +46,7 @@ Filter
 -----
 There are three types of filters, `EMAFilter`, an exponential moving average; `FUAFilter`, a five-unit moving average; and `TUAFitler`, a ten-unit moving average. Each filter must be initialized with its respective initialization function before it can be used. Initialization functions take the form `void filter_Init_<FILTER_PREFIX>(<FILTER_TYPE> *filter)`, where `<FILTER_PREFIX>` is the prefix of a filter type which denotes its type (i.e., `EMA`, `FUA`, or `TUA`) and`<FILTER TYPE>` is type of filter.
 
-Once initialized, filters can be used in stepped increments. To use a filter, call its respective stepping function, which takes the form `float filter_<FILTER_PREFIX>(<FILTER_TYPE> *filter, ...)`. This stepping function always returns the newly filtered value. The ellipsis, `...`, denotes varying parameters for different filters. For an `EMAFilter`, this is `float readIn, float alpha`, where `readIn` is a new data point and `alpha` is a blending percentage in the range [0, 1] (i.e., this is the percentage of new data factored into the filtered output). For an `FUAFilter` and a `TUAFilter`, this is `float componentIn`, where `componentIn` is a new data point.
+Once initialized, filters can be used in stepped increments. To use a filter, call its respective stepping function, which takes the form `float filter_<FILTER_PREFIX>(<FILTER_TYPE> *filter, ...)`. This stepping function always returns the newly filtered value. The ellipsis, `...`, denotes varying parameters for different filters. For an `EMAFilter`, this is `float readIn, float alpha`, where `readIn` is a new data point and `alpha` is a blending percentage in the range [0, 1]. For an `FUAFilter` and a `TUAFilter`, this is `float componentIn`, where `componentIn` is a new data point.
 
 LCD Control
 ----------
@@ -71,7 +69,7 @@ Once a `driveMotor` is initialized, no further actions need to be taken for moto
 PID
 ---
 ##### Position PID
-The first PID library operates in the first order domain of position and displacement. This module acts on `pos_PID` types, which must first be initialized using the function `void pos_PID_InitController(pos_PID *pid, tSensors sensor, float kP, float kI, float kD, float kBias = 0.0, int errorThreshold = 5, int integralLimit = 1000, bool isEnabled = true)`, where `pid` is a `pos_PID` reference, `sensor` is a quadrature encoder, `kP` is a proportional gain, `kI` is an integral gain, `kD` is a derivative gain, `kBias` is a bias added to the controller's output (used most often in lifts which need to counteract gravity at standstill), `errorThreshold` is a threshold used for calculating the integral (any error value above this will be added to the integral sum), and `integralLimit` is a hard limit for the integral sum (any sums above this limit will be clipped).
+The first PID library operates in the first order domain of position and displacment. This module acts on `pos_PID` types, which must first be initialized using the function `void pos_PID_InitController(pos_PID *pid, tSensors sensor, float kP, float kI, float kD, float kBias = 0.0, int errorThreshold = 5, int integralLimit = 1000, bool isEnabled = true)`, where `pid` is a `pos_PID` reference, `sensor` is a quadrature encoder, `kP` is a proportional gain, `kI` is an integral gain, `kD` is a derivative gain, `kBias` is a bias added to the controller's output (used most often in lifts which need to counteract gravity at standstill), `errorThreshold` is a threshold used for calculating the integral (any error value above this will be added to the integral sum), and `integralLimit` is a hard limit for the integral sum (any sums above this limit will be clipped).
 
 Once a `pos_PID` is initialized, it can be used. A target position can be set using the function `void pos_PID_SetTargetPosition(pod_PID *pid, int targetPos)`, where `pid` is a `pos_PID` reference and `targetPos` is a target position measured in ticks.
 
@@ -86,8 +84,12 @@ Once a `vel_PID` has a target velocity, it can be used with the function `int ve
 
 TBH
 ---
-This module functions similarly to the velocity-based library previously covered, and acts on `vel_TBH` types, which must first be initialized using the function `void vel_TBH_InitController(vel_TBH *tbh, tSensor sensor, float gain, int outValApprox)`, where `tbh` is a `vel_TBH` reference, `sensor` is a quadrature encoder, `gain` is a positive controller gain, and `outValApprox` is an open-loop approximation of the controller's output at zero error. Furthermore, the parameter `tSensors sensor` can be replaced with the parameter `tMotor imeMotor` in order to use an IME instead of a quadrature encoder.
+This module function similarly to the velocity-based library previously covered, and acts on `vel_TBH` types, which must first be initialized using the function `void vel_TBH_InitController(vel_TBH *tbh, tSensor sensor, float gain, int outValApprox)`, where `tbh` is a `vel_TBH` reference, `sensor` is a quadrature encoder, `gain` is a positive controller gain, and `outValApprox` is an open-loop approximation of the controller's output at zero error. Furthermore, the parameter `tSensors sensor` can be replaced with the parameter `tMotor imeMotor` in order to use an IME instead of a quadrature encoder.
 
 Once a `vel_TBH` is initialzied, it can be used. A target velocity can be set using the function `void vel_TBH_SetTargetVelocity(vel_TBH *tbh, int targetVelocity, int outValApprox = -1010)`, where `tbh` is a `vel_TBH` reference, `targetVelocity` is a target velocity, and `outValApprox`, an optional parameter, is an open-loop approximation of the controller's output at zero error.
 
 Once a `vel_TBH` has a target velocity, it can be used with the function `int vel_TBH_StepController(vel_TBH *tbh)`, where `tbh` is a `vel_TBH` reference. This function returns a motor power. In addition, the controller can be used to calculate velocity without stepping any actual math using the function `int vel_TBH_StepVelocity(vel_TBH *tbh)`, where `tbh` is a `vel_TBH` reference.
+
+Timer
+-----
+This module operates on `timer` types, which must first be initialized using the function `void timer_Initialize(timer *timer)`, where `timer` is a `timer` reference. Once initialized, timers can be used to get elapsed time since the previous call to this function, `long timer_GetDT(timer *timer)`; get the time when the timer was first initialized, `long timer_GetStartingTime(timer *timer)`; get elapsed time since initialization, `long timer_GetDTFromStart(timer *timer)`; place a marker at a point in time, `void timer_PlaceMarker(timer *timer)`; and get elapsed time since the last placed marker, `long timer_GetDTFromMarker(timer *timer)`.
