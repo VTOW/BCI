@@ -84,7 +84,7 @@ Once a `vel_PID` has a target velocity, it can be used with the function `int ve
 
 TBH
 ---
-This module function similarly to the velocity-based library previously covered, and acts on `vel_TBH` types, which must first be initialized using the function `void vel_TBH_InitController(vel_TBH *tbh, tSensor sensor, float gain, int outValApprox)`, where `tbh` is a `vel_TBH` reference, `sensor` is a quadrature encoder, `gain` is a positive controller gain, and `outValApprox` is an open-loop approximation of the controller's output at zero error. Furthermore, the parameter `tSensors sensor` can be replaced with the parameter `tMotor imeMotor` in order to use an IME instead of a quadrature encoder.
+This module functions similarly to the velocity-based library previously covered, and acts on `vel_TBH` types, which must first be initialized using the function `void vel_TBH_InitController(vel_TBH *tbh, tSensor sensor, float gain, int outValApprox)`, where `tbh` is a `vel_TBH` reference, `sensor` is a quadrature encoder, `gain` is a positive controller gain, and `outValApprox` is an open-loop approximation of the controller's output at zero error. Furthermore, the parameter `tSensors sensor` can be replaced with the parameter `tMotor imeMotor` in order to use an IME instead of a quadrature encoder.
 
 Once a `vel_TBH` is initialzied, it can be used. A target velocity can be set using the function `void vel_TBH_SetTargetVelocity(vel_TBH *tbh, int targetVelocity, int outValApprox = -1010)`, where `tbh` is a `vel_TBH` reference, `targetVelocity` is a target velocity, and `outValApprox`, an optional parameter, is an open-loop approximation of the controller's output at zero error.
 
