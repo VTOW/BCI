@@ -67,6 +67,11 @@ void vel_TBH_SetTargetVelocity(vel_TBH *tbh, const int targetVelocity, const int
 	}
 }
 
+int vel_TBH_GetError(vel_TBH *tbh)
+{
+	return tbh->error;
+}
+
 int vel_TBH_StepVelocity(vel_TBH *tbh)
 {
 	if (tbh->usingIME)
