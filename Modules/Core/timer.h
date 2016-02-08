@@ -15,7 +15,7 @@ void timer_Initialize(timer *timer);
 //Get time passed in ms since previous call of this function
 long timer_GetDT(timer *timer);
 
-//Get the timer the timer was first initialized
+//Get the time the timer was first initialized
 long timer_GetStartingTime(timer *timer);
 
 //Get the time since the timer was first initialized
