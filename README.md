@@ -99,3 +99,7 @@ This module operates on `timer` types, which must first be initialized using the
 Util
 ----
 This module contains an enum for joystick states, `TVexRecieverState`, which is normally hidden in RobotC intrinsics, an enum for LED states, `LEDState`, an analog to volt conversion factor, `ANALOG_IN_TO_V`, a blocking wait-for-zero macro, `waitForZero(val)`, a blocking wait-for-LCD-button-press macro, `waitForLCDPress()`, a blocking wait-for-LCD-all-button-release macro, `waitForLCDRelease()`, a function to dump all motor and sensor values into the debug stream, `void dumpLevels()`, a function to dump which transmitters are connected, if the competition switch is connected, and which mode the competition is in to the debug stream, `void printnVexRCRecieveState()`, and a task to print the main battery voltage to the debug stream every ten seconds, `task printBatteryVoltage()`.
+
+Joystick Definitions
+--------------------
+This module provides redefinitions of all joystick and partner joystick buttons, with named based on relative position rather than the traditional numbering system. Specific names and numbers can be found in the header file for this module, `joystickDefinitions.h`.
