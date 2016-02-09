@@ -72,6 +72,26 @@ int vel_TBH_GetError(vel_TBH *tbh)
 	return tbh->error;
 }
 
+int vel_TBH_GetVelocity(vel_TBH *tbh)
+{
+	return tbh->currentVelocity;
+}
+
+int vel_TBH_GetTargetVelocity(vel_TBH *tbh)
+{
+	return tbh->targetVelocity;
+}
+
+int vel_TBH_GetOutput(vel_TBH *tbh)
+{
+	return tbh->outVal;
+}
+
+int vel_TBH_GetOpenLoopApprox(vel_TBH *tbh)
+{
+	return tbh->outValApprox;
+}
+
 int vel_TBH_StepVelocity(vel_TBH *tbh)
 {
 	if (tbh->usingIME)

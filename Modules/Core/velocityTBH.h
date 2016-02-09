@@ -20,7 +20,7 @@ typedef struct vel_TBH
 	int prevError;
 	bool firstCross;
 	int outValApprox; //Output value at zero error for a given target velocity
-	float outValAtZero;
+	int outValAtZero;
 
 	//Timestep
 	float dt;
@@ -49,6 +49,18 @@ void vel_TBH_SetTargetVelocity(vel_TBH *tbh, const int targetVelocity, const int
 
 //Gets the current error
 int vel_TBH_GetError(vel_TBH *tbh);
+
+//Gets the current (filtered) velocity
+int vel_TBH_GetVelocity(vel_TBH *tbh);
+
+//Gets the current target velocity
+int vel_TBH_GetTargetVelocity(vel_TBH *tbh);
+
+//Gets the current output
+int vel_TBH_GetOutput(vel_TBH *tbh);
+
+//Gets the current open-loop approximation
+int vel_TBH_GetOpenLoopApprox(vel_TBH *tbh);
 
 //Steps the controller's velocity calculation (separate from the main step function)
 //Can be used to maintain velocity calculation when a full on math step isn't wanted
