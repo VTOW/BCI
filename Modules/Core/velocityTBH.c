@@ -24,7 +24,7 @@ void vel_TBH_InitController(vel_TBH *tbh, const tSensors sensor, const float gai
 	tbh->usingIME = false;
 	tbh->targetVelocity = 0.0;
 
-	filter_Init_TUA(&tbh->filter);
+	filter_Init_EMA(&tbh->filter);
 
 	tbh->outVal = 0.0;
 }
@@ -50,7 +50,7 @@ void vel_TBH_InitController(vel_TBH *tbh, const tMotor imeMotor, const float gai
 	tbh->usingIME = true;
 	tbh->targetVelocity = 0.0;
 
-	filter_Init_TUA(&tbh->filter);
+	filter_Init_EMA(&tbh->filter);
 
 	tbh->outVal = 0.0;
 }
