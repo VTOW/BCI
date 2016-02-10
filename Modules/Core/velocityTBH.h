@@ -20,7 +20,7 @@ typedef struct vel_TBH
 	int prevError;
 	bool firstCross;
 	int outValApprox; //Output value at zero error for a given target velocity
-	int outValAtZero;
+	float outValAtZero;
 
 	//Timestep
 	float dt;
@@ -43,6 +43,9 @@ typedef struct vel_TBH
 //Initializes a velocity TBH controller
 void vel_TBH_InitController(vel_TBH *tbh, const tSensors sensor, const float gain, const int outValApprox);
 void vel_TBH_InitController(vel_TBH *tbh, const tMotor imeMotor, const float gain, const int outValApprox);
+
+//Reinitializes a velocity TBH controller with previous sensor, gain, and open-loop approx
+void vel_TBH_ReInitController(vel_TBH *tbh);
 
 //Sets the target velocity
 void vel_TBH_SetTargetVelocity(vel_TBH *tbh, const int targetVelocity, const int outValApprox = -1010);

@@ -55,6 +55,25 @@ void vel_TBH_InitController(vel_TBH *tbh, const tMotor imeMotor, const float gai
 	tbh->outVal = 0.0;
 }
 
+void vel_TBH_ReInitController(vel_TBH *tbh)
+{
+	tbh->currentVelocity = 0.0;
+	tbh->currentPosition = 0;
+	tbh->prevPosition = 0;
+	tbh->error = 0;
+	tbh->prevError = 0;
+	tbh->firstCross = true;
+	tbh->outValAtZero = 0.0;
+
+	tbh->dt = 0.0;
+	tbh->currentTime = 0;
+	tbh->prevTime = 0;
+
+	tbh->targetVelocity = 0.0;
+
+	tbh->outVal = 0.0;
+}
+
 void vel_TBH_SetTargetVelocity(vel_TBH *tbh, const int targetVelocity, const int outValApprox)
 {
 	tbh->targetVelocity = targetVelocity;
@@ -74,7 +93,7 @@ int vel_TBH_GetError(vel_TBH *tbh)
 
 int vel_TBH_GetVelocity(vel_TBH *tbh)
 {
-	return tbh->currentVelocity;
+	return (int)tbh->currentVelocity;
 }
 
 int vel_TBH_GetTargetVelocity(vel_TBH *tbh)

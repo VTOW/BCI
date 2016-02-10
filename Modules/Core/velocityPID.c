@@ -30,7 +30,7 @@ void vel_PID_InitController(vel_PID *pid, const tSensors sensor, const float kP,
 	pid->outVal = 0.0;
 }
 
-int vel_PID_SetTargetVelocity(vel_PID *pid, const int targetVelocity)
+void vel_PID_SetTargetVelocity(vel_PID *pid, const int targetVelocity)
 {
 	pid->targetVelocity = targetVelocity;
 }
