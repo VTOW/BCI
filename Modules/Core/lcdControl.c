@@ -363,6 +363,12 @@ task updateLCDTask()
 					if (currentMenu->up != NULL)
 					{
 						currentMenu = currentMenu->up;
+
+						clearLCDLine(0);
+						clearLCDLine(1);
+						displayLCDString(0, 0, *currentMenu->msg);
+						displayLCDString(1, 0, SUBMENU_SELECT);
+
 						waitForLCDRelease();
 					}
 				}
@@ -400,7 +406,7 @@ task updateLCDTask()
 	clearLCDLine(1);
 }
 
-#endif //#if MENU_NUM > 0
-#endif //#ifdef MENU_NUM
+#endif //MENU_NUM > 0
+#endif //MENU_NUM
 
-#endif //#ifndef LCDCONTROL_C_INCLUDED
+#endif //LCDCONTROL_C_INCLUDED
