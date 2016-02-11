@@ -62,6 +62,9 @@ int vel_TBH_GetTargetVelocity(vel_TBH *tbh);
 //Gets the current output
 int vel_TBH_GetOutput(vel_TBH *tbh);
 
+//Sets the open-loop approximation
+void vel_TBH_SetOpenLoopApprox(vel_TBH *tbh, const int outValApprox);
+
 //Gets the current open-loop approximation
 int vel_TBH_GetOpenLoopApprox(vel_TBH *tbh);
 

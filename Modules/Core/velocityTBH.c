@@ -106,6 +106,11 @@ int vel_TBH_GetOutput(vel_TBH *tbh)
 	return tbh->outVal;
 }
 
+void vel_TBH_SetOpenLoopApprox(vel_TBH *tbh, const int outValApprox)
+{
+	tbh->outValApprox = outValApprox;
+}
+
 int vel_TBH_GetOpenLoopApprox(vel_TBH *tbh)
 {
 	return tbh->outValApprox;
