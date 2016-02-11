@@ -127,7 +127,7 @@ int vel_TBH_StepVelocity(vel_TBH *tbh)
 	else
 	{
 		//Calculate timestep
-		tbh->dt = (time1[T1] - tbh->prevTime) + 1;
+		tbh->dt = nSysTime - tbh->prevTime;
 		tbh->prevTime = time1[T1];
 
 		//Calculate current velocity

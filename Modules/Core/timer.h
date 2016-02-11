@@ -8,6 +8,7 @@ typedef struct timer
   long lastCalled;  //Last time in ms the timer was called
   long mark;		//Current time mark
   long hardMark;	//Current hard time mark
+  long repeatMark;  //Hard mark used for repeat function
 } timer;
 
 //Intiialize a timer
@@ -36,5 +37,8 @@ long timer_GetDTFromMarker(timer *timer);
 
 //Get time since hard time marker
 long timer_GetDTFromHardMarker(timer *timer);
+
+//Returns true when a time period has passed, then resets
+bool timer_Repeat(timer *timer, long timeMs);
 
 #endif //TIMER_H_INCLUDED

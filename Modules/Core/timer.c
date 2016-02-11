@@ -9,6 +9,7 @@ void timer_Initialize(timer* timer)
 	timer->lastCalled = 0;
 	timer->mark = 0;
 	timer->hardMark = -1;
+	timer->repeatMark = -1;
 }
 
 long timer_GetDT(timer* timer)
@@ -54,6 +55,22 @@ long timer_GetDTFromMarker(timer *timer)
 long timer_GetDTFromHardMarker(timer *timer)
 {
 	return nSysTime - timer->hardMark;
+}
+
+bool timer_Repeat(timer *timer, long timeMs)
+{
+	if (timer->repeatMark == -1)
+	{
+		timer->repeatMark = nSysTime;
+	}
+
+	if (nSysTime - timer->repeatMark > timeMs)
+	{
+		timer->repeatMark = -1;
+		return true;
+	}
+
+	return false;
 }
 
 #endif //TIMER_C_INCLUDED
