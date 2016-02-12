@@ -48,6 +48,7 @@ void vel_TBH_InitController(vel_TBH *tbh, const tMotor imeMotor, const float gai
 void vel_TBH_ReInitController(vel_TBH *tbh);
 
 //Sets the target velocity
+//This should (generally) be used when the target velocity has changed
 void vel_TBH_SetTargetVelocity(vel_TBH *tbh, const int targetVelocity, const int outValApprox = -1010);
 
 //Gets the current error
