@@ -125,6 +125,12 @@ int vel_TBH_StepVelocity(vel_TBH *tbh)
 		tbh->dt = tbh->currentTime - tbh->prevTime;
 		tbh->prevTime = tbh->currentTime;
 
+		//Scrap dt if zero
+		if (tbh->dt == 0)
+		{
+			return 0;
+		}
+
 		//Calculate current velcoity
 		tbh->currentVelocity = (1000.0 / tbh->dt) * (tbh->currentPosition - tbh->prevPosition) * 60.0 / 627.2; //627.2 IME ticks per 393 torque config revolution
 		tbh->prevPosition = tbh->currentPosition;
@@ -134,6 +140,12 @@ int vel_TBH_StepVelocity(vel_TBH *tbh)
 		//Calculate timestep
 		tbh->dt = nSysTime - tbh->prevTime;
 		tbh->prevTime = time1[T1];
+
+		//Scrap dt if zero
+		if (tbh->dt == 0)
+		{
+			return 0;
+		}
 
 		//Calculate current velocity
 		tbh->currentVelocity = (1000.0 / tbh->dt) * (SensorValue[tbh->sensor] - tbh->prevPosition) * 60.0 / 360; //360 quad encoder ticks per revolution
