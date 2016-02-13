@@ -6,6 +6,9 @@
 //This scale relates degrees per millisecond to rpm
 #define TBH_DEGPMS_TO_RPM 166.7
 
+//Maximum change in output per step
+#define TBH_OUTPUT_MAX_CHANGE 3
+
 //A velocity TBH controller
 typedef struct vel_TBH
 {
@@ -21,6 +24,7 @@ typedef struct vel_TBH
 	bool firstCross;
 	int outValApprox; //Output value at zero error for a given target velocity
 	float outValAtZero;
+	float outValChange;
 
 	//Timestep
 	float dt;

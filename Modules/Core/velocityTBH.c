@@ -64,6 +64,7 @@ void vel_TBH_ReInitController(vel_TBH *tbh)
 	tbh->prevError = 0;
 	tbh->firstCross = true;
 	tbh->outValAtZero = 0.0;
+	tbh->outValChange = 0.0;
 
 	tbh->dt = 0.0;
 	tbh->currentTime = 0;
@@ -168,6 +169,10 @@ int vel_TBH_StepController(vel_TBH *tbh)
 
 	//Calculate new outVal
 	tbh->outVal = tbh->outVal + (tbh->error * tbh->gain);
+
+	// tbh->outValChange = tbh->error * tbh->gain;
+	// tbh->outValChange = abs(tbh->outValChange) > TBH_OUTPUT_MAX_CHANGE ? TBH_OUTPUT_MAX_CHANGE : tbh->outValChange;
+	// tbh->outVal = tbh->outVal + tbh->outValChange;
 
 	//Bound outVal
 	tbh->outVal = tbh->outVal > 127 ? 127 : tbh->outVal;
