@@ -168,11 +168,11 @@ int vel_TBH_StepController(vel_TBH *tbh)
 	tbh->error = tbh->targetVelocity - tbh->currentVelocity;
 
 	//Calculate new outVal
-	tbh->outVal = tbh->outVal + (tbh->error * tbh->gain);
+	//tbh->outVal = tbh->outVal + (tbh->error * tbh->gain);
 
-	// tbh->outValChange = tbh->error * tbh->gain;
-	// tbh->outValChange = abs(tbh->outValChange) > TBH_OUTPUT_MAX_CHANGE ? TBH_OUTPUT_MAX_CHANGE : tbh->outValChange;
-	// tbh->outVal = tbh->outVal + tbh->outValChange;
+	tbh->outValChange = tbh->error * tbh->gain;
+	tbh->outValChange = abs(tbh->outValChange) > TBH_OUTPUT_ERROR_ACCEL * tbh->error ? TBH_OUTPUT_ERROR_ACCEL * tbh->error : tbh->outValChange;
+	tbh->outVal = tbh->outVal + tbh->outValChange;
 
 	//Bound outVal
 	tbh->outVal = tbh->outVal > 127 ? 127 : tbh->outVal;

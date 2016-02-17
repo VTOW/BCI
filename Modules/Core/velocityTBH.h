@@ -7,7 +7,7 @@
 #define TBH_DEGPMS_TO_RPM 166.7
 
 //Maximum change in output per step
-#define TBH_OUTPUT_MAX_CHANGE 3
+#define TBH_OUTPUT_ERROR_ACCEL 2
 
 //A velocity TBH controller
 typedef struct vel_TBH
