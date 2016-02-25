@@ -14,6 +14,7 @@
 
 //Motor control
 #define setMotorSpeed(index, power) driveMotors[index].reqSpeed = (power)
+#define setMotorSpeed_Bypass(index, power) driveMotors[index].reqSpeed = (power); driveMotors[index].artSpeed = (power)
 #define setMotorSlew(index, rate) driveMotors[index].slew = (rate)
 #define getMotor(index) driveMotors[index]
 #define getMotorSpeed(index) driveMotors[index].reqSpeed

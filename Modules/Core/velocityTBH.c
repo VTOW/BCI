@@ -154,7 +154,7 @@ int vel_TBH_StepVelocity(vel_TBH *tbh)
 	}
 
 	//Use a EMA filter to smooth data
-	tbh->currentVelocity = filter_EMA(&(tbh->filter), tbh->currentVelocity, 0.8);
+	tbh->currentVelocity = filter_EMA(&(tbh->filter), tbh->currentVelocity, 0.5);
 
 	return tbh->currentVelocity;
 }
@@ -171,7 +171,7 @@ int vel_TBH_StepController(vel_TBH *tbh)
 	//tbh->outVal = tbh->outVal + (tbh->error * tbh->gain);
 
 	tbh->outValChange = tbh->error * tbh->gain;
-	tbh->outValChange = abs(tbh->outValChange) > TBH_OUTPUT_ERROR_ACCEL * tbh->error ? TBH_OUTPUT_ERROR_ACCEL * tbh->error : tbh->outValChange;
+	//tbh->outValChange = abs(tbh->outValChange) > TBH_OUTPUT_ERROR_ACCEL * tbh->error ? TBH_OUTPUT_ERROR_ACCEL * tbh->error : tbh->outValChange;
 	tbh->outVal = tbh->outVal + tbh->outValChange;
 
 	//Bound outVal
