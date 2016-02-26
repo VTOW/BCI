@@ -24,7 +24,7 @@ void vel_TBH_InitController(vel_TBH *tbh, const tSensors sensor, const float gai
 	tbh->usingIME = false;
 	tbh->targetVelocity = 0.0;
 
-	filter_Init_EMA(&tbh->filter);
+	filter_Init_DEMA(&tbh->filter);
 
 	tbh->outVal = 0.0;
 }
@@ -50,7 +50,7 @@ void vel_TBH_InitController(vel_TBH *tbh, const tMotor imeMotor, const float gai
 	tbh->usingIME = true;
 	tbh->targetVelocity = 0.0;
 
-	filter_Init_EMA(&tbh->filter);
+	filter_Init_DEMA(&tbh->filter);
 
 	tbh->outVal = 0.0;
 }
@@ -154,7 +154,7 @@ int vel_TBH_StepVelocity(vel_TBH *tbh)
 	}
 
 	//Use a EMA filter to smooth data
-	tbh->currentVelocity = filter_EMA(&(tbh->filter), tbh->currentVelocity, 0.5);
+	tbh->currentVelocity = filter_DEMA(&(tbh->filter), tbh->currentVelocity, 0.19, 0.0526);
 
 	return tbh->currentVelocity;
 }

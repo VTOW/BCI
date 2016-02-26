@@ -38,7 +38,7 @@ typedef struct vel_TBH
 	float targetVelocity;
 
 	//Filtering
-	EMAFilter filter;
+	DEMAFilter filter;
 
 	//Output
 	float outVal;
