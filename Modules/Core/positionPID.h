@@ -1,5 +1,5 @@
-#ifndef PIDCONTROL_H_INCLUDED
-#define PIDCONTROL_H_INCLUDED
+#ifndef POSITIONPID_H_INCLUDED
+#define POSITIONPID_H_INCLUDED
 
 //PID Controller representation
 typedef struct pos_PID
@@ -47,4 +47,4 @@ void pos_PID_GetOutput(pos_PID *pid);
 //Steps the controller's calculations
 int pos_PID_StepController(pos_PID *pid);
 
-#endif //PIDCONTROL_H_INCLUDED
+#endif //POSITIONPID_H_INCLUDED
