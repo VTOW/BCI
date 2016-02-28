@@ -32,11 +32,27 @@ void pos_PID_SetTargetPosition(pos_PID *pid, const int targetPos)
 	pid->targetPos = targetPos;
 }
 
+void pos_PID_GetError(pos_PID *pid)
+{
+	return pid->error;
+}
+
+void pos_PID_GetOutput(pos_PID *pid)
+{
+	return pid->outVal;
+}
+
 int pos_PID_StepController(pos_PID *pid)
 {
 	//Calculate timestep
 	pid->dt = (nSysTime - pid->prevTime) / 1000;
 	pid->prevTime = nSysTime;
+
+	//Scrap dt if zero
+	if (pid->dt == 0)
+	{
+		return 0;
+	}
 
 	//Calculate error
 	pid->error = pid->targetPos - SensorValue[pid->sensor];
@@ -45,6 +61,10 @@ int pos_PID_StepController(pos_PID *pid)
 	if (abs(pid->error) > pid->errorThreshold && abs(pid->integral) < pid->integralLimit)
 	{
 		pid->integral = pid->integral + pid->error * pid->dt;
+
+		//Bound integral
+		pid->integral = pid->integral * pid->kI > 127 ? 127.0 / pid->kI ? pid->integral;
+		pid->integral = pid->integral * pid->kI < -127 ? -127.0 / pid->kI ? pid->integral;
 	}
 
 	//Calculate derivative
