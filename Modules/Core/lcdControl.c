@@ -7,6 +7,7 @@
 
 #include "lcdControl.h"
 #include "util.h"
+#include "timer.c"
 
 //LCD system loop wait time in ms
 static int lcdSystemLoopWait = 100;
@@ -38,6 +39,7 @@ menu* newMenu(const string *msg, const int dispatchFuncVal, const menu *next, co
 		{
 			changeMessage(&(menus[i]), INCORRECT_MENU_NUM);
 		}
+
 		//Return previously allocated menu
 		nextMenu--;
 		return &(menus[nextMenu++]);
@@ -266,7 +268,9 @@ void linkMenus(menu *m1, menu *m2, menu *m3, menu *m4, menu *m5, menu *m6)
 */
 task updateLCDTask()
 {
-	int oldTime = time1[T4];
+	//Timer for backlight blink
+	timer backlightTimer;
+	timer_Initialize(&backlightTimer);
 
 	clearLCDLine(0);
 	clearLCDLine(1);
@@ -311,10 +315,9 @@ task updateLCDTask()
 		{
 			bLCDBacklight = true;
 		}
-		else if (time1[T4] - oldTime > 1000 / backlightBlinkRate) //deltaTime > period
+		else if (timer_Repeat(&backlightTimer, 1000.0 / backlightBlinkRate))
 		{
 			bLCDBacklight = !bLCDBacklight;
-			oldTime = time1[T4];
 		}
 
 		//Only one menu has been added
@@ -386,6 +389,8 @@ task updateLCDTask()
 					{
 						//A function exists, execute it
 						invoke(currentMenu->dispatchFuncVal);
+
+						waitForLCDRelease();
 					}
 				}
 			}

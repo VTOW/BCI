@@ -27,10 +27,12 @@ typedef enum
 
 //Wait for a value to become zero
 #define waitForZero(val) while(val != 0) { wait1Msec(5); }
+
 //Wait for any LCD button to be pressed
-#define waitForLCDPress() while(nLCDButtons == 0) {} wait1Msec(5)
+#define waitForLCDPress() while(nLCDButtons == 0) { wait1Msec(5); }
+
 //Wait for all LCD buttons to be released
-#define waitForLCDRelease() while(nLCDButtons != 0) {} wait1Msec(5)
+#define waitForLCDRelease() while(nLCDButtons != 0) { wait1Msec(5); }
 
 //Dumps all current motor and sensor values to the debug stream
 void dumpLevels();
@@ -41,4 +43,4 @@ void printnVexRCRecieveState();
 //Prints the current main battery voltage every 10 seconds
 task printBatteryVoltage();
 
-#endif //#ifndef UTIL_H_INCLUDED
+#endif //UTIL_H_INCLUDED
