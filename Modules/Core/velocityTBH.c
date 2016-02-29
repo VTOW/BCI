@@ -140,7 +140,7 @@ int vel_TBH_StepVelocity(vel_TBH *tbh)
 	{
 		//Calculate timestep
 		tbh->dt = nSysTime - tbh->prevTime;
-		tbh->prevTime = time1[T1];
+		tbh->prevTime = nSysTime;
 
 		//Scrap dt if zero
 		if (tbh->dt == 0)
