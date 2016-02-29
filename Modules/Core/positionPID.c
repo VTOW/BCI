@@ -32,12 +32,12 @@ void pos_PID_SetTargetPosition(pos_PID *pid, const int targetPos)
 	pid->targetPos = targetPos;
 }
 
-void pos_PID_GetError(pos_PID *pid)
+int pos_PID_GetError(pos_PID *pid)
 {
 	return pid->error;
 }
 
-void pos_PID_GetOutput(pos_PID *pid)
+int pos_PID_GetOutput(pos_PID *pid)
 {
 	return pid->outVal;
 }
@@ -63,8 +63,8 @@ int pos_PID_StepController(pos_PID *pid)
 		pid->integral = pid->integral + pid->error * pid->dt;
 
 		//Bound integral
-		pid->integral = pid->integral * pid->kI > 127 ? 127.0 / pid->kI ? pid->integral;
-		pid->integral = pid->integral * pid->kI < -127 ? -127.0 / pid->kI ? pid->integral;
+		pid->integral = pid->integral * pid->kI > 127 ? 127.0 / pid->kI : pid->integral;
+		pid->integral = pid->integral * pid->kI < -127 ? -127.0 / pid->kI : pid->integral;
 	}
 
 	//Calculate derivative

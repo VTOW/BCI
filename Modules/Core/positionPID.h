@@ -39,10 +39,10 @@ void pos_PID_InitController(pos_PID *pid, const tSensors sensor, const float kP,
 void pos_PID_SetTargetPosition(pos_PID *pid, const int targetPos);
 
 //Gets the current error
-void pos_PID_GetError(pos_PID *pid);
+int pos_PID_GetError(pos_PID *pid);
 
 //Gets the current output
-void pos_PID_GetOutput(pos_PID *pid);
+int pos_PID_GetOutput(pos_PID *pid);
 
 //Steps the controller's calculations
 int pos_PID_StepController(pos_PID *pid);
