@@ -45,7 +45,7 @@ int pos_PID_GetOutput(pos_PID *pid)
 int pos_PID_StepController(pos_PID *pid)
 {
 	//Calculate timestep
-	pid->dt = (nSysTime - pid->prevTime) / 1000;
+	pid->dt = (nSysTime - pid->prevTime) / 1000.0;
 	pid->prevTime = nSysTime;
 
 	//Scrap dt if zero
