@@ -62,9 +62,17 @@ int pos_PID_StepController(pos_PID *pid)
 	{
 		pid->integral = pid->integral + pid->error * pid->dt;
 
+		//Reset integral if reached target or overshot
+		if (pid->error == 0 || sgn(pid->error) != sgn(pid->prevError))
+		{
+			pid->integral = 0;
+		}
 		//Bound integral
-		pid->integral = pid->integral * pid->kI > 127 ? 127.0 / pid->kI : pid->integral;
-		pid->integral = pid->integral * pid->kI < -127 ? -127.0 / pid->kI : pid->integral;
+		else
+		{
+			pid->integral = pid->integral * pid->kI > 127 ? 127.0 / pid->kI : pid->integral;
+			pid->integral = pid->integral * pid->kI < -127 ? -127.0 / pid->kI : pid->integral;
+		}
 	}
 
 	//Calculate derivative
