@@ -38,8 +38,8 @@ void vel_PID_SetTargetVelocity(vel_PID *pid, const int targetVelocity)
 int vel_PID_StepVelocity(vel_PID *pid)
 {
 	//Calculate timestep
-	pid->dt = (time1[T1] - pid->prevTime);
-	pid->prevTime = time1[T1];
+	pid->dt = (nSysTime - pid->prevTime) / 1000.0;
+	pid->prevTime = nSysTime;
 
 	//Calculate current velocity
 	pid->currentVelocity = (SensorValue[pid->sensor] - pid->prevPosition) * (DEGPMS_TO_RPM / (pid->dt * 1000));
@@ -82,8 +82,8 @@ int vel_PID_StepController(vel_PID *pid)
 int vel_PID_StepController(vel_PID *pid, const int currentVelocity)
 {
 	//Calculate timestep
-	pid->dt = (time1[T1] - pid->prevTime);
-	pid->prevTime = time1[T1];
+	pid->dt = (nSysTime - pid->prevTime) / 1000.0;
+	pid->prevTime = nSysTime;
 
 	//Use given velocity
 	pid->currentVelocity = currentVelocity;

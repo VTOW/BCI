@@ -33,7 +33,7 @@ typedef struct pos_PID
 } pos_PID;
 
 //Initializes a position PID controller
-void pos_PID_InitController(pos_PID *pid, const tSensors sensor, const float kP, const float kI, const float kD, const float kBias = 0.0, const int errorThreshold = 0, const int integralLimit = 1000);
+void pos_PID_InitController(pos_PID *pid, const tSensors sensor, const float kP, const float kI, const float kD, const float kBias = 0.0, const int errorThreshold = 0, const int integralLimit = 1000000);
 
 //Sets the target position
 void pos_PID_SetTargetPosition(pos_PID *pid, const int targetPos);
