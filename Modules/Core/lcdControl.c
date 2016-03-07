@@ -50,6 +50,7 @@ menu* newMenu(const string *msg, const int dispatchFuncVal, const menu *next, co
 	menu *m = &(menus[nextMenu]);
 	nextMenu++;
 
+	//Initialize menu
 	m->next = next;
 	m->prev = prev;
 	m->up = up;
@@ -261,6 +262,27 @@ void linkMenus(menu *m1, menu *m2, menu *m3, menu *m4, menu *m5, menu *m6)
 	m5->prev = m4;
 	m6->next = m1;
 	m6->prev = m5;
+}
+
+/*
+* Pairs 7 menus
+*/
+void linkMenus(menu *m1, menu *m2, menu *m3, menu *m4, menu *m5, menu *m6, menu *m7)
+{
+	m1->next = m2;
+	m1->prev = m7;
+	m2->next = m3;
+	m2->prev = m1;
+	m3->next = m4;
+	m3->prev = m2;
+	m4->next = m5;
+	m4->prev = m3;
+	m5->next = m6;
+	m5->prev = m4;
+	m6->next = m7;
+	m6->prev = m5;
+	m7->next = m1;
+	m7->prev = m6;
 }
 
 /*

@@ -96,6 +96,9 @@ void linkMenus(menu *m1, menu *m2, menu *m3, menu *m4, menu *m5);
 //Pairs 6 menus
 void linkMenus(menu *m1, menu *m2, menu *m3, menu *m4, menu *m5, menu *m6);
 
+//Pairs 7 menus
+void linkMenus(menu *m1, menu *m2, menu *m3, menu *m4, menu *m5, menu *m6, menu *m7);
+
 //Updates the LCD and responds to button presses
 //LCD_NO_SAFETY can be used to disable driver control safety
 //LCD_SAFETY_REQ_COMP_SWITCH can be used to limit driver control safety to a competition switch being plugged in
