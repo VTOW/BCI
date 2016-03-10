@@ -3,87 +3,46 @@
 
 #include "../Core/motorControl.c"
 
-//Two motor tank drive
-typedef struct driveBundle_t
-{
-  //Left side
-  tMotor leftMotor;
+//Array for all motors and sensors for the drivetrain
+//Indices 0-5 are motors
+//Indices 6-9 are quads
+//Indices 10-13 are IME's
+void* driveBundle[13];
 
-  //Right side
-  tMotor rightMotor;
-} twoMotorTankDrive;
+//Drives for time in ms
+void driveTime(const int leftPower, const int rightPower, const int timeMs);
 
-//Four motor tank drive
-typedef struct driveBundle_t
-{
-  //Left side
-  tMotor leftTopMotor, leftBottomMotor;
+//Drives for distance in ticks (Quad based)
+void driveQuad(const int power, const int ticks);
 
-  //Right side
-  tMotor rightTopMotor, rightBottomMotor;
-} fourMotorTankDrive;
+//Drives for distance in ticks (Quad based) using PID control
+void driveQuad_PID(const int ticks);
 
-//Six motor tank drive
-typedef struct driveBundle_t
-{
-  //Left side
-  tMotor leftTopMotor, leftMiddleMotor, leftBottomMotor;
+//Drives for distance in ticks (IME based)
+void driveIME(const int power, const int ticks);
 
-  //Right side
-  tMotor rightTopMotor, rightMiddleMotor, rightBottomMotor;
-} sixMotorTankDrive;
+//Drives for distance in ticks (IME based) using PID control
+void driveIME_PID(const int ticks);
 
-//Eight motor tank drive
-typedef struct driveBundle_t
-{
-  //Left side
-  tMotor leftTopMotor, leftUpperMiddleMotor, leftLowerMiddleMotor, leftBottomMotor;
+//Turns for time in ms
+void turnTime(const int leftPower, const int rightPower, const int timeMs);
 
-  //Right side
-  tMotor rightTopMotor, rightUpperMiddleMotor, rightLowerMiddleMotor, rightBottomMotor;
-} eightMotorTankDrive;
+//Turns for distance in ticks (Quad based)
+void turnQuad(const int power, const int ticks);
 
-//Five motor h drive
-typedef struct driveBundle_t
-{
-  //Left side
-  tMotor leftTopMotor, leftBottomMotor;
+//Turns for distance in ticks (Quad based) using PID control
+void turnQuad_PID(const int ticks);
 
-  //Right side
-  tMotor rightTopMotor, rightBottomMotor;
+//Turns for distance in ticks (IME based)
+void turnIME(const int power, const int ticks);
 
-  //Middle
-  tMotor middleMotor;
-} fiveMotorHDrive;
+//Turns for distance in ticks (IME based) using PID control
+void turnIME_PID(const int ticks);
 
-//Four motor x drive
-typedef struct driveBundle_t
-{
-  //Left side
-  tMotor leftTopMotor, leftBottomMotor;
+//Turns for distance in ticks (Gyro based)
+void turnGyro(const int power, const int ticks);
 
-  //Right side
-  tMotor rightTopMotor, rightBottomMotor;
-} fourMotorXDrive;
-
-//Four motor mecanum drive
-typedef struct driveBundle_t
-{
-  //Left side
-  tMotor leftTopMotor, leftBottomMotor;
-
-  //Right side
-  tMotor rightTopMotor, rightBottomMotor;
-} fourMotorMecanumDrive;
-
-//Eight motor mecanum drive
-typedef struct driveBundle_t
-{
-  //Left side
-  tMotor leftTopMotor, leftBottomMotor;
-
-  //Right side
-  tMotor rightTopMotor, rightBottomMotor;
-} eightMotorMecanumDrive;
+//Turns for distance in ticks (Gyro based) using PID control
+void turnGyro_PID(const int ticks);
 
 #endif //DRIVE_H_INCLUDED
