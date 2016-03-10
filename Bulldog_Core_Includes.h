@@ -12,6 +12,4 @@
 #include "Modules\Core\timer.c"
 #include "Modules\Core\filter.c"
 
-#include "Modules\Autonomous\drive.h"
-
 #endif //BULLDOG_CORE_INCLUDES_H_INCLUDED
