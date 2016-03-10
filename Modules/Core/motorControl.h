@@ -26,7 +26,7 @@
 #define getMotorSpeedRaw(index) motor[index]
 
 //Motor representation
-typedef struct driveMotor
+typedef struct driveMotor_t
 {
 	int reqSpeed;   //Input speed
 	float artSpeed; //Artificial speed (the exact speed as governed by the slew rate)
