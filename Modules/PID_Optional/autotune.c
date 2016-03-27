@@ -98,7 +98,7 @@ task monitorPlant()
       //Half adjustment resolution if overshot last iteration and undershot this time
       if (apid_s->didOvershootLastCorrection && apid_s->pid.error > 0)
       {
-        apid_S->adjustmentAmount /= 2.0;
+        apid_s->adjustmentAmount /= 2.0;
       }
 
       //If overshot this iteration, set flag
