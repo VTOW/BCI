@@ -4,6 +4,7 @@
 #include "..\Core\positionPID.c"
 
 static autotune_pos_PID *apid_s;
+static bool monitorPlantFinishedRunning = false;
 static bool plantFinishedRunning = false;
 
 void autotune_Init(autotune_pos_PID *apid, const tSensors sensor)
@@ -37,6 +38,9 @@ void autotune_StepRoutine(autotune_pos_PID *apid)
     //Run plant using wrapper
     plantFinishedRunning = false;
     startTask(runPlantWrapper);
+
+    //Wait until monitor has stopped
+    while (!monitorPlantFinishedRunning) { EndTimeSlice(); }
   }
 }
 
@@ -91,8 +95,8 @@ task monitorPlant()
     //Adjust kP based on final error and exit
     if (plantFinishedRunning)
     {
-      //Half adjustment resolution if overshot last iteration
-      if (apid_s->didOvershootLastCorrection)
+      //Half adjustment resolution if overshot last iteration and undershot this time
+      if (apid_s->didOvershootLastCorrection && apid_s->pid.error > 0)
       {
         apid_S->adjustmentAmount /= 2.0;
       }
@@ -111,6 +115,7 @@ task monitorPlant()
       //Adjust kP based on current residual error
       apid_s->pAdjustment += adjustmentAmount * sgn(apid_s->pid.error);
 
+      monitorPlantFinishedRunning = true;
       break;
     }
   }
@@ -120,7 +125,6 @@ task runPlantWrapper()
 {
   runPlant();
   plantFinishedRunning = true;
-  while (true) { EndTimeSlice(); }
 }
 
 #endif //AUTOTUNE_C_INCLUDED
