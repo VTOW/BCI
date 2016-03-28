@@ -39,6 +39,12 @@ int vel_PID_StepVelocity(vel_PID *pid)
 	pid->dt = (nSysTime - pid->prevTime) / 1000.0;
 	pid->prevTime = nSysTime;
 
+	//Scrap dt if zero
+	if (tbh->dt == 0)
+	{
+		return 0;
+	}
+
 	//Calculate current velocity
 	pid->currentVelocity = (SensorValue[pid->sensor] - pid->prevPosition) * (DEGPMS_TO_RPM / (pid->dt * 1000));
 	pid->prevPosition = SensorValue[pid->sensor];
