@@ -8,8 +8,6 @@ void vel_PID_InitController(vel_PID *pid, const tSensors sensor, const float kP,
 	pid->kP = kP;
 	pid->kI = kI;
 	pid->kD = kD;
-	pid->upperBound = 1.2;
-	pid->lowerBound = 0.8;
 
 	pid->error = 0;
 	pid->currentVelocity = 0.0;
@@ -114,4 +112,4 @@ int vel_PID_StepController(vel_PID *pid, const int currentVelocity)
 	return pid->outVal;
 }
 
-#endif
+#endif //VELOCITYPID_C_INCLUDED

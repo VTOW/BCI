@@ -8,14 +8,12 @@
 #define DEGPMS_TO_RPM 166.7
 
 //A velocity PID controller
-typedef struct vel_PID
+typedef struct vel_PID_t
 {
 	//PID constants
 	float kP;
 	float kI;
 	float kD;
-	float upperBound;
-	float lowerBound;
 
 	//PID calculations
 	float currentVelocity;
