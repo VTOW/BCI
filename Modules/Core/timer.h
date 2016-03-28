@@ -2,7 +2,7 @@
 #define TIMER_H_INCLUDED
 
 //Timer struct
-typedef struct timer
+typedef struct timer_t
 {
   long firstCalled; //Time the timer was initialzied
   long lastCalled;  //Last time in ms the timer was called
