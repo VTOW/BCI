@@ -1,6 +1,0 @@
-#ifndef COLLISIONVECTOR2F_C_INCLUDED
-#define COLLISIONVECTOR2F_C_INCLUDED
-
-#include "collisionVector2f.h"
-
-#endif //COLLISIONVECTOR_C_INCLUDED
