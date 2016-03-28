@@ -82,4 +82,4 @@ task printBatteryVoltage()
 	}
 }
 
-#endif //#ifndef UTIL_C_INCLUDED
+#endif //UTIL_C_INCLUDED
