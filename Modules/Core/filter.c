@@ -93,50 +93,5 @@ float filter_TUA(TUAFilter *filter, const float componentIn)
 
 	return avg / 10.0;
 }
-/*
-void filter_Init_Kalman(KalmanFilter *filter)
-{
-	filter->x_vel = 0;
-	filter->x_accel = 0;
-
-	filter->x_vel_prev = 0;
-	filter->x_accel_prev = 0;
-
-	filter->Q_cov_vel = 0;
-	filter->Q_cov_accel = 0;
-
-	filter->R_cov = 0;
-
-	filter->P_cov_vel = 0;
-	filter->P_cov_accel = 0;
-	filter->P_cov_vel_prev = 0;
-	filter->P_cov_accel_prev = 0;
-
-	filter->dt = 0;
-	filter->lastTime = 0;
-}
-
-float filter_Kalman(KalmanFilter *filter, const float velocityIn, const float accelerationIn)
-{
-	//Predict step
-	filter->dt = nSystime - lastTime;
-	filter->lastTime = nSystime;
-
-	if (filter->dt == 0)
-	{
-		return 0;
-	}
-
-	filter->x_vel = x_vel_prev + filter->dt * filter->x_accel_prev
-								+ filter->dt * accelerationIn;
-
-	filter->x_accel = filter->x_accel_prev + accelerationIn;
-
-	filter->P_cov_vel = P_cov_vel_prev + Q_cov_vel;
-	filter->P_cov_accel = P_cov_
-
-	//Update step
-
-}*/
 
 #endif //FILTER_C_INCLUDED
