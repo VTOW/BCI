@@ -1,7 +1,7 @@
-//Note: This library does not work with with Natural Language enabled
-
 #ifndef MOTORCONTROL_H_INCLUDED
 #define MOTORCONTROL_H_INCLUDED
+
+//Note: This library does not work with with Natural Language enabled
 
 //Motor general
 #define MOTOR_NUM               10     //Used to be kNumbOfTotalMotors, changed for now because

@@ -1,9 +1,7 @@
 #ifndef MOTORCONTROL_C_INCLUDED
 #define MOTORCONTROL_C_INCLUDED
 
-#ifndef MOTORCONTROL_H_INCLUDED
 #include "motorControl.h"
-#endif
 
 //Array for motors
 static driveMotor driveMotors[MOTOR_NUM];
@@ -93,4 +91,4 @@ task motorSlewRateTask()
 	}
 }
 
-#endif //#ifndef MOTORCONTROL_C_INCLUDED
+#endif //MOTORCONTROL_C_INCLUDED
