@@ -76,7 +76,7 @@ task monitorPlant()
         stopTask(runPlantWrapper);
 
         //Decrease kP
-        apid_s->pAdjustment -= adjustmentAmount;
+        apid_s->pAdjustment = -1 * adjustmentAmount;
       }
 
       continue;
@@ -91,7 +91,7 @@ task monitorPlant()
       apid_s->didOvershootLastCorrection = true;
 
       //Decrease kP
-      apid_s->pAdjustment -= adjustmentAmount;
+      apid_s->pAdjustment = -1 * adjustmentAmount;
 
       continue;
     }
@@ -124,7 +124,7 @@ task monitorPlant()
       }
 
       //Adjust kP based on current residual error
-      apid_s->pAdjustment += adjustmentAmount * sgn(apid_s->pid.error);
+      apid_s->pAdjustment = adjustmentAmount * sgn(apid_s->pid.error);
 
       monitorPlantFinishedRunning = true;
       break;
