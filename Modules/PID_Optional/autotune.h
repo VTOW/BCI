@@ -12,6 +12,7 @@ typedef struct autotune_pos_PID_t
 
 	bool didOvershootLastCorrection;
 	float adjustmentAmount;
+	int decimalPlaces;
 	
 	float pAdjustment;
 	float pAdjustment_prev;

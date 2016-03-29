@@ -13,6 +13,7 @@ void autotune_Init(autotune_pos_PID *apid, const tSensors sensor)
   apid->sensor = sensor;
   apid->didOvershootLastCorrection = false;
   apid->adjustmentAmount = 0.1;
+  apid->decimalPlaces = 1;
   apid->pAdjustment = 0;
   apid->pAdjustment_prev = 0;
   apid->iAdjustment = 0;
@@ -86,6 +87,9 @@ task monitorPlant()
     {
       stopTask(runPlantWrapper);
 
+      //Set flag
+      apid_s->didOvershootLastCorrection = true;
+
       //Decrease kP
       apid_s->pAdjustment -= adjustmentAmount;
 
@@ -98,7 +102,14 @@ task monitorPlant()
       //Half adjustment resolution if overshot last iteration and undershot this time
       if (apid_s->didOvershootLastCorrection && apid_s->pid.error > 0)
       {
-        apid_s->adjustmentAmount /= 2.0;
+        apid_s->adjustmentAmount /= 10.0;
+        apid_s->decimalPlaces++;
+
+        //Only adjust to three decimal places
+        if (apid_s->decimalPlaces > 3)
+        {
+          break;
+        }
       }
 
       //If overshot this iteration, set flag
