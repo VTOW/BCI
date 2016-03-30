@@ -25,9 +25,9 @@ typedef struct autotune_pos_PID_t
 } autotune_pos_PID;
 
 //Initializes the autotuner
-void autotune_Init(autotune_pos_PID *apid, const tSensors sensor);
+void autotune_Init(autotune_pos_PID *apid, const tSensors sensor, const float kP_Initial = 1.0, const float kI_Initial = 0.0, const float kD_Initial = 0.0);
 
-//Steps the tuning routine
-void autotune_StepRoutine(autotune_pos_PID *apid);
+//Runs the autotuner
+void autotune_Run(autotune_pos_PID *apid);
 
 #endif //AUTOTUNE_H_INCLUDED

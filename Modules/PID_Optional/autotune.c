@@ -2,14 +2,15 @@
 #define AUTOTUNE_C_INCLUDED
 
 #include "..\Core\positionPID.c"
+#include "..\Core\motorControl.c"
 
 static autotune_pos_PID *apid_s;
 static bool monitorPlantFinishedRunning = false;
 static bool plantFinishedRunning = false;
 
-void autotune_Init(autotune_pos_PID *apid, const tSensors sensor)
+void autotune_Init(autotune_pos_PID *apid, const tSensors sensor, const float kP_Initial, const float kI_Initial, const float kD_Initial)
 {
-  pos_PID_InitController(&(apid->pid), sensor, 1, 0, 0);
+  pos_PID_InitController(&(apid->pid), sensor, kP_Initial, kI_Initial, kD_Initial);
   apid->sensor = sensor;
   apid->didOvershootLastCorrection = false;
   apid->adjustmentAmount = 0.1;
@@ -21,7 +22,7 @@ void autotune_Init(autotune_pos_PID *apid, const tSensors sensor)
   apid->iterationCount = 0;
 }
 
-void autotune_StepRoutine(autotune_pos_PID *apid)
+void autotune_Run(autotune_pos_PID *apid)
 {
   while (true)
   {
@@ -74,18 +75,28 @@ task monitorPlant()
       if (errorIncreasedCount >= errorIncreasedCountMax)
       {
         stopTask(runPlantWrapper);
+        stopAllMotorsRaw();
 
         //Decrease kP
         apid_s->pAdjustment = -1 * adjustmentAmount;
-      }
 
-      continue;
+        plantFinishedRunning = true;
+
+        break;
+      }
+    }
+    //Clear count if series is not contiguous
+    else
+    {
+      errorIncreasedCount = 0;
+      errorDidIncreaseLastLoop = false;
     }
 
     //Stop plant if overshot
     if (sgn(apid_s->pid.error) != sgn(apid_s->pid.prevError))
     {
       stopTask(runPlantWrapper);
+      stopAllMotorsRaw();
 
       //Set flag
       apid_s->didOvershootLastCorrection = true;
@@ -93,7 +104,9 @@ task monitorPlant()
       //Decrease kP
       apid_s->pAdjustment = -1 * adjustmentAmount;
 
-      continue;
+      plantFinishedRunning = true;
+
+      break;
     }
 
     //Adjust kP based on final error and exit
@@ -135,6 +148,7 @@ task monitorPlant()
 task runPlantWrapper()
 {
   runPlant();
+  stopAllMotorsRaw();
   plantFinishedRunning = true;
 }
 

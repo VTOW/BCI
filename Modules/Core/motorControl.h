@@ -25,6 +25,9 @@
 #define setMotorSpeedRaw(index, power) motor[index] = (power)
 #define getMotorSpeedRaw(index) motor[index]
 
+//Extra motor control
+#define stopAllMotorsRaw() motor[port1] = 0; motor[port2] = 0; motor[port3] = 0; motor[port4] = 0; motor[port5] = 0; motor[port6] = 0; motor[port7] = 0; motor[port8] = 0; motor[port9] = 0; motor[port10] = 0
+
 //Motor representation
 typedef struct driveMotor_t
 {
