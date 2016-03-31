@@ -10,7 +10,7 @@
 #define TBH_OUTPUT_ERROR_ACCEL 2
 
 //A velocity TBH controller
-typedef struct vel_TBH
+typedef struct vel_TBH_t
 {
 	//TBH constants
 	float gain;

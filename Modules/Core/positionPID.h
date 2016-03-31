@@ -2,7 +2,7 @@
 #define POSITIONPID_H_INCLUDED
 
 //PID Controller representation
-typedef struct pos_PID
+typedef struct pos_PID_t
 {
 	//PID constants
 	float kP;

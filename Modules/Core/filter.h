@@ -2,7 +2,7 @@
 #define FILTER_H_INCLUDED
 
 //Exponential moving average filter
-typedef struct EMAFilter
+typedef struct EMAFilter_t
 {
 	float alpha;
 	float readIn;
@@ -11,7 +11,7 @@ typedef struct EMAFilter
 } EMAFilter;
 
 //Double exponential moving average filter
-typedef struct DEMAFilter
+typedef struct DEMAFilter_t
 {
 	float alpha;
 	float beta;
@@ -23,14 +23,14 @@ typedef struct DEMAFilter
 } DEMAFilter;
 
 //Five-unit average filter
-typedef struct FUAFilter
+typedef struct FUAFilter_t
 {
 	float components[5];
 	int index;
 } FUAFilter;
 
 //Ten-unit average filter
-typedef struct TUAFilter
+typedef struct TUAFilter_t
 {
 	float components[10];
 	int index;
