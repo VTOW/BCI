@@ -14,4 +14,4 @@
 #define inchesToTicks(inches, diam) ( ((inches) / (PI * (diam))) * 360 )
 #define ticksToInches(ticks, diam) ( ((diam) * PI) * ((ticks) / 360) )
 
-#endif //#ifndef MATH_H_INCLUDED
+#endif //MATH_H_INCLUDED

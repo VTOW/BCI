@@ -43,4 +43,4 @@ driveMotor* addMotor(const tMotor name, float slewRate = MOTOR_DEFAULT_SLEW_RATE
 //Updates the power of each motor to best meet the requested power
 task motorSlewRateTask();
 
-#endif //#ifndef MOTORCONTROL_H_INCLUDED
+#endif //MOTORCONTROL_H_INCLUDED
