@@ -1,6 +1,8 @@
 #ifndef AUTOTUNE_H_INCLUDED
 #define AUTOTUNE_H_INCLUDED
 
+#include "..\Core\positionPID.c"
+
 //Function header for the user-implemented version which runs the plant
 void runPlant();
 
@@ -13,12 +15,12 @@ typedef struct autotune_pos_PID_t
 	bool didOvershootLastCorrection;
 	float adjustmentAmount;
 	int decimalPlaces;
-	
+
 	float pAdjustment;
 	float pAdjustment_prev;
-	
+
 	float iAdjustment;
-	
+
 	float dAdjustment;
 
 	int iterationCount;
@@ -29,5 +31,11 @@ void autotune_Init(autotune_pos_PID *apid, const tSensors sensor, const float kP
 
 //Runs the autotuner
 void autotune_Run(autotune_pos_PID *apid);
+
+//Monitors the plant and tunes the pid controller
+task monitorPlant();
+
+//Runs the plant and stops motors
+task runPlantWrapper();
 
 #endif //AUTOTUNE_H_INCLUDED

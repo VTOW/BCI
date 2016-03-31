@@ -1,7 +1,7 @@
 #ifndef AUTOTUNE_C_INCLUDED
 #define AUTOTUNE_C_INCLUDED
 
-#include "..\Core\positionPID.c"
+#include "autotune.h"
 #include "..\Core\motorControl.c"
 
 static autotune_pos_PID *apid_s;
@@ -78,7 +78,7 @@ task monitorPlant()
         stopAllMotorsRaw();
 
         //Decrease kP
-        apid_s->pAdjustment = -1 * adjustmentAmount;
+        apid_s->pAdjustment = -1 * apid_s->adjustmentAmount;
 
         plantFinishedRunning = true;
 
@@ -102,7 +102,7 @@ task monitorPlant()
       apid_s->didOvershootLastCorrection = true;
 
       //Decrease kP
-      apid_s->pAdjustment = -1 * adjustmentAmount;
+      apid_s->pAdjustment = -1 * apid_s->adjustmentAmount;
 
       plantFinishedRunning = true;
 
@@ -137,7 +137,7 @@ task monitorPlant()
       }
 
       //Adjust kP based on current residual error
-      apid_s->pAdjustment = adjustmentAmount * sgn(apid_s->pid.error);
+      apid_s->pAdjustment = apid_s->adjustmentAmount * sgn(apid_s->pid.error);
 
       monitorPlantFinishedRunning = true;
       break;
