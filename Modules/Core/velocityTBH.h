@@ -45,8 +45,8 @@ typedef struct vel_TBH_t
 } vel_TBH;
 
 //Initializes a velocity TBH controller
-void vel_TBH_InitController(vel_TBH *tbh, const tSensors sensor, const float gain, const int outValApprox);
-void vel_TBH_InitController(vel_TBH *tbh, const tMotor imeMotor, const float gain, const int outValApprox);
+void vel_TBH_InitController(vel_TBH *tbh, const tSensors sensor, const float gain, const int outValApprox, const int targetVelocity = 0.0);
+void vel_TBH_InitController(vel_TBH *tbh, const tMotor imeMotor, const float gain, const int outValApprox, const int targetVelocity = 0.0);
 
 //Reinitializes a velocity TBH controller with previous sensor, gain, and open-loop approx
 void vel_TBH_ReInitController(vel_TBH *tbh);

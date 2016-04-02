@@ -3,7 +3,7 @@
 
 #include "velocityTBH.h"
 
-void vel_TBH_InitController(vel_TBH *tbh, const tSensors sensor, const float gain, const int outValApprox)
+void vel_TBH_InitController(vel_TBH *tbh, const tSensors sensor, const float gain, const int outValApprox, const int targetVelocity)
 {
 	tbh->gain = gain;
 
@@ -22,14 +22,14 @@ void vel_TBH_InitController(vel_TBH *tbh, const tSensors sensor, const float gai
 
 	tbh->sensor = sensor;
 	tbh->usingIME = false;
-	tbh->targetVelocity = 0.0;
+	tbh->targetVelocity = targetVelocity;
 
 	filter_Init_DEMA(&tbh->filter);
 
 	tbh->outVal = 0.0;
 }
 
-void vel_TBH_InitController(vel_TBH *tbh, const tMotor imeMotor, const float gain, const int outValApprox)
+void vel_TBH_InitController(vel_TBH *tbh, const tMotor imeMotor, const float gain, const int outValApprox, const int targetVelocity)
 {
 	tbh->gain = gain;
 
@@ -48,7 +48,7 @@ void vel_TBH_InitController(vel_TBH *tbh, const tMotor imeMotor, const float gai
 
 	tbh->imeMotor = imeMotor;
 	tbh->usingIME = true;
-	tbh->targetVelocity = 0.0;
+	tbh->targetVelocity = targetVelocity;
 
 	filter_Init_DEMA(&tbh->filter);
 
