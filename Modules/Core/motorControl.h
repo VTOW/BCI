@@ -38,6 +38,9 @@ typedef struct driveMotor_t
 } driveMotor;
 
 //Adds and initializes a motor (by name) to the motor array
+/**
+* Test description.
+*/
 driveMotor* addMotor(const tMotor name, float slewRate = MOTOR_DEFAULT_SLEW_RATE);
 
 //Updates the power of each motor to best meet the requested power
