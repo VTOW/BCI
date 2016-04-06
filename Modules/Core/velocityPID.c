@@ -40,7 +40,7 @@ int vel_PID_StepVelocity(vel_PID *pid)
 	pid->prevTime = nSysTime;
 
 	//Scrap dt if zero
-	if (tbh->dt == 0)
+	if (pid->dt == 0)
 	{
 		return 0;
 	}
@@ -89,7 +89,7 @@ int vel_PID_StepController(vel_PID *pid, const int currentVelocity)
 	pid->prevTime = nSysTime;
 
 	//Scrap dt if zero
-	if (tbh->dt == 0)
+	if (pid->dt == 0)
 	{
 		return 0;
 	}
