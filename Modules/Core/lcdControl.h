@@ -22,13 +22,13 @@
 typedef struct menu_t
 {
 	//Pointer to next menu (right button)
-	menu *next;
+	menu_t *next;
 	//Pointer to previous menu (left button)
-	menu *prev;
+	menu_t *prev;
 	//Pointer to higher menu (center button)
-	menu *up;
+	menu_t *up;
 	//Pointer to deeper menu (center button)
-	menu *down;
+	menu_t *down;
 
 	//Displayed text
 	string *msg;
