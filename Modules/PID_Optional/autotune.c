@@ -35,6 +35,7 @@ void autotune_Run(autotune_pos_PID *apid)
 
     //Start monitor task
     apid_s = apid;
+    monitorPlantFinishedRunning = false;
     startTask(monitorPlant);
 
     //Run plant using wrapper
@@ -43,6 +44,10 @@ void autotune_Run(autotune_pos_PID *apid)
 
     //Wait until monitor has stopped
     while (!monitorPlantFinishedRunning) { EndTimeSlice(); }
+
+    //Let things settle
+    wait1Msec(10000);
+    stopAllMotorsRaw();
   }
 }
 
@@ -80,6 +85,7 @@ task monitorPlant()
         //Decrease kP
         apid_s->pAdjustment = -1 * apid_s->adjustmentAmount;
 
+        writeDebugStreamLine("monitorPlant exited: error increased too many times in a row");
         plantFinishedRunning = true;
 
         break;
@@ -104,6 +110,7 @@ task monitorPlant()
       //Decrease kP
       apid_s->pAdjustment = -1 * apid_s->adjustmentAmount;
 
+      writeDebugStreamLine("monitorPlant exited: plant overshot");
       plantFinishedRunning = true;
 
       break;
@@ -139,6 +146,7 @@ task monitorPlant()
       //Adjust kP based on current residual error
       apid_s->pAdjustment = apid_s->adjustmentAmount * sgn(apid_s->pid.error);
 
+      writeDebugStreamLine("monitorPlant exited: plant finished");
       monitorPlantFinishedRunning = true;
       break;
     }
@@ -149,6 +157,7 @@ task runPlantWrapper()
 {
   runPlant();
   stopAllMotorsRaw();
+  writeDebugStreamLine("plant stopped");
   plantFinishedRunning = true;
 }
 

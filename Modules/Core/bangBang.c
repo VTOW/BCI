@@ -26,7 +26,7 @@ void bangBang_InitController(bangBang *bb, const tSensors sensor, const int high
 	bb->outVal = 0.0;
 }
 
-void bangBang_InitController(bangBang *bb, const tMotor motor, const int highPower, const int lowPower, const int targetVelocity)
+void bangBang_InitController(bangBang *bb, const tMotor imeMotor, const int highPower, const int lowPower, const int targetVelocity)
 {
 	bb->highPower = highPower;
 	bb->lowPower = lowPower;

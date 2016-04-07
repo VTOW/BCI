@@ -9,6 +9,7 @@
 #include "Modules\Core\positionPID.c"
 #include "Modules\Core\velocityPID.c"
 #include "Modules\Core\velocityTBH.c"
+#include "Modules\Core\bangBang.c"
 #include "Modules\Core\timer.c"
 #include "Modules\Core\filter.c"
 

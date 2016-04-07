@@ -19,16 +19,16 @@
 #define INCORRECT_MENU_NUM "  BAD MENU_NUM  "
 
 //Menu representation
-typedef struct menu_t
+typedef struct menu
 {
 	//Pointer to next menu (right button)
-	menu_t *next;
+	menu *next;
 	//Pointer to previous menu (left button)
-	menu_t *prev;
+	menu *prev;
 	//Pointer to higher menu (center button)
-	menu_t *up;
+	menu *up;
 	//Pointer to deeper menu (center button)
-	menu_t *down;
+	menu *down;
 
 	//Displayed text
 	string *msg;

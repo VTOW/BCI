@@ -35,7 +35,7 @@ typedef struct bangBang_t
 
 //Initializes a bangbang controller
 void bangBang_InitController(bangBang *bb, const tSensors sensor, const int highPower, const int lowPower, const int targetVelocity = 0.0);
-void bangBang_InitController(bangBang *bb, const tMotor motor, const int highPower, const int lowPower, const int targetVelocity = 0.0);
+void bangBang_InitController(bangBang *bb, const tMotor imeMotor, const int highPower, const int lowPower, const int targetVelocity = 0.0);
 
 //Sets the target velocity
 void bangBang_SetTargetVelocity(bangBang *bb, const int targetVelocity);
