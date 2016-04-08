@@ -41,7 +41,8 @@ int vel_PID_StepVelocity(vel_PID *pid)
 	}
 
 	//Calculate current velocity
-	pid->currentVelocity = (SensorValue[pid->sensor] - pid->prevPosition) * (DEGPMS_TO_RPM / (pid->dt * 1000));
+	//pid->currentVelocity = (SensorValue[pid->sensor] - pid->prevPosition) * (DEGPMS_TO_RPM / (pid->dt * 1000));
+	pid->currentVelocity = (( (SensorValue[pid->sensor] - pid->prevPosition) / 360.0) / pid->dt) * 60000;
 	pid->prevPosition = SensorValue[pid->sensor];
 
 	return pid->currentVelocity;
