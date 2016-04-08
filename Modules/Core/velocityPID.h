@@ -12,7 +12,6 @@ typedef struct vel_PID_t
 {
 	//PID constants
 	float kP;
-	float kI;
 	float kD;
 
 	//PID calculations
@@ -20,16 +19,11 @@ typedef struct vel_PID_t
 	int prevPosition;
 	int error;
 	int prevError;
-	int integral;
 	int derivative;
 
 	//Timestep
 	float dt;
 	int prevTime;
-
-	//PID limits
-	int errorSumThreshold;
-	int integralCap;
 
 	//Input
 	tSensors sensor;
@@ -41,7 +35,7 @@ typedef struct vel_PID_t
 } vel_PID;
 
 //Initializes a velocity PID controller
-void vel_PID_InitController(vel_PID *pid, const tSensors sensor, const float kP, const float kI, const float kD, const int errorSumThreshold, const int integralCap);
+void vel_PID_InitController(vel_PID *pid, const tSensors sensor, const float kP, const float kD);
 
 //Sets the controller's target velocity
 void vel_PID_SetTargetVelocity(vel_PID *pid, const int targetVelocity);

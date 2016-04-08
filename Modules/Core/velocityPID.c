@@ -3,10 +3,9 @@
 
 #include "velocityPID.h"
 
-void vel_PID_InitController(vel_PID *pid, const tSensors sensor, const float kP, const float kI, const float kD, const int errorSumThreshold, const int integralCap)
+void vel_PID_InitController(vel_PID *pid, const tSensors sensor, const float kP, const float kD)
 {
 	pid->kP = kP;
-	pid->kI = kI;
 	pid->kD = kD;
 
 	pid->error = 0;
@@ -15,11 +14,7 @@ void vel_PID_InitController(vel_PID *pid, const tSensors sensor, const float kP,
 	pid->prevPosition = 0;
 	pid->prevTime = 0;
 	pid->dt = 0.0;
-	pid->integral = 0;
 	pid->derivative = 0;
-
-	pid->errorSumThreshold = errorSumThreshold;
-	pid->integralCap = integralCap;
 
 	pid->sensor = sensor;
 	pid->currentPosition = 0;
@@ -60,24 +55,12 @@ int vel_PID_StepController(vel_PID *pid)
 	//Calculate error
 	pid->error = pid->targetVelocity - pid->currentVelocity;
 
-	//If error is larger than the error sum threshold, calculate integral
-	if (abs(pid->error) < pid->errorSumThreshold)
-	{
-		pid->integral += pid->error * pid->dt;
-	}
-
-	//Limit integral to avoid windup
-	if (abs(pid->integral) > pid->integralCap)
-	{
-		pid->integral = pid->integralCap;
-	}
-
 	//Calculate derivative
 	pid->derivative = (pid->error - pid->prevError) / pid->dt;
 	pid->prevError = pid->error;
 
 	//Sum outVal to instead compute the change in velocity
-	pid->outVal += (pid->error * pid->kP) + (pid->integral * pid->kI) + (pid->derivative * pid->kD);
+	pid->outVal += (pid->error * pid->kP) + (pid->derivative * pid->kD);
 
 	return pid->outVal;
 }
@@ -100,24 +83,12 @@ int vel_PID_StepController(vel_PID *pid, const int currentVelocity)
 	//Calculate error
 	pid->error = pid->targetVelocity - pid->currentVelocity;
 
-	//If error is larger than the error sum threshold, calculate integral
-	if (abs(pid->error) < pid->errorSumThreshold)
-	{
-		pid->integral += pid->error * pid->dt;
-	}
-
-	//Limit integral to avoid windup
-	if (abs(pid->integral) > pid->integralCap)
-	{
-		pid->integral = pid->integralCap;
-	}
-
 	//Calculate derivative
 	pid->derivative = (pid->error - pid->prevError) / pid->dt;
 	pid->prevError = pid->error;
 
 	//Sum outVal to instead compute the change in velocity
-	pid->outVal += (pid->error * pid->kP) + (pid->integral * pid->kI) + (pid->derivative * pid->kD);
+	pid->outVal += (pid->error * pid->kP) + (pid->derivative * pid->kD);
 
 	return pid->outVal;
 }
