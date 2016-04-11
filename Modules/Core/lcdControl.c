@@ -286,21 +286,6 @@ void linkMenus(menu *m1, menu *m2, menu *m3, menu *m4, menu *m5, menu *m6, menu 
 }
 
 /*
-* Pairs n menus
-* Note: This is dependent upon allocation order
-*/
-void linkMenus(menu *m1, const int count)
-{
-	menu *current = m1;
-
-	for (int i = 1; i < count - 1; i++)
-	{
-		current->next = current + 1;
-		current->prev = current - 1;
-	}
-}
-//(startingMenu + i)->up = parent;
-/*
 * Updates the LCD and responds to button presses
 */
 task updateLCDTask()
