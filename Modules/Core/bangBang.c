@@ -125,7 +125,16 @@ int bangBang_StepController(bangBang *bb)
 	bb->error = bb->targetVelocity - bb->currentVelocity;
 
 	//Calculate new outVal
-	bb->outVal = bb->error > 0 ? 127 : 60;
+	//bb->outVal = bb->error < 0 ? bb->highPower : bb->lowPower;
+
+	if (bb->currentVelocity > bb->targetVelocity)
+	{
+		bb->outVal = bb->lowPower;
+	}
+	else if (bb->currentVelocity <= bb->targetVelocity)
+	{
+		bb->outVal = bb->highPower;
+	}
 
 	//Return outVal
 	return bb->outVal;
