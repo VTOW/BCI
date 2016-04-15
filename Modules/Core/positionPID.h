@@ -52,5 +52,6 @@ int pos_PID_GetOutput(pos_PID *pid);
 
 //Steps the controller's calculations
 int pos_PID_StepController(pos_PID *pid);
+int pos_PID_StepController(pos_PID *pid, const float val);
 
 #endif //POSITIONPID_H_INCLUDED
