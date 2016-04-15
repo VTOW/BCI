@@ -26,6 +26,10 @@ typedef struct pos_PID_t
 
 	//Input
 	tSensors sensor;
+	tMotor imeMotor;
+	float *var;
+	bool usingIME;
+	bool usingVar;
 	int targetPos;
 
 	//Output
@@ -34,6 +38,8 @@ typedef struct pos_PID_t
 
 //Initializes a position PID controller
 void pos_PID_InitController(pos_PID *pid, const tSensors sensor, const float kP, const float kI, const float kD, const float kBias = 0.0, const int errorThreshold = 0, const int integralLimit = 1000000);
+void pos_PID_InitController(pos_PID *pid, const tMotor imeMotor, const float kP, const float kI, const float kD, const float kBias = 0.0, const int errorThreshold = 0, const int integralLimit = 1000000);
+void pos_PID_InitController(pos_PID *pid, const float *var, const float kP, const float kI, const float kD, const float kBias = 0.0, const int errorThreshold = 0, const int integralLimit = 1000000);
 
 //Sets the target position
 void pos_PID_SetTargetPosition(pos_PID *pid, const int targetPos);
