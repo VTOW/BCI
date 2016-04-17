@@ -3,7 +3,7 @@
 
 #include "velocityPID.h"
 
-void vel_PID_InitController(vel_PID *pid, const tSensors sensor, const float kP, const float kD)
+void vel_PID_InitController(vel_PID *pid, const tSensors sensor, const float kP, const float kD, const float ticksPerRev)
 {
 	pid->kP = kP;
 	pid->kD = kD;
@@ -12,11 +12,62 @@ void vel_PID_InitController(vel_PID *pid, const tSensors sensor, const float kP,
 	pid->currentVelocity = 0.0;
 	pid->prevError = 0;
 	pid->prevPosition = 0;
+	pid->currentTime = 0;
 	pid->prevTime = 0;
 	pid->dt = 0.0;
 	pid->derivative = 0;
 
 	pid->sensor = sensor;
+	pid->usingIME = false;
+	pid->usingVar = false;
+	pid->ticksPerRev = ticksPerRev;
+	pid->currentPosition = 0;
+	pid->targetVelocity = 0.0;
+
+	pid->outVal = 0.0;
+}
+void vel_PID_InitController(vel_PID *pid, const tMotor imeMotor, const float kP, const float kD, const float ticksPerRev)
+{
+	pid->kP = kP;
+	pid->kD = kD;
+
+	pid->error = 0;
+	pid->currentVelocity = 0.0;
+	pid->prevError = 0;
+	pid->prevPosition = 0;
+	pid->currentTime = 0;
+	pid->prevTime = 0;
+	pid->dt = 0.0;
+	pid->derivative = 0;
+
+	pid->imeMotor = imeMotor;
+	pid->usingIME = true;
+	pid->usingVar = false;
+	pid->ticksPerRev = ticksPerRev;
+	pid->currentPosition = 0;
+	pid->targetVelocity = 0.0;
+
+	pid->outVal = 0.0;
+}
+
+void vel_PID_InitController(vel_PID *pid, const float *var, const float kP, const float kD, const float ticksPerRev)
+{
+	pid->kP = kP;
+	pid->kD = kD;
+
+	pid->error = 0;
+	pid->currentVelocity = 0.0;
+	pid->prevError = 0;
+	pid->prevPosition = 0;
+	pid->currentTime = 0;
+	pid->prevTime = 0;
+	pid->dt = 0.0;
+	pid->derivative = 0;
+
+	pid->var = var;
+	pid->usingIME = false;
+	pid->usingVar = true;
+	pid->ticksPerRev = ticksPerRev;
 	pid->currentPosition = 0;
 	pid->targetVelocity = 0.0;
 
@@ -34,16 +85,55 @@ int vel_PID_StepVelocity(vel_PID *pid)
 	pid->dt = (nSysTime - pid->prevTime) / 1000.0;
 	pid->prevTime = nSysTime;
 
-	//Scrap dt if zero
-	if (pid->dt == 0)
+	if (pid->usingIME)
 	{
-		return 0;
-	}
+		//Calculate timestep
+		getEncoderAndTimeStamp(pid->imeMotor, pid->currentPosition, pid->currentTime);
+		pid->dt = pid->currentTime - pid->prevTime;
+		pid->prevTime = pid->currentTime;
 
-	//Calculate current velocity
-	pid->currentVelocity = (SensorValue[pid->sensor] - pid->prevPosition) * (DEGPMS_TO_RPM / (pid->dt * 1000));
-	//pid->currentVelocity = (( (SensorValue[pid->sensor] - pid->prevPosition) / 360.0) / pid->dt) * 60000;
-	pid->prevPosition = SensorValue[pid->sensor];
+		//Scrap dt if zero
+		if (pid->dt == 0)
+		{
+			return 0;
+		}
+
+		//Calculate current velocity
+		pid->currentVelocity = (1000.0 / pid->dt) * (pid->currentPosition - pid->prevPosition) * 60.0 / pid->ticksPerRev;
+		pid->prevPosition = pid->currentPosition;
+	}
+	else if (pid->usingVar)
+	{
+		//Calculate timestep
+		pid->dt = nSysTime - pid->prevTime;
+		pid->prevTime = nSysTime;
+
+		//Scrap dt if zero
+		if (pid->dt == 0)
+		{
+			return 0;
+		}
+
+		//Calculate current velocity
+		pid->currentVelocity = (1000.0 / pid->dt) * (pid->var - pid->prevPosition) * 60.0 / pid->ticksPerRev;
+		pid->prevPosition = pid->var;
+	}
+	else
+	{
+		//Calculate timestep
+		pid->dt = nSysTime - pid->prevTime;
+		pid->prevTime = nSysTime;
+
+		//Scrap dt if zero
+		if (pid->dt == 0)
+		{
+			return 0;
+		}
+
+		//Calculate current velocity
+		pid->currentVelocity = (1000.0 / pid->dt) * (SensorValue[pid->sensor] - pid->prevPosition) * 60.0 / pid->ticksPerRev;
+		pid->prevPosition = pid->SensorValue[pid->sensor];
+	}
 
 	return pid->currentVelocity;
 }

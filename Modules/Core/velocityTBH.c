@@ -22,6 +22,7 @@ void vel_TBH_InitController(vel_TBH *tbh, const tSensors sensor, const float gai
 
 	tbh->sensor = sensor;
 	tbh->usingIME = false;
+	tbh->usingVar = false;
 	tbh->targetVelocity = targetVelocity;
 
 	filter_Init_DEMA(&tbh->filter);
@@ -48,6 +49,33 @@ void vel_TBH_InitController(vel_TBH *tbh, const tMotor imeMotor, const float gai
 
 	tbh->imeMotor = imeMotor;
 	tbh->usingIME = true;
+	tbh->usingVar = false;
+	tbh->targetVelocity = targetVelocity;
+
+	filter_Init_DEMA(&tbh->filter);
+
+	tbh->outVal = 0.0;
+}
+void vel_TBH_InitController(vel_TBH *tbh, const float *var, const float gain, const int outValApprox, const int targetVelocity)
+{
+	tbh->gain = gain;
+
+	tbh->currentVelocity = 0.0;
+	tbh->currentPosition = 0;
+	tbh->prevPosition = 0;
+	tbh->error = 0;
+	tbh->prevError = 0;
+	tbh->firstCross = true;
+	tbh->outValApprox = outValApprox;
+	tbh->outValAtZero = 0.0;
+
+	tbh->dt = 0.0;
+	tbh->currentTime = 0;
+	tbh->prevTime = 0;
+
+	tbh->var = var;
+	tbh->usingIME = false;
+	tbh->usingVar = true;
 	tbh->targetVelocity = targetVelocity;
 
 	filter_Init_DEMA(&tbh->filter);

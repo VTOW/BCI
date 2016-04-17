@@ -1,12 +1,6 @@
 #ifndef VELOCITYPID_H_INCLUDED
 #define VELOCITYPID_H_INCLUDED
 
-//This scale constant relates mesured ticks per second to motor power
-#define PID_SCALE 2.67
-
-//This scale relates degrees per millisecond to rpm
-#define DEGPMS_TO_RPM 166.7
-
 //A velocity PID controller
 typedef struct vel_PID_t
 {
@@ -23,10 +17,16 @@ typedef struct vel_PID_t
 
 	//Timestep
 	float dt;
+	int currentTime;
 	int prevTime;
 
 	//Input
 	tSensors sensor;
+	tMotor imeMotor;
+	float *var;
+	bool usingIME;
+	bool usingVar;
+	float ticksPerRev;
 	int currentPosition;
 	float targetVelocity;
 
@@ -35,7 +35,9 @@ typedef struct vel_PID_t
 } vel_PID;
 
 //Initializes a velocity PID controller
-void vel_PID_InitController(vel_PID *pid, const tSensors sensor, const float kP, const float kD);
+void vel_PID_InitController(vel_PID *pid, const tSensors sensor, const float kP, const float kD, const float ticksPerRev = 360.0);
+void vel_PID_InitController(vel_PID *pid, const tMotor imeMotor, const float kP, const float kD, const float ticksPerRev = 627.2);
+void vel_PID_InitController(vel_PID *pid, const float *var, const float kP, const float kD, const float ticksPerRev = 360.0);
 
 //Sets the controller's target velocity
 void vel_PID_SetTargetVelocity(vel_PID *pid, const int targetVelocity);
