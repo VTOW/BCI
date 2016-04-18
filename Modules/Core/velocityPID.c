@@ -153,6 +153,12 @@ int vel_PID_StepController(vel_PID *pid)
 	//Calculate current velocity
 	vel_PID_StepVelocity(pid);
 
+	//Scrap dt if zero
+	if (pid->dt == 0)
+	{
+		return 0;
+	}
+
 	//Calculate error
 	pid->error = pid->targetVelocity - pid->currentVelocity;
 
