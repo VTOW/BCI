@@ -189,8 +189,8 @@ int vel_TBH_StepVelocity(vel_TBH *tbh)
 		}
 
 		//Calculate current velocity
-		tbh->currentVelocity = (1000.0 / tbh->dt) * (tbh->var - tbh->prevPosition) * 60.0 / tbh->ticksPerRev;
-		tbh->prevPosition = tbh->var;
+		tbh->currentVelocity = (1000.0 / tbh->dt) * (*(tbh->var) - tbh->prevPosition) * 60.0 / tbh->ticksPerRev;
+		tbh->prevPosition = *(tbh->var);
 	}
 	else
 	{
