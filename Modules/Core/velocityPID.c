@@ -126,7 +126,7 @@ int vel_PID_StepVelocity(vel_PID *pid)
 
 		//Calculate current velocity
 		pid->currentVelocity = (1000.0 / pid->dt) * (*(pid->var) - pid->prevPosition) * 60.0 / pid->ticksPerRev;
-		pid->prevPosition = pid->var;
+		pid->prevPosition = *(pid->var);
 	}
 	else
 	{
