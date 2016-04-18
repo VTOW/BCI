@@ -79,6 +79,16 @@ void vel_PID_SetTargetVelocity(vel_PID *pid, const int targetVelocity)
 	pid->targetVelocity = targetVelocity;
 }
 
+int vel_PID_GetError(vel_PID *pid)
+{
+	return pid->error;
+}
+
+int vel_PID_GetOutput(vel_PID *pid)
+{
+	return pid->outVal;
+}
+
 int vel_PID_StepVelocity(vel_PID *pid)
 {
 	//Calculate timestep

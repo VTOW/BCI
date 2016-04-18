@@ -44,6 +44,12 @@ void vel_PID_InitController(vel_PID *pid, const float *var, const float kP, cons
 //Sets the controller's target velocity
 void vel_PID_SetTargetVelocity(vel_PID *pid, const int targetVelocity);
 
+//Gets the current error
+int vel_PID_GetError(vel_PID *pid);
+
+//Gets the current output
+int vel_PID_GetOutput(vel_PID *pid);
+
 //Steps the controller's velocity calculations with out stepping math
 int vel_PID_StepVelocity(vel_PID *pid);
 
