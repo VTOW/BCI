@@ -43,6 +43,8 @@ typedef struct vel_TBH_t
 
 	//Filtering
 	DEMAFilter filter;
+	float alpha;
+	float beta;
 
 	//Output
 	float outVal;
@@ -53,8 +55,11 @@ void vel_TBH_InitController(vel_TBH *tbh, const tSensors sensor, const float gai
 void vel_TBH_InitController(vel_TBH *tbh, const tMotor imeMotor, const float gain, const int outValApprox, const int targetVelocity = 0.0, const float ticksPerRev = UTIL_IME_HT_TPR);
 void vel_TBH_InitController(vel_TBH *tbh, const float *var, const float gain, const int outValApprox, const int targetVelocity = 0.0, const float ticksPerRev = UTIL_QUAD_TPR);
 
-//Reinitializes a velocity TBH controller with previous sensor, gain, and open-loop approx
+//Reinitializes a velocity TBH controller with previous sensor, gain, open-loop approx, and filter
 void vel_TBH_ReInitController(vel_TBH *tbh);
+
+//Sets new filter constants
+void vel_TBH_SetFilterConstants(vel_TBH *tbh, const float alpha, const float beta);
 
 //Sets the target velocity
 //This should (generally) be used when the target velocity has changed
