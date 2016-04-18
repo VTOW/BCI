@@ -2,6 +2,7 @@
 #define VELOCITYTBH_H_INCLUDED
 
 #include "filter.c"
+#include "util.c"
 
 //This scale relates degrees per millisecond to rpm
 #define TBH_DEGPMS_TO_RPM 166.7
@@ -36,6 +37,8 @@ typedef struct vel_TBH_t
 	tMotor imeMotor;
 	float *var;
 	bool usingIME;
+	bool usingVar;
+	float ticksPerRev;
 	float targetVelocity;
 
 	//Filtering
@@ -46,9 +49,9 @@ typedef struct vel_TBH_t
 } vel_TBH;
 
 //Initializes a velocity TBH controller
-void vel_TBH_InitController(vel_TBH *tbh, const tSensors sensor, const float gain, const int outValApprox, const int targetVelocity = 0.0);
-void vel_TBH_InitController(vel_TBH *tbh, const tMotor imeMotor, const float gain, const int outValApprox, const int targetVelocity = 0.0);
-void vel_TBH_InitController(vel_TBH *tbh, const float *var, const float gain, const int outValApprox, const int targetVelocity = 0.0);
+void vel_TBH_InitController(vel_TBH *tbh, const tSensors sensor, const float gain, const int outValApprox, const int targetVelocity = 0.0, const float ticksPerRev = UTIL_QUAD_TPR);
+void vel_TBH_InitController(vel_TBH *tbh, const tMotor imeMotor, const float gain, const int outValApprox, const int targetVelocity = 0.0, const float ticksPerRev = UTIL_IME_HT_TPR);
+void vel_TBH_InitController(vel_TBH *tbh, const float *var, const float gain, const int outValApprox, const int targetVelocity = 0.0, const float ticksPerRev = UTIL_QUAD_TPR);
 
 //Reinitializes a velocity TBH controller with previous sensor, gain, and open-loop approx
 void vel_TBH_ReInitController(vel_TBH *tbh);

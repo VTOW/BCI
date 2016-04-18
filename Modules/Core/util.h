@@ -25,6 +25,18 @@ typedef enum
 //Converts an analog in value to millivolts
 #define ANALOG_IN_TO_V 286.0
 
+//IME high torque ticks per rev
+#define UTIL_IME_HT_TPR 627.2
+
+//IME high speed ticks per rev
+#define UTIL_IME_HS_TPR 392.0
+
+//IME turbo gear ticks per rev
+#define UTIL_IME_TG_TPR 261.333
+
+//Quad encoder ticks per rev
+#define UTIL_QUAD_TPR 360.0
+
 //Wait for a value to become zero
 #define waitForZero(val) while(val != 0) { wait1Msec(1); }
 
