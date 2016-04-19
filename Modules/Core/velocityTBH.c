@@ -3,7 +3,7 @@
 
 #include "velocityTBH.h"
 
-void vel_TBH_InitController(vel_TBH *tbh, const tSensors sensor, const float gain, const int outValApprox, const int targetVelocity)
+void vel_TBH_InitController(vel_TBH *tbh, const tSensors sensor, const float gain, const int outValApprox, const int targetVelocity, const float ticksPerRev)
 {
 	tbh->gain = gain;
 
@@ -23,6 +23,7 @@ void vel_TBH_InitController(vel_TBH *tbh, const tSensors sensor, const float gai
 	tbh->sensor = sensor;
 	tbh->usingIME = false;
 	tbh->usingVar = false;
+	tbh->ticksPerRev = ticksPerRev;
 	tbh->targetVelocity = targetVelocity;
 
 	filter_Init_DEMA(&tbh->filter);
@@ -32,7 +33,7 @@ void vel_TBH_InitController(vel_TBH *tbh, const tSensors sensor, const float gai
 	tbh->outVal = 0.0;
 }
 
-void vel_TBH_InitController(vel_TBH *tbh, const tMotor imeMotor, const float gain, const int outValApprox, const int targetVelocity)
+void vel_TBH_InitController(vel_TBH *tbh, const tMotor imeMotor, const float gain, const int outValApprox, const int targetVelocity, const float ticksPerRev)
 {
 	tbh->gain = gain;
 
@@ -52,6 +53,7 @@ void vel_TBH_InitController(vel_TBH *tbh, const tMotor imeMotor, const float gai
 	tbh->imeMotor = imeMotor;
 	tbh->usingIME = true;
 	tbh->usingVar = false;
+	tbh->ticksPerRev = ticksPerRev;
 	tbh->targetVelocity = targetVelocity;
 
 	filter_Init_DEMA(&tbh->filter);
@@ -60,7 +62,7 @@ void vel_TBH_InitController(vel_TBH *tbh, const tMotor imeMotor, const float gai
 
 	tbh->outVal = 0.0;
 }
-void vel_TBH_InitController(vel_TBH *tbh, const float *var, const float gain, const int outValApprox, const int targetVelocity)
+void vel_TBH_InitController(vel_TBH *tbh, const float *var, const float gain, const int outValApprox, const int targetVelocity, const float ticksPerRev)
 {
 	tbh->gain = gain;
 
@@ -80,6 +82,7 @@ void vel_TBH_InitController(vel_TBH *tbh, const float *var, const float gain, co
 	tbh->var = var;
 	tbh->usingIME = false;
 	tbh->usingVar = true;
+	tbh->ticksPerRev = ticksPerRev;
 	tbh->targetVelocity = targetVelocity;
 
 	filter_Init_DEMA(&tbh->filter);
