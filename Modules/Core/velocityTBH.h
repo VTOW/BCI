@@ -4,12 +4,6 @@
 #include "filter.c"
 #include "util.c"
 
-//This scale relates degrees per millisecond to rpm
-#define TBH_DEGPMS_TO_RPM 166.7
-
-//Maximum change in output per step
-#define TBH_OUTPUT_ERROR_ACCEL 2
-
 //A velocity TBH controller
 typedef struct vel_TBH_t
 {
