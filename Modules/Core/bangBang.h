@@ -3,6 +3,7 @@
 
 #include "filter.c"
 
+//Bang bang controller type
 typedef struct bangBang_t
 {
 	//Power levels

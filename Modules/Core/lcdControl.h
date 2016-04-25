@@ -18,7 +18,7 @@
 #define SAFETY_TRIG        "   SAFETY_TRIG  "
 #define INCORRECT_MENU_NUM "  BAD MENU_NUM  "
 
-//Menu representation
+//Menu type
 typedef struct menu_t
 {
 	//Pointer to next menu (right button)

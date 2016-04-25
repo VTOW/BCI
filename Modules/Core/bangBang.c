@@ -3,6 +3,9 @@
 
 #include "bangBang.h"
 
+/*
+* Initializes a bangbang controller with a sensor
+*/
 void bangBang_InitController(bangBang *bb, const tSensors sensor, const int highPower, const int lowPower, const int targetVelocity)
 {
 	bb->highPower = highPower;
@@ -26,6 +29,9 @@ void bangBang_InitController(bangBang *bb, const tSensors sensor, const int high
 	bb->outVal = 0.0;
 }
 
+/*
+* Initializes a bangbang controller with an IME
+*/
 void bangBang_InitController(bangBang *bb, const tMotor imeMotor, const int highPower, const int lowPower, const int targetVelocity)
 {
 	bb->highPower = highPower;
@@ -49,31 +55,50 @@ void bangBang_InitController(bangBang *bb, const tMotor imeMotor, const int high
 	bb->outVal = 0.0;
 }
 
+/*
+* Sets the target velocity
+*/
 void bangBang_SetTargetVelocity(bangBang *bb, const int targetVelocity)
 {
 	bb->targetVelocity = targetVelocity;
 }
 
+/*
+* Gets the current error
+*/
 int bangBang_GetError(bangBang *bb)
 {
 	return bb->error;
 }
 
+/*
+* Gets the current (filtered) velocity
+*/
 int bangBang_GetVelocity(bangBang *bb)
 {
 	return (int)bb->currentVelocity;
 }
 
+/*
+* Gets the current target velocity
+*/
 int bangBang_GetTargetVelocity(bangBang *bb)
 {
 	return bb->targetVelocity;
 }
 
+/*
+* Gets the current output
+*/
 int bangBang_GetOutput(bangBang *bb)
 {
 	return bb->outVal;
 }
 
+/*
+* Steps the controller's velocity calculation (separate from the main step function)
+* Can be used to maintain velocity calculation when a full on math step isn't wanted
+*/
 int bangBang_StepVelocity(bangBang *bb)
 {
 	if (bb->usingIME)
@@ -116,6 +141,9 @@ int bangBang_StepVelocity(bangBang *bb)
 	return bb->currentVelocity;
 }
 
+/*
+* Steps the controller calculations
+*/
 int bangBang_StepController(bangBang *bb)
 {
 	//Calculate current velocity
