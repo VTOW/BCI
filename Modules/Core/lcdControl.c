@@ -165,6 +165,7 @@ void formLevel(menu *parent, menu *child, menu *child2, menu *child3, menu *chil
 /*
 * Childs n menus to a parent
 * Note: This is dependent upon allocation order
+*		As a result, this can also be used with an array
 */
 void formLevel(menu *parent, menu *startingMenu, const int count)
 {
@@ -283,6 +284,37 @@ void linkMenus(menu *m1, menu *m2, menu *m3, menu *m4, menu *m5, menu *m6, menu 
 	m6->prev = m5;
 	m7->next = m1;
 	m7->prev = m6;
+}
+
+/*
+* Pairs n menus
+* Note: This is dependent upon allocation order
+*		As a result, this can also be used with an array
+*/
+void linkMenus(menu *m1, const int count = 1)
+{
+	menu *currentMenu = m1;
+
+	for (int i = 0; i < count; i++)
+	{
+		if (i == 0)
+		{
+			currentMenu->next = currentMenu + 1;
+			currentMenu->prev = currentMenu + count - 1;
+		}
+		else if (i == count - 1)
+		{
+			currentMenu->next = currentMenu - count + 1;
+			currentMenu->prev = currentMenu - 1;
+		}
+		else
+		{
+			currentMenu->next = currentMenu + 1;
+			currentMenu->prev = currentMenu - 1;
+		}
+
+		currentMenu = currentMenu + 1;
+	}
 }
 
 /*
