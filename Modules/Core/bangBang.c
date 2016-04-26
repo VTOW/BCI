@@ -66,7 +66,7 @@ void bangBang_InitController(bangBang *bb, const tMotor imeMotor, const int high
 /*
 * Initializes a bangbang controller with a float reference
 */
-void bangBang_InitController(bangBang *bb, const float *var, const int highPower, const int lowPower, const int targetVelocity = 0, const float ticksPerRev)
+void bangBang_InitController(bangBang *bb, const float *var, const int highPower, const int lowPower, const int targetVelocity, const float ticksPerRev)
 {
 	bb->highPower = highPower;
 	bb->lowPower = lowPower;
