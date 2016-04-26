@@ -1,6 +1,7 @@
 #ifndef VELOCITYPID_H_INCLUDED
 #define VELOCITYPID_H_INCLUDED
 
+#include "filter.c"
 #include "util.c"
 
 //A velocity PID controller
@@ -31,6 +32,11 @@ typedef struct vel_PID_t
 	float ticksPerRev;
 	int currentPosition;
 	float targetVelocity;
+
+	//Filtering
+	DEMAFilter filter;
+	float alpha;
+	float beta;
 
 	//Output
 	float outVal;
