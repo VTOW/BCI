@@ -34,7 +34,7 @@ typedef struct driveMotor_t
 	int reqSpeed;   //Input speed
 	float artSpeed; //Artificial speed (the exact speed as governed by the slew rate)
 	float slew;     //Slew rate
-	bool active;    //Whether or not to handle this motor
+	bool active;    //Whether or not to update this motor
 } driveMotor;
 
 //Adds and initializes a motor (by name) to the motor array
