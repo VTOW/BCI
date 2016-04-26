@@ -112,10 +112,6 @@ int vel_PID_GetOutput(vel_PID *pid)
 
 int vel_PID_StepVelocity(vel_PID *pid)
 {
-	//Calculate timestep
-	pid->dt = (nSysTime - pid->prevTime) / 1000.0;
-	pid->prevTime = nSysTime;
-
 	if (pid->usingIME)
 	{
 		//Calculate timestep
