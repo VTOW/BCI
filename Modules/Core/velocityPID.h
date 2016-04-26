@@ -1,6 +1,7 @@
 #ifndef VELOCITYPID_H_INCLUDED
 #define VELOCITYPID_H_INCLUDED
 
+#include "filter.c"
 #include "util.c"
 
 //A velocity PID controller
@@ -32,6 +33,11 @@ typedef struct vel_PID_t
 	int currentPosition;
 	float targetVelocity;
 
+	//Filtering
+	DEMAFilter filter;
+	float alpha;
+	float beta;
+
 	//Output
 	float outVal;
 } vel_PID;
@@ -40,6 +46,9 @@ typedef struct vel_PID_t
 void vel_PID_InitController(vel_PID *pid, const tSensors sensor, const float kP, const float kD, const float ticksPerRev = UTIL_QUAD_TPR);
 void vel_PID_InitController(vel_PID *pid, const tMotor imeMotor, const float kP, const float kD, const float ticksPerRev = UTIL_IME_HT_TPR);
 void vel_PID_InitController(vel_PID *pid, const float *var, const float kP, const float kD, const float ticksPerRev = UTIL_QUAD_TPR);
+
+//Sets new filter constants
+void vel_PID_SetFilterConstants(vel_PID *pid, const float alpha, const float beta);
 
 //Sets the controller's target velocity
 void vel_PID_SetTargetVelocity(vel_PID *pid, const int targetVelocity);

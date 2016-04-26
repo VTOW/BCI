@@ -24,6 +24,10 @@ void vel_PID_InitController(vel_PID *pid, const tSensors sensor, const float kP,
 	pid->currentPosition = 0;
 	pid->targetVelocity = 0.0;
 
+	filter_Init_DEMA(&pid->filter);
+	pid->alpha = 0.19;
+	pid->beta = 0.0526;
+
 	pid->outVal = 0.0;
 }
 void vel_PID_InitController(vel_PID *pid, const tMotor imeMotor, const float kP, const float kD, const float ticksPerRev)
@@ -46,6 +50,10 @@ void vel_PID_InitController(vel_PID *pid, const tMotor imeMotor, const float kP,
 	pid->ticksPerRev = ticksPerRev;
 	pid->currentPosition = 0;
 	pid->targetVelocity = 0.0;
+
+	filter_Init_DEMA(&pid->filter);
+	pid->alpha = 0.19;
+	pid->beta = 0.0526;
 
 	pid->outVal = 0.0;
 }
@@ -71,7 +79,20 @@ void vel_PID_InitController(vel_PID *pid, const float *var, const float kP, cons
 	pid->currentPosition = 0;
 	pid->targetVelocity = 0.0;
 
+	filter_Init_DEMA(&pid->filter);
+	pid->alpha = 0.19;
+	pid->beta = 0.0526;
+
 	pid->outVal = 0.0;
+}
+
+/*
+* Sets new filter constants
+*/
+void vel_PID_SetFilterConstants(vel_PID *pid, const float alpha, const float beta)
+{
+	pid->alpha = alpha;
+	pid->beta = beta;
 }
 
 void vel_PID_SetTargetVelocity(vel_PID *pid, const int targetVelocity)
@@ -91,10 +112,6 @@ int vel_PID_GetOutput(vel_PID *pid)
 
 int vel_PID_StepVelocity(vel_PID *pid)
 {
-	//Calculate timestep
-	pid->dt = (nSysTime - pid->prevTime) / 1000.0;
-	pid->prevTime = nSysTime;
-
 	if (pid->usingIME)
 	{
 		//Calculate timestep
@@ -144,6 +161,9 @@ int vel_PID_StepVelocity(vel_PID *pid)
 		pid->currentVelocity = (1000.0 / pid->dt) * (SensorValue[pid->sensor] - pid->prevPosition) * 60.0 / pid->ticksPerRev;
 		pid->prevPosition = SensorValue[pid->sensor];
 	}
+
+	//Use a DEMA filter to smooth data
+	pid->currentVelocity = filter_DEMA(&(pid->filter), pid->currentVelocity, pid->alpha, pid->beta);
 
 	return pid->currentVelocity;
 }

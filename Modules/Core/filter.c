@@ -11,15 +11,6 @@ void filter_Init_EMA(EMAFilter *filter)
 	filter->output_old = 0.0;
 }
 
-float filter_EMA(EMAFilter *filter, const float readIn, const float alpha)
-{
-	filter->alpha = alpha;
-	filter->readIn = readIn;
-	filter->output = alpha * readIn + (1.0 - alpha) * filter->output_old;
-	filter->output_old = filter->output;
-	return filter->output;
-}
-
 void filter_Init_DEMA(DEMAFilter *filter)
 {
 	filter->alpha = 1.0;
@@ -29,6 +20,35 @@ void filter_Init_DEMA(DEMAFilter *filter)
 	filter->outputB = 0.0;
 	filter->outputS_old = 0.0;
 	filter->outputB_old = 0.0;
+}
+
+void filter_Init_FUA(FUAFilter *filter)
+{
+	filter->index = 0;
+
+	for (int i = 0; i < 5; i++)
+	{
+		filter->components[i] = 0;
+	}
+}
+
+void filter_Init_TUA(TUAFilter *filter)
+{
+	filter->index = 0;
+
+	for (int i = 0; i < 10; i++)
+	{
+		filter->components[i] = 0;
+	}
+}
+
+float filter_EMA(EMAFilter *filter, const float readIn, const float alpha)
+{
+	filter->alpha = alpha;
+	filter->readIn = readIn;
+	filter->output = alpha * readIn + (1.0 - alpha) * filter->output_old;
+	filter->output_old = filter->output;
+	return filter->output;
 }
 
 float filter_DEMA(DEMAFilter *filter, const float readIn, const float alpha, const float beta)
@@ -44,16 +64,6 @@ float filter_DEMA(DEMAFilter *filter, const float readIn, const float alpha, con
 	return filter->outputS + filter->outputB;
 }
 
-void filter_Init_FUA(FUAFilter *filter)
-{
-	filter->index = 0;
-
-	for (int i = 0; i < 5; i++)
-	{
-		filter->components[i] = 0;
-	}
-}
-
 float filter_FUA(FUAFilter *filter, const float componentIn)
 {
 	filter->components[filter->index] = componentIn;
@@ -67,16 +77,6 @@ float filter_FUA(FUAFilter *filter, const float componentIn)
 	}
 
 	return avg / 5.0;
-}
-
-void filter_Init_TUA(TUAFilter *filter)
-{
-	filter->index = 0;
-
-	for (int i = 0; i < 10; i++)
-	{
-		filter->components[i] = 0;
-	}
 }
 
 float filter_TUA(TUAFilter *filter, const float componentIn)

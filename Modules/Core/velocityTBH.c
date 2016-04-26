@@ -212,7 +212,7 @@ int vel_TBH_StepVelocity(vel_TBH *tbh)
 		tbh->prevPosition = SensorValue[tbh->sensor];
 	}
 
-	//Use a EMA filter to smooth data
+	//Use a DEMA filter to smooth data
 	tbh->currentVelocity = filter_DEMA(&(tbh->filter), tbh->currentVelocity, tbh->alpha, tbh->beta);
 
 	return tbh->currentVelocity;

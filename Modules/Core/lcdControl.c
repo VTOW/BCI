@@ -15,8 +15,10 @@ static int lcdSystemLoopWait = 100;
 //Menu for current selection
 menu *currentMenu = NULL;
 
-//Array for allocation
+//Array for menu allocation
 static menu menus[MENU_NUM];
+
+//Index of next menu allocation slot
 static int nextMenu = 0;
 
 //Backlight blink rate (in Hz)
@@ -165,6 +167,7 @@ void formLevel(menu *parent, menu *child, menu *child2, menu *child3, menu *chil
 /*
 * Childs n menus to a parent
 * Note: This is dependent upon allocation order
+*		As a result, this can also be used with an array
 */
 void formLevel(menu *parent, menu *startingMenu, const int count)
 {
@@ -173,6 +176,7 @@ void formLevel(menu *parent, menu *startingMenu, const int count)
 	{
 		(startingMenu + i)->up = parent;
 	}
+
 	parent->down = startingMenu;
 }
 
@@ -283,6 +287,43 @@ void linkMenus(menu *m1, menu *m2, menu *m3, menu *m4, menu *m5, menu *m6, menu 
 	m6->prev = m5;
 	m7->next = m1;
 	m7->prev = m6;
+}
+
+/*
+* Pairs n menus
+* Note: This is dependent upon allocation order
+*		As a result, this can also be used with an array
+*/
+void linkMenus(menu *m1, const int count = 1)
+{
+	//Pointer to current menu
+	//Start at input menu
+	menu *currentMenu = m1;
+
+	//Step through memory and link menus
+	for (int i = 0; i < count; i++)
+	{
+		//First menu is special
+		if (i == 0)
+		{
+			currentMenu->next = currentMenu + 1;
+			currentMenu->prev = currentMenu + count - 1;
+		}
+		//Last menu is special
+		else if (i == count - 1)
+		{
+			currentMenu->next = currentMenu - count + 1;
+			currentMenu->prev = currentMenu - 1;
+		}
+		else
+		{
+			currentMenu->next = currentMenu + 1;
+			currentMenu->prev = currentMenu - 1;
+		}
+
+		//Grab next menu in memory
+		currentMenu = currentMenu + 1;
+	}
 }
 
 /*

@@ -2,7 +2,9 @@
 #define BANGBANG_H_INCLUDED
 
 #include "filter.c"
+#include "util.c"
 
+//Bang bang controller type
 typedef struct bangBang_t
 {
 	//Power levels
@@ -23,19 +25,28 @@ typedef struct bangBang_t
 	//Input
 	tSensors sensor;
 	tMotor imeMotor;
+	float *var;
 	bool usingIME;
+	bool usingVar;
+	float ticksPerRev;
 	float targetVelocity;
 
 	//Filtering
 	DEMAFilter filter;
+	float alpha;
+	float beta;
 
 	//Output
 	int outVal;
 } bangBang;
 
 //Initializes a bangbang controller
-void bangBang_InitController(bangBang *bb, const tSensors sensor, const int highPower, const int lowPower, const int targetVelocity = 0.0);
-void bangBang_InitController(bangBang *bb, const tMotor imeMotor, const int highPower, const int lowPower, const int targetVelocity = 0.0);
+void bangBang_InitController(bangBang *bb, const tSensors sensor, const int highPower, const int lowPower, const int targetVelocity = 0, const float ticksPerRev = UTIL_QUAD_TPR);
+void bangBang_InitController(bangBang *bb, const tMotor imeMotor, const int highPower, const int lowPower, const int targetVelocity = 0, const float ticksPerRev = UTIL_IME_HT_TPR);
+void bangBang_InitController(bangBang *bb, const float *var, const int highPower, const int lowPower, const int targetVelocity = 0, const float ticksPerRev = UTIL_QUAD_TPR);
+
+//Sets new filter constants
+void bangBang_SetFilterConstants(bangBang *bb, const float alpha, const float beta);
 
 //Sets the target velocity
 void bangBang_SetTargetVelocity(bangBang *bb, const int targetVelocity);
