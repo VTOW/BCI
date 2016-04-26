@@ -45,6 +45,9 @@ void bangBang_InitController(bangBang *bb, const tSensors sensor, const int high
 void bangBang_InitController(bangBang *bb, const tMotor imeMotor, const int highPower, const int lowPower, const int targetVelocity = 0, const float ticksPerRev = UTIL_IME_HT_TPR);
 void bangBang_InitController(bangBang *bb, const float *var, const int highPower, const int lowPower, const int targetVelocity = 0, const float ticksPerRev = UTIL_QUAD_TPR);
 
+//Sets new filter constants
+void bangBang_SetFilterConstants(bangBang *bb, const float alpha, const float beta);
+
 //Sets the target velocity
 void bangBang_SetTargetVelocity(bangBang *bb, const int targetVelocity);
 

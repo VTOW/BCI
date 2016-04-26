@@ -86,6 +86,15 @@ void vel_PID_InitController(vel_PID *pid, const float *var, const float kP, cons
 	pid->outVal = 0.0;
 }
 
+/*
+* Sets new filter constants
+*/
+void vel_PID_SetFilterConstants(vel_PID *pid, const float alpha, const float beta)
+{
+	pid->alpha = alpha;
+	pid->beta = beta;
+}
+
 void vel_PID_SetTargetVelocity(vel_PID *pid, const int targetVelocity)
 {
 	pid->targetVelocity = targetVelocity;

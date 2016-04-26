@@ -92,6 +92,14 @@ void bangBang_InitController(bangBang *bb, const float *var, const int highPower
 
 	bb->outVal = 0;
 }
+/*
+* Sets new filter constants
+*/
+void bangBang_SetFilterConstants(bangBang *bb, const float alpha, const float beta)
+{
+	bb->alpha = alpha;
+	bb->beta = beta;
+}
 
 /*
 * Sets the target velocity

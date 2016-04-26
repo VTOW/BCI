@@ -47,6 +47,9 @@ void vel_PID_InitController(vel_PID *pid, const tSensors sensor, const float kP,
 void vel_PID_InitController(vel_PID *pid, const tMotor imeMotor, const float kP, const float kD, const float ticksPerRev = UTIL_IME_HT_TPR);
 void vel_PID_InitController(vel_PID *pid, const float *var, const float kP, const float kD, const float ticksPerRev = UTIL_QUAD_TPR);
 
+//Sets new filter constants
+void vel_PID_SetFilterConstants(vel_PID *pid, const float alpha, const float beta);
+
 //Sets the controller's target velocity
 void vel_PID_SetTargetVelocity(vel_PID *pid, const int targetVelocity);
 
