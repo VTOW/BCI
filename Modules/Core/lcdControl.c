@@ -294,7 +294,7 @@ void linkMenus(menu *m1, menu *m2, menu *m3, menu *m4, menu *m5, menu *m6, menu 
 * Note: This is dependent upon allocation order
 *		As a result, this can also be used with an array
 */
-void linkMenus(menu *m1, const int count = 1)
+void linkMenus(menu *m1, const int count)
 {
 	//Pointer to current menu
 	//Start at input menu
