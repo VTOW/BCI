@@ -55,17 +55,30 @@ int csc_GetError(controllerSC *csc)
 	#elif CSC_USING_VELTBH //CSC_USING_VELPID
 		return vel_TBH_GetError(csc->pid);
 	#endif
-
-		#ifdef CSC_USING_POSPID
-	#elif CSC_USING_VELPID //CSC_USING_POSPID
-	#elif CSC_USING_VELTBH //CSC_USING_VELPID
-	#endif
 }
 
 //Gets the current output
-int csc_GetOutput(controllerSC *csc);
+int csc_GetOutput(controllerSC *csc)
+{
+	#ifdef CSC_USING_POSPID
+		return pos_PID_GetOutput(csc->pid);
+	#elif CSC_USING_VELPID //CSC_USING_POSPID
+		return vel_PID_GetOutput(csc->pid);
+	#elif CSC_USING_VELTBH //CSC_USING_VELPID
+		return vel_TBH_GetOutput(csc->pid);
+	#endif
+}
 
 //Steps the controller
-void csc_StepController(controllerSC *csc);
+int csc_StepController(controllerSC *csc)
+{
+	#ifdef CSC_USING_POSPID
+		return pos_PID_StepController(csc->pid);
+	#elif CSC_USING_VELPID //CSC_USING_POSPID
+		return vel_PID_StepController(csc->pid);
+	#elif CSC_USING_VELTBH //CSC_USING_VELPID
+		return vel_TBH_StepController(csc->pid);
+	#endif
+}
 
 #endif //CONTROLLERSUPERCLASS_C_INCLUDED

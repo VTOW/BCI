@@ -41,6 +41,6 @@ int csc_GetError(controllerSC *csc);
 int csc_GetOutput(controllerSC *csc);
 
 //Steps the controller
-void csc_StepController(controllerSC *csc);
+int csc_StepController(controllerSC *csc);
 
 #endif //CONTROLLERSUPERCLASS_H_INCLUED
