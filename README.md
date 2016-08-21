@@ -1,4 +1,5 @@
 # BCI
+Notice: This library is no longer under active development! Support has moved to Octogonapus/BCI-PROSe
 -----
 Team 2442A's Core Library
 ------------------------
