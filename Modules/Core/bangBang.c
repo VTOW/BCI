@@ -92,6 +92,7 @@ void bangBang_InitController(bangBang *bb, const float *var, const int highPower
 
 	bb->outVal = 0;
 }
+
 /*
 * Sets new filter constants
 */
@@ -112,7 +113,7 @@ void bangBang_SetTargetVelocity(bangBang *bb, const int targetVelocity)
 /*
 * Gets the current error
 */
-int bangBang_GetError(bangBang *bb)
+int bangBang_GetError(const bangBang *bb)
 {
 	return bb->error;
 }
@@ -120,7 +121,7 @@ int bangBang_GetError(bangBang *bb)
 /*
 * Gets the current (filtered) velocity
 */
-int bangBang_GetVelocity(bangBang *bb)
+int bangBang_GetVelocity(const bangBang *bb)
 {
 	return (int)bb->currentVelocity;
 }
@@ -128,7 +129,7 @@ int bangBang_GetVelocity(bangBang *bb)
 /*
 * Gets the current target velocity
 */
-int bangBang_GetTargetVelocity(bangBang *bb)
+int bangBang_GetTargetVelocity(const bangBang *bb)
 {
 	return bb->targetVelocity;
 }
@@ -136,7 +137,7 @@ int bangBang_GetTargetVelocity(bangBang *bb)
 /*
 * Gets the current output
 */
-int bangBang_GetOutput(bangBang *bb)
+int bangBang_GetOutput(const bangBang *bb)
 {
 	return bb->outVal;
 }
