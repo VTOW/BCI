@@ -1,9 +1,6 @@
 #ifndef VELOCITYTBH_H_INCLUDED
 #define VELOCITYTBH_H_INCLUDED
 
-#include "filter.c"
-#include "util.c"
-
 //A velocity TBH controller
 typedef struct vel_TBH_t
 {

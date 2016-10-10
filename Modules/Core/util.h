@@ -2,7 +2,7 @@
 #define UTIL_H_INCLUDED
 
 //Enum for cortex states
-typedef enum
+enum TVexRecieverState
 {
 	vrNoXmiters =         0,    //No transmitters connected
 	vrXmit1 =             0x01, //1 == Transmitter 1 connected
@@ -13,14 +13,14 @@ typedef enum
 	vrGameController =    0x20, //0 == Legacy75MHz, 1 == Game Controller
 	vrAutonomousMode =    0x40, //0 == Driver Control, 1 == Autonomous Mode
 	vrDisabled =          0x80  //0 == Enabled, 1 == Disabled
-} TVexRecieverState;
+};
 
 //Enum for LED states
-typedef enum
+enum LEDState
 {
 	LED_ON = 0,
 	LED_OFF = 1
-} LEDState;
+};
 
 //Converts an analog in value to millivolts
 #define ANALOG_IN_TO_V 286.0

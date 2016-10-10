@@ -1,9 +1,6 @@
 #ifndef BANGBANG_H_INCLUDED
 #define BANGBANG_H_INCLUDED
 
-#include "filter.c"
-#include "util.c"
-
 //Bang bang controller type
 typedef struct bangBang_t
 {

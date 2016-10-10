@@ -1,9 +1,6 @@
 #ifndef VELOCITYPID_H_INCLUDED
 #define VELOCITYPID_H_INCLUDED
 
-#include "filter.c"
-#include "util.c"
-
 //A velocity PID controller
 typedef struct vel_PID_t
 {
