@@ -1,7 +1,7 @@
 #ifndef BULLDOG_CORE_INCLUDES_H_INCLUDED
 #define BULLDOG_CORE_INCLUDES_H_INCLUDED
 
-#error "Bulldog_Core_Includes deprecated, use BCI instead"
+#warning "Bulldog_Core_Includes deprecated, use BCI instead"
 
 #include "Modules\Core\math.h"
 #include "Modules\Core\joystickDefinitions.h"
