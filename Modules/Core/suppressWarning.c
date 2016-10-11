@@ -81,6 +81,10 @@ void ZQ_KILL_WARNING(void *trash)
 
 	ZQ_KILL_WARNING((void*)LED_ON);
 	ZQ_KILL_WARNING((void*)vrNoXmiters);
+
+	#ifdef BCI_USE_PID_OPT
+	 PID_Opt_DriveStraight((tMotor*)0,(tMotor*)0,0,(long*)0,(long*)0,0);
+	#endif
 }
 
 #endif //SUPPRESSWARNING_C_INCLUDED

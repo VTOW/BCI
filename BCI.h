@@ -14,6 +14,10 @@
 #include "Modules\Core\motorControl.c"
 #include "Modules\Core\lcdControl.c"
 
+#ifdef BCI_USE_PID_OPT
+ #include "Modules\PID_Optional\driveStraight.c"
+#endif
+
 #include "Modules\Core\suppressWarning.c"
 
 #endif //BCI_H_INCLUDED
