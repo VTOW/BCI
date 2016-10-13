@@ -1,5 +1,5 @@
-#ifndef VELOCITYPID_C_INCLUDED
-#define VELOCITYPID_C_INCLUDED
+#ifndef BCI_VELOCITYPID_C_INCLUDED
+#define BCI_VELOCITYPID_C_INCLUDED
 
 #include "velocityPID.h"
 
@@ -220,4 +220,4 @@ int vel_PID_StepController(vel_PID *pid, const int currentVelocity)
 	return pid->outVal;
 }
 
-#endif //VELOCITYPID_C_INCLUDED
+#endif //BCI_VELOCITYPID_C_INCLUDED

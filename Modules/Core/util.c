@@ -1,5 +1,5 @@
-#ifndef UTIL_C_INCLUDED
-#define UTIL_C_INCLUDED
+#ifndef BCI_UTIL_C_INCLUDED
+#define BCI_UTIL_C_INCLUDED
 
 #include "util.h"
 
@@ -82,4 +82,4 @@ task printBatteryVoltage()
 	}
 }
 
-#endif //UTIL_C_INCLUDED
+#endif //BCI_UTIL_C_INCLUDED

@@ -1,5 +1,5 @@
-#ifndef VELOCITYTBH_H_INCLUDED
-#define VELOCITYTBH_H_INCLUDED
+#ifndef BCI_VELOCITYTBH_H_INCLUDED
+#define BCI_VELOCITYTBH_H_INCLUDED
 
 //A velocity TBH controller
 typedef struct vel_TBH_t
@@ -81,4 +81,4 @@ int vel_TBH_StepVelocity(vel_TBH *tbh);
 //Steps the controller calculations
 int vel_TBH_StepController(vel_TBH *tbh);
 
-#endif //VELOCITYTBH_H_INCLUDED
+#endif //BCI_VELOCITYTBH_H_INCLUDED

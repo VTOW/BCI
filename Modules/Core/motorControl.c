@@ -1,5 +1,5 @@
-#ifndef MOTORCONTROL_C_INCLUDED
-#define MOTORCONTROL_C_INCLUDED
+#ifndef BCI_MOTORCONTROL_C_INCLUDED
+#define BCI_MOTORCONTROL_C_INCLUDED
 
 #include "motorControl.h"
 
@@ -91,4 +91,4 @@ task motorSlewRateTask()
 	}
 }
 
-#endif //MOTORCONTROL_C_INCLUDED
+#endif //BCI_MOTORCONTROL_C_INCLUDED

@@ -1,5 +1,5 @@
-#ifndef FILTER_H_INCLUDED
-#define FILTER_H_INCLUDED
+#ifndef BCI_FILTER_H_INCLUDED
+#define BCI_FILTER_H_INCLUDED
 
 //Exponential moving average filter
 typedef struct EMAFilter_t
@@ -52,4 +52,4 @@ float filter_FUA(FUAFilter *filter, const float componentIn);
 void filter_Init_TUA(TUAFilter *filter);
 float filter_TUA(TUAFilter *filter, const float componentIn);
 
-#endif //FILTER_H_INCLUDED
+#endif //BCI_FILTER_H_INCLUDED

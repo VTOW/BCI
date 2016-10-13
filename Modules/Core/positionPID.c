@@ -1,5 +1,5 @@
-#ifndef POSITIONPID_C_INCLUDED
-#define POSITIONPID_C_INCLUDED
+#ifndef BCI_POSITIONPID_C_INCLUDED
+#define BCI_POSITIONPID_C_INCLUDED
 
 #include "positionPID.h"
 
@@ -193,4 +193,4 @@ int pos_PID_StepController(pos_PID *pid, const float val)
 	return pid->outVal;
 }
 
-#endif //POSITIONPID_C_INCLUDED
+#endif //BCI_POSITIONPID_C_INCLUDED

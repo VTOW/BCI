@@ -1,5 +1,5 @@
-#ifndef TIMER_H_INCLUDED
-#define TIMER_H_INCLUDED
+#ifndef BCI_TIMER_H_INCLUDED
+#define BCI_TIMER_H_INCLUDED
 
 //Timer struct
 typedef struct timer_t
@@ -41,4 +41,4 @@ long timer_GetDTFromHardMarker(timer *timer);
 //Returns true when a time period has passed, then resets
 bool timer_Repeat(timer *timer, long timeMs);
 
-#endif //TIMER_H_INCLUDED
+#endif //BCI_TIMER_H_INCLUDED

@@ -1,5 +1,5 @@
-#ifndef BANGBANG_C_INCLUDED
-#define BANGBANG_C_INCLUDED
+#ifndef BCI_BANGBANG_C_INCLUDED
+#define BCI_BANGBANG_C_INCLUDED
 
 #include "bangBang.h"
 
@@ -231,4 +231,4 @@ int bangBang_StepController(bangBang *bb)
 	return bb->outVal;
 }
 
-#endif //BANGBANG_C_INCLUDED
+#endif //BCI_BANGBANG_C_INCLUDED

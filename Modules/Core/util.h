@@ -1,5 +1,5 @@
-#ifndef UTIL_H_INCLUDED
-#define UTIL_H_INCLUDED
+#ifndef BCI_UTIL_H_INCLUDED
+#define BCI_UTIL_H_INCLUDED
 
 //Enum for cortex states
 enum TVexRecieverState
@@ -55,4 +55,4 @@ void printnVexRCRecieveState();
 //Prints the current main battery voltage every 10 seconds
 task printBatteryVoltage();
 
-#endif //UTIL_H_INCLUDED
+#endif //BCI_UTIL_H_INCLUDED

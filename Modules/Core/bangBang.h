@@ -1,5 +1,5 @@
-#ifndef BANGBANG_H_INCLUDED
-#define BANGBANG_H_INCLUDED
+#ifndef BCI_BANGBANG_H_INCLUDED
+#define BCI_BANGBANG_H_INCLUDED
 
 //Bang bang controller type
 typedef struct bangBang_t
@@ -132,4 +132,4 @@ int bangBang_StepVelocity(bangBang *bb);
  */
 int bangBang_StepController(bangBang *bb);
 
-#endif //BANGBANG_H_INCLUDED
+#endif //BCI_BANGBANG_H_INCLUDED

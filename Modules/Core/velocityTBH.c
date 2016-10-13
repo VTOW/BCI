@@ -1,5 +1,5 @@
-#ifndef VELOCITYTBH_C_INCLUDED
-#define VELOCITYTBH_C_INCLUDED
+#ifndef BCI_VELOCITYTBH_C_INCLUDED
+#define BCI_VELOCITYTBH_C_INCLUDED
 
 #include "velocityTBH.h"
 
@@ -263,4 +263,4 @@ int vel_TBH_StepController(vel_TBH *tbh)
 	return tbh->outVal;
 }
 
-#endif //VELOCITYTBH_C_INCLUDED
+#endif //BCI_VELOCITYTBH_C_INCLUDED

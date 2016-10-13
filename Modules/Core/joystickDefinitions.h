@@ -1,5 +1,5 @@
-#ifndef JOYSTICKDEFINITIONS_H_INCLUDED
-#define JOYSTICKDEFINITIONS_H_INCLUDED
+#ifndef BCI_JOYSTICKDEFINITIONS_H_INCLUDED
+#define BCI_JOYSTICKDEFINITIONS_H_INCLUDED
 
 /***************************************************************************/
 /*                                                                         */
@@ -40,4 +40,4 @@
 #define JOY2_TRIG_RD  Btn6DXmtr2
 #define JOY_THRESHOLD 15
 
-#endif //JOYSTICKDEFINITIONS_H_INCLUDED
+#endif //BCI_JOYSTICKDEFINITIONS_H_INCLUDED

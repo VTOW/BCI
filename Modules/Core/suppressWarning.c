@@ -1,5 +1,5 @@
-#ifndef SUPPRESSWARNING_C_INCLUDED
-#define SUPPRESSWARNING_C_INCLUDED
+#ifndef BCI_SUPPRESSWARNING_C_INCLUDED
+#define BCI_SUPPRESSWARNING_C_INCLUDED
 
 //This function references every function and task in BCI to get rid of warnings
 //It also references itself
@@ -87,4 +87,4 @@ void ZQ_KILL_WARNING(void *trash)
 	#endif
 }
 
-#endif //SUPPRESSWARNING_C_INCLUDED
+#endif //BCI_SUPPRESSWARNING_C_INCLUDED

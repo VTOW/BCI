@@ -1,5 +1,5 @@
-#ifndef TIMER_C_INCLUDED
-#define TIMER_C_INCLUDED
+#ifndef BCI_TIMER_C_INCLUDED
+#define BCI_TIMER_C_INCLUDED
 
 #include "timer.h"
 
@@ -73,4 +73,4 @@ bool timer_Repeat(timer *timer, long timeMs)
 	return false;
 }
 
-#endif //TIMER_C_INCLUDED
+#endif //BCI_TIMER_C_INCLUDED

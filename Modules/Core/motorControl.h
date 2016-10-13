@@ -1,5 +1,5 @@
-#ifndef MOTORCONTROL_H_INCLUDED
-#define MOTORCONTROL_H_INCLUDED
+#ifndef BCI_MOTORCONTROL_H_INCLUDED
+#define BCI_MOTORCONTROL_H_INCLUDED
 
 //Note: This library does not work with with Natural Language enabled
 
@@ -43,4 +43,4 @@ driveMotor* addMotor(const tMotor name, float slewRate = MOTOR_DEFAULT_SLEW_RATE
 //Updates the power of each motor to best meet the requested power
 task motorSlewRateTask();
 
-#endif //MOTORCONTROL_H_INCLUDED
+#endif //BCI_MOTORCONTROL_H_INCLUDED

@@ -1,5 +1,5 @@
-#ifndef MATH_H_INCLUDED
-#define MATH_H_INCLUDED
+#ifndef BCI_MATH_H_INCLUDED
+#define BCI_MATH_H_INCLUDED
 
 /***************************************************************************/
 /*                                                                         */
@@ -14,4 +14,4 @@
 #define inchesToTicks(inches, diam) ( ((inches) / (PI * (diam))) * 360 )
 #define ticksToInches(ticks, diam) ( ((diam) * PI) * ((ticks) / 360) )
 
-#endif //MATH_H_INCLUDED
+#endif //BCI_MATH_H_INCLUDED

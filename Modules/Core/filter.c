@@ -1,5 +1,5 @@
-#ifndef FILTER_C_INCLUDED
-#define FILTER_C_INCLUDED
+#ifndef BCI_FILTER_C_INCLUDED
+#define BCI_FILTER_C_INCLUDED
 
 #include "filter.h"
 
@@ -94,4 +94,4 @@ float filter_TUA(TUAFilter *filter, const float componentIn)
 	return avg / 10.0;
 }
 
-#endif //FILTER_C_INCLUDED
+#endif //BCI_FILTER_C_INCLUDED

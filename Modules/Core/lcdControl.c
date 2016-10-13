@@ -1,5 +1,5 @@
-#ifndef LCDCONTROL_C_INCLUDED
-#define LCDCONTROL_C_INCLUDED
+#ifndef BCI_LCDCONTROL_C_INCLUDED
+#define BCI_LCDCONTROL_C_INCLUDED
 
 //Do nothing with no menus
 #ifdef MENU_NUM
@@ -477,4 +477,4 @@ task updateLCDTask()
 #endif //MENU_NUM > 0
 #endif //MENU_NUM
 
-#endif //LCDCONTROL_C_INCLUDED
+#endif //BCI_LCDCONTROL_C_INCLUDED

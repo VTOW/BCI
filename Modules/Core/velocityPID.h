@@ -1,5 +1,5 @@
-#ifndef VELOCITYPID_H_INCLUDED
-#define VELOCITYPID_H_INCLUDED
+#ifndef BCI_VELOCITYPID_H_INCLUDED
+#define BCI_VELOCITYPID_H_INCLUDED
 
 //A velocity PID controller
 typedef struct vel_PID_t
@@ -65,4 +65,4 @@ int vel_PID_StepController(vel_PID *pid);
 //Steps the controller's calculations with a given current velocity
 int vel_PID_StepController(vel_PID *pid, const int currentVelocity);
 
-#endif //VELOCITYPID_H_INCLUDED
+#endif //BCI_VELOCITYPID_H_INCLUDED
