@@ -47,8 +47,8 @@ enum LEDState
 #define waitForLCDRelease() while(nLCDButtons != 0) { wait1Msec(1); }
 
 #ifdef BCI_SEM_DEBUG
-#define BCI_lockSem(sem, str) writeDebuguStreamLine("BCI_lockSem: %d",str);semaphoreLock(sem);if(bDoesTaskOwnSemaphore(sem))
-#define BCI_unlockSem(sem, str) writeDebuguStreamLine("BCI_unlockSem: %d",str);if(bDoesTaskOwnSemaphore(sem)){semaphoreUnlock(sem);}
+#define BCI_lockSem(sem, str) writeDebugStreamLine("BCI_lockSem: %d",str);semaphoreLock(sem);if(bDoesTaskOwnSemaphore(sem))
+#define BCI_unlockSem(sem, str) writeDebugStreamLine("BCI_unlockSem: %d",str);if(bDoesTaskOwnSemaphore(sem)){semaphoreUnlock(sem);}
 #else
 #define BCI_lockSem(sem) semaphoreLock(sem);if(bDoesTaskOwnSemaphore(sem))
 #define BCI_unlockSem(sem) if(bDoesTaskOwnSemaphore(sem)){semaphoreUnlock(sem);}
