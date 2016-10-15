@@ -46,6 +46,14 @@ enum LEDState
 //Wait for all LCD buttons to be released
 #define waitForLCDRelease() while(nLCDButtons != 0) { wait1Msec(1); }
 
+#ifdef BCI_SEM_DEBUG
+#define BCI_lockSem(sem, str) writeDebuguStreamLine("BCI_lockSem: %d",str);semaphoreLock(sem);if(bDoesTaskOwnSemaphore(sem))
+#define BCI_unlockSem(sem, str) writeDebuguStreamLine("BCI_unlockSem: %d",str);if(bDoesTaskOwnSemaphore(sem)){semaphoreUnlock(sem);}
+#else
+#define BCI_lockSem(sem) semaphoreLock(sem);if(bDoesTaskOwnSemaphore(sem))
+#define BCI_unlockSem(sem) if(bDoesTaskOwnSemaphore(sem)){semaphoreUnlock(sem);}
+#endif //BCI_SEM_DEBUG
+
 //Dumps all current motor and sensor values to the debug stream
 void dumpLevels();
 
