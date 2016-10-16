@@ -49,6 +49,10 @@ enum LEDState
 #ifdef BCI_SEM_DEBUG
 #define BCI_lockSem(sem, str) writeDebugStreamLine("BCI_lockSem: %d",str);semaphoreLock(sem);if(bDoesTaskOwnSemaphore(sem))
 #define BCI_unlockSem(sem, str) writeDebugStreamLine("BCI_unlockSem: %d",str);if(bDoesTaskOwnSemaphore(sem)){semaphoreUnlock(sem);}
+#elif BCI_SEM_DEBUG_FULL
+int bci_sem_debug_full_counter = 0;
+#define BCI_lockSem(sem, str) bci_sem_debug_full_counter++;if(bci_sem_debug_full_counter != 1){writeDebugStreamLine("BCI_lockSem: overlock at %d", str);}else{writeDebugStreamLine("BCI_lockSem: %d",str);}semaphoreLock(sem);if(bDoesTaskOwnSemaphore(sem))
+#define BCI_unlockSem(sem, str) bci_sem_debug_full_counter--;if(bci_sem_debug_full_counter != 0){writeDebugStreamLine("BCI_unlockSem: underlock at %d", str);}else{writeDebugStreamLine("BCI_unlockSem: %d",str);}if(bDoesTaskOwnSemaphore(sem)){semaphoreUnlock(sem);}
 #else
 #define BCI_lockSem(sem) semaphoreLock(sem);if(bDoesTaskOwnSemaphore(sem))
 #define BCI_unlockSem(sem) if(bDoesTaskOwnSemaphore(sem)){semaphoreUnlock(sem);}
