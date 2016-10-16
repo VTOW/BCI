@@ -46,16 +46,14 @@ enum LEDState
 //Wait for all LCD buttons to be released
 #define waitForLCDRelease() while(nLCDButtons != 0) { wait1Msec(1); }
 
-#ifdef BCI_SEM_DEBUG
+#if defined(BCI_SEM_DEBUG)
 #define BCI_lockSem(sem, str) writeDebugStreamLine("BCI_lockSem: %d",str);semaphoreLock(sem);if(bDoesTaskOwnSemaphore(sem))
 #define BCI_unlockSem(sem, str) writeDebugStreamLine("BCI_unlockSem: %d",str);if(bDoesTaskOwnSemaphore(sem)){semaphoreUnlock(sem);}
-#elif BCI_SEM_DEBUG_FULL
-int bci_sem_debug_full_counter = 0;
+#elif defined(BCI_SEM_DEBUG_FULL)
+int bci_sem_debug_full_counter;
 #define BCI_lockSem(sem, str) bci_sem_debug_full_counter++;if(bci_sem_debug_full_counter != 1){writeDebugStreamLine("BCI_lockSem: overlock at %d", str);}else{writeDebugStreamLine("BCI_lockSem: %d",str);}semaphoreLock(sem);if(bDoesTaskOwnSemaphore(sem))
 #define BCI_unlockSem(sem, str) bci_sem_debug_full_counter--;if(bci_sem_debug_full_counter != 0){writeDebugStreamLine("BCI_unlockSem: underlock at %d", str);}else{writeDebugStreamLine("BCI_unlockSem: %d",str);}if(bDoesTaskOwnSemaphore(sem)){semaphoreUnlock(sem);}
 #else
-#define BCI_lockSem(sem, str) semaphoreLock(sem);if(bDoesTaskOwnSemaphore(sem))
-#define BCI_unlockSem(sem, str) if(bDoesTaskOwnSemaphore(sem)){semaphoreUnlock(sem);}
 #define BCI_lockSem(sem) semaphoreLock(sem);if(bDoesTaskOwnSemaphore(sem))
 #define BCI_unlockSem(sem) if(bDoesTaskOwnSemaphore(sem)){semaphoreUnlock(sem);}
 #endif //BCI_SEM_DEBUG
