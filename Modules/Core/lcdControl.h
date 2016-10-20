@@ -76,7 +76,7 @@ void formLevel(menu *parent, menu *child, menu *child2, menu *child3, menu *chil
 
 //Childs n menus to a parent
 //Note: This is dependent upon allocation order
-//		As a result, this can also be used with an array
+//		  As a result, this can also be used with an array
 void formLevel(menu *parent, menu *startingMenu, const int count = 1);
 
 //Inserts a menu into a row
