@@ -28,7 +28,7 @@ task main()
   //parentMenu, we will move down to mainMenu. If we hold the center button on
   //mainMenu, we will move up to parentMenu. If we navigate to callbackMenu and
   //try holding up, we won't move up to parentMenu because we havnen't linked it
-  //n formLevel()
+  //in formLevel()
   formLevel(parentMenu, mainMenu);
 }
 
