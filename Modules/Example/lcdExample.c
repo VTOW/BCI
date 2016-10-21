@@ -1,8 +1,10 @@
-#ifndef LCDEXAMPLE_C_INCLUDED
-#define LCDEXAMPLE_C_INCLUDED
+/**
+ * This is a tutorial for how to use the basic features of lcdControl. For extra
+ * reference, see BCI\Modules\Core\lcdControl.h
+ */
 
 #define MENU_NUM 3 //Tell BCI we want to have three menus
-#include "..\..\BCI.h" //Include BCI after we've told it what we want
+#include "BCI.h" //Include BCI after we've told it what we want
 
 menu *mainMenu, *callbackMenu, *parentMenu; //Make our three menus, these must be pointers
 
@@ -40,5 +42,3 @@ void invoke(int func)
       break;
   }
 }
-
-#endif //LCDEXAMPLE_C_INCLUDED
