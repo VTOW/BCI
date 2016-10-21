@@ -20,7 +20,7 @@ task main()
   vel_PID_InitController(&myPID, myQuad, 1, 2, 3);
 
   //Set the target velocity for our pid controller
-  pos_PID_SetTargetVelocity(&myPID, 10);
+  vel_PID_SetTargetVelocity(&myPID, 10);
 
   //Run our motor with the output of the pid controller
   motor[myMotor] = vel_PID_StepController(&myPID);
