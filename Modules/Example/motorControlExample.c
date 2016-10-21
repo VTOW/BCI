@@ -12,12 +12,22 @@
 
 task main()
 {
-  addMotor(leftMotor); //Tell the slew rate controller about leftMotor, using the default slew rate
-  addMotor(rightMotor, 1); //Tell the slew rate controller about rightMotor, using a custom slew rate
+  //Tell the slew rate controller about leftMotor, using the default slew rate
+  addMotor(leftMotor);
 
-  startTask(motorSlewRateTask); //Start the slew rate controller
+  //Tell the slew rate controller about rightMotor, using a custom slew rate
+  addMotor(rightMotor, 1);
 
-  setMotorSpeed(leftMotor, 100); //Tell the slew rate controller to slew leftMotor up to power 100
-  setMotorSpeed_Bypass(leftMotor, 0); //Force the slew rate controller to jump leftMotor down to power 10, skipping the slewing process
-  getMotorSpeed(leftMotor); //Read the current (requested) power of leftMotor
+  //Start the slew rate controller
+  startTask(motorSlewRateTask);
+
+  //Tell the slew rate controller to slew leftMotor up to power 100
+  setMotorSpeed(leftMotor, 100);
+
+  //Force the slew rate controller to jump leftMotor down to power 10, skipping
+  //the slewing process
+  setMotorSpeed_Bypass(leftMotor, 0);
+
+  //Read the current (requested) power of leftMotor
+  getMotorSpeed(leftMotor);
 }
