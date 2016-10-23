@@ -37,15 +37,34 @@ enum LEDState
 //Quad encoder ticks per rev
 #define UTIL_QUAD_TPR 360.0
 
-//Wait for a value to become zero
+/**
+ * Waits for a value to become zero
+ * @param  val Value to check
+ */
 #define waitForZero(val) while(val != 0) { wait1Msec(1); }
 
-//Wait for any LCD button to be pressed
+/**
+ * Waits for any LCD buttons to be pressed
+ */
 #define waitForLCDPress() while(nLCDButtons == 0) { wait1Msec(1); }
 
-//Wait for all LCD buttons to be released
+/**
+ * Waits for all LCD buttons to be released
+ */
 #define waitForLCDRelease() while(nLCDButtons != 0) { wait1Msec(1); }
 
+/**
+ * Locks or unlocks a semaphore
+ * Define flag BCI_SEM_DEBUG to use param str to print when a semphore is locked
+ *  or unlocked
+ * Define flag BCI_SEM_DEBUG_FULL to use param str to print when a semaphore is
+ * 	locked or unlocked. This flag also enables over- and under-lock checking
+ * Define flg BCI_SEM_DEBUG_FULL_OFF to use param str as an ignored parameter.
+ *  This flag has identical behaviour with no flag, but exists so you don't have
+ *  to refactor your code if you used other flags
+ * @param sem Semaphore to use
+ * @param str String to print for debug
+ */
 #if defined(BCI_SEM_DEBUG)
 #define BCI_lockSem(sem, str) writeDebugStreamLine("BCI_lockSem: %d",str);semaphoreLock(sem);if(bDoesTaskOwnSemaphore(sem))
 #define BCI_unlockSem(sem, str) writeDebugStreamLine("BCI_unlockSem: %d",str);if(bDoesTaskOwnSemaphore(sem)){semaphoreUnlock(sem);}
@@ -61,13 +80,20 @@ int bci_sem_debug_full_counter;
 #define BCI_unlockSem(sem) if(bDoesTaskOwnSemaphore(sem)){semaphoreUnlock(sem);}
 #endif //BCI_SEM_DEBUG
 
-//Dumps all current motor and sensor values to the debug stream
+/**
+ * Dumps all current motor and sensor values to the debug stream
+ */
 void dumpLevels();
 
-//Prints which transmitters are connected, if the competition switch is connected, and which mode the competition is in
+/**
+ * Prints which transmitters are connected, if the competition switch is
+ * connected, and which mode the competition is in
+ */
 void printnVexRCRecieveState();
 
-//Prints the current main battery voltage every 10 seconds
+/**
+ * Prints the current main battery voltage every 10 seconds
+ */
 task printBatteryVoltage();
 
 #endif //BCI_UTIL_H_INCLUDED
