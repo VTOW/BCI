@@ -22,6 +22,7 @@ typedef struct pos_PID_t
 
 	//Timestep
 	float dt;
+	int currentTime;
 	int prevTime;
 
 	//Input

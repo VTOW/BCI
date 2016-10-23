@@ -38,10 +38,13 @@ typedef struct menu_t
 } menu;
 
 /**
- * Runs a callback function. This must be implemented bu the user
+ * Runs a callback function. This must be implemented by the user
+ * Define flag LCD_NO_CALLBACKS if you don't want to use any callbacks
  * @param func ID of callback
  */
-void invoke(int func);
+#ifndef LCD_NO_CALLBACKS
+	void invoke(int func);
+#endif //LCD_NO_CALLBACKS
 
 /**
  * Initializes a menu

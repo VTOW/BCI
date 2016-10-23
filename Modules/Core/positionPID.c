@@ -19,12 +19,14 @@ void pos_PID_InitController(pos_PID *pid, const tSensors sensor, const float kP,
 	pid->integralLimit = integralLimit;
 
 	pid->dt = 0;
+	pid->currentTime = 0;
 	pid->prevTime = 0;
 
 	pid->sensor = sensor;
 	pid->usingIME = false;
 	pid->usingVar = false;
 	pid->targetPos = SensorValue[sensor];
+	pid->currentPos = 0;
 
 	pid->outVal = 0;
 }
@@ -146,7 +148,7 @@ int pos_PID_StepController(pos_PID *pid)
 			return 0;
 		}
 
-		pid->currentPos = SensorV[pid->sensor];
+		pid->currentPos = SensorValue[pid->sensor];
 		pid->error = pid->targetPos - pid->currentPos;
 	}
 

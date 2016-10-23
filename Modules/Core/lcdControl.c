@@ -389,11 +389,13 @@ task updateLCDTask()
 		{
 			if (nLCDButtons & kButtonCenter)
 			{
-				if (currentMenu->dispatchFuncVal != -1)
-				{
-					//A function exists, execute it
-					invoke(currentMenu->dispatchFuncVal);
-				}
+				#ifndef LCD_NO_CALLBACKS
+					if (currentMenu->dispatchFuncVal != -1)
+					{
+						//A function exists, execute it
+						invoke(currentMenu->dispatchFuncVal);
+					}
+				#endif //LCD_NO_CALLBACKS
 			}
 		}
 		else
@@ -447,14 +449,16 @@ task updateLCDTask()
 						currentMenu = currentMenu->down;
 						waitForLCDRelease();
 					}
-					//No lower menu exists, check if there is a function
-					else if (currentMenu->dispatchFuncVal != -1)
-					{
-						//A function exists, execute it
-						invoke(currentMenu->dispatchFuncVal);
+					#ifndef LCD_NO_CALLBACKS
+						//No lower menu exists, check if there is a function
+						else if (currentMenu->dispatchFuncVal != -1)
+						{
+							//A function exists, execute it
+							invoke(currentMenu->dispatchFuncVal);
 
-						waitForLCDRelease();
-					}
+							waitForLCDRelease();
+						}
+					#endif //LCD_NO_CALLBACKS
 				}
 			}
 		}

@@ -4,7 +4,7 @@
  */
 
 #define MENU_NUM 3 //Tell BCI we want to have three menus
-#include "BCI.h" //Include BCI after we've told it what we want
+#include "..\..\BCI.h" //Include BCI after we've told it what we want
 
 //Make our three menus, these must be pointers
 menu *mainMenu, *callbackMenu, *parentMenu;
