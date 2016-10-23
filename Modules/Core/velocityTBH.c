@@ -166,7 +166,7 @@ int vel_TBH_StepVelocity(vel_TBH *tbh)
 	{
 		//Calculate timestep
 		getEncoderAndTimeStamp(tbh->imeMotor, tbh->currentPosition, tbh->currentTime);
-		tbh->dt = tbh->currentTime - tbh->prevTime;
+		tbh->dt = (tbh->currentTime - tbh->prevTime) / 1000.0;
 		tbh->prevTime = tbh->currentTime;
 
 		//Scrap dt if zero
@@ -176,13 +176,13 @@ int vel_TBH_StepVelocity(vel_TBH *tbh)
 		}
 
 		//Calculate current velcoity
-		tbh->currentVelocity = (1000.0 / tbh->dt) * (tbh->currentPosition - tbh->prevPosition) * 60.0 / tbh->ticksPerRev;
+		tbh->currentVelocity = tbh->dt * (tbh->currentPosition - tbh->prevPosition) * 60.0 / tbh->ticksPerRev;
 		tbh->prevPosition = tbh->currentPosition;
 	}
 	else if (tbh->usingVar)
 	{
 		//Calculate timestep
-		tbh->dt = nSysTime - tbh->prevTime;
+		tbh->dt = (nSysTime - tbh->prevTime) / 1000.0;
 		tbh->prevTime = nSysTime;
 
 		//Scrap dt if zero
@@ -192,13 +192,13 @@ int vel_TBH_StepVelocity(vel_TBH *tbh)
 		}
 
 		//Calculate current velocity
-		tbh->currentVelocity = (1000.0 / tbh->dt) * (*(tbh->var) - tbh->prevPosition) * 60.0 / tbh->ticksPerRev;
+		tbh->currentVelocity = tbh->dt * (*(tbh->var) - tbh->prevPosition) * 60.0 / tbh->ticksPerRev;
 		tbh->prevPosition = *(tbh->var);
 	}
 	else
 	{
 		//Calculate timestep
-		tbh->dt = nSysTime - tbh->prevTime;
+		tbh->dt = (nSysTime - tbh->prevTime) / 1000.0;
 		tbh->prevTime = nSysTime;
 
 		//Scrap dt if zero
@@ -208,7 +208,7 @@ int vel_TBH_StepVelocity(vel_TBH *tbh)
 		}
 
 		//Calculate current velocity
-		tbh->currentVelocity = (1000.0 / tbh->dt) * (SensorValue[tbh->sensor] - tbh->prevPosition) * 60.0 / tbh->ticksPerRev;
+		tbh->currentVelocity = tbh->dt * (SensorValue[tbh->sensor] - tbh->prevPosition) * 60.0 / tbh->ticksPerRev;
 		tbh->prevPosition = SensorValue[tbh->sensor];
 	}
 
@@ -225,6 +225,48 @@ int vel_TBH_StepController(vel_TBH *tbh)
 
 	//Calculate error
 	tbh->error = tbh->targetVelocity - tbh->currentVelocity;
+
+	//Calculate new outVal
+	//tbh->outVal = tbh->outVal + (tbh->error * tbh->gain);
+
+	tbh->outValChange = tbh->error * tbh->gain;
+	//tbh->outValChange = abs(tbh->outValChange) > TBH_OUTPUT_ERROR_ACCEL * tbh->error ? TBH_OUTPUT_ERROR_ACCEL * tbh->error : tbh->outValChange;
+	tbh->outVal = tbh->outVal + tbh->outValChange;
+
+	//Bound outVal
+	tbh->outVal = tbh->outVal > 127 ? 127 : tbh->outVal;
+	tbh->outVal = tbh->outVal < -127 ? -127 : tbh->outVal;
+
+	//Check for zero crossing on error term
+	if (sgn(tbh->error) != sgn(tbh->prevError))
+	{
+		//If first zero crossing since new target velocity
+		if (tbh->firstCross)
+		{
+			//Set drive to an open loop approximation
+			tbh->outVal = tbh->outValApprox;
+			tbh->firstCross = false;
+		}
+		else
+		{
+			//tbh->outVal = 0.5 * (tbh->outVal + tbh->outValAtZero);
+			tbh->outVal = 0.4 * (tbh->outVal + tbh->outValAtZero) + 0.2 * tbh->outVal;
+		}
+
+		//Save this outVal as the new zero base value
+		tbh->outValAtZero = tbh->outVal;
+	}
+
+	//Save error
+	tbh->prevError = tbh->error;
+
+	return tbh->outVal;
+}
+
+int vel_TBH_StepController(vel_TBH *tbh, const int currentVelocity)
+{
+	//Calculate error
+	tbh->error = tbh->targetVelocity - currentVelocity;
 
 	//Calculate new outVal
 	//tbh->outVal = tbh->outVal + (tbh->error * tbh->gain);

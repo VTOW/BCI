@@ -92,6 +92,13 @@ void vel_PID_SetTargetVelocity(vel_PID *pid, const int targetVelocity);
 int vel_PID_GetError(vel_PID *pid);
 
 /**
+ * Returns the current velocity
+ * @param  pid PID controller to use
+ * @return     Current velocity
+ */
+int vel_PID_GetVelocity(vel_PID *pid);
+
+/**
  * Returns the current output
  * @param  pid PID controller to use
  * @return     Current output

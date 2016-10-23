@@ -31,6 +31,7 @@ typedef struct pos_PID_t
 	bool usingIME;
 	bool usingVar;
 	int targetPos;
+	int currentPos;
 
 	//Output
 	int outVal;
@@ -85,9 +86,16 @@ void pos_PID_SetTargetPosition(pos_PID *pid, const int targetPos);
 /**
  * Returns the current error
  * @param  pid PID controller to use
- * @return     Currente error
+ * @return     Current error
  */
 int pos_PID_GetError(pos_PID *pid);
+
+/**
+ * Returns the current position
+ * @param  pid PID controller to use
+ * @return     Current position
+ */
+int pos_PID_GetPosition(pos_PID *pid);
 
 /**
  * Returns the current output

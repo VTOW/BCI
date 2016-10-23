@@ -76,8 +76,8 @@ void bangBang_InitController(bangBang *bb, const float *var, const int highPower
 /**
  * Sets new filter constants
  * @param bb    Controller to modify
- * @param alpha DEMA alpha
- * @param beta  DEMA beta
+ * @param alpha New alpha term
+ * @param beta  New beta term
  */
 void bangBang_SetFilterConstants(bangBang *bb, const float alpha, const float beta);
 

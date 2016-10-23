@@ -91,6 +91,11 @@ int pos_PID_GetError(pos_PID *pid)
 	return pid->error;
 }
 
+int pos_PID_GetPosition(pos_PID *pid)
+{
+	return pid->currentPos;
+}
+
 int pos_PID_GetOutput(pos_PID *pid)
 {
 	return pid->outVal;
@@ -98,28 +103,51 @@ int pos_PID_GetOutput(pos_PID *pid)
 
 int pos_PID_StepController(pos_PID *pid)
 {
-	//Calculate timestep
-	pid->dt = (nSysTime - pid->prevTime) / 1000.0;
-	pid->prevTime = nSysTime;
-
-	//Scrap dt if zero
-	if (pid->dt == 0)
-	{
-		return 0;
-	}
-
 	//Calculate error
 	if (pid->usingIME)
 	{
-		pid->error = pid->targetPos - nMotorEncoder[pid->imeMotor];
+		//Calculate timestep
+		getEncoderAndTimeStamp(pid->imeMotor, pid->currentPos, pid->currentTime);
+		pid->dt = (pid->currentTime - pid->prevTime) / 1000.0;
+		pid->prevTime = pid->currentTime;
+
+		//Scrap dt if zero
+		if (pid->dt == 0)
+		{
+			return 0;
+		}
+
+		pid->error = pid->targetPos - pid->currentPos;
 	}
 	else if (pid->usingVar)
 	{
-		pid->error = pid->targetPos - *(pid->var);
+		//Calculate timestep
+		pid->dt = (nSysTime - pid->prevTime) / 1000.0;
+		pid->prevTime = nSysTime;
+
+		//Scrap dt if zero
+		if (pid->dt == 0)
+		{
+			return 0;
+		}
+
+		pid->currentPos = *(pid->var);
+		pid->error = pid->targetPos - pid->currentPos;
 	}
 	else
 	{
-		pid->error = pid->targetPos - SensorValue[pid->sensor];
+		//Calculate timestep
+		pid->dt = (nSysTime - pid->prevTime) / 1000.0;
+		pid->prevTime = nSysTime;
+
+		//Scrap dt if zero
+		if (pid->dt == 0)
+		{
+			return 0;
+		}
+
+		pid->currentPos = SensorV[pid->sensor];
+		pid->error = pid->targetPos - pid->currentPos;
 	}
 
 	//If error is large enough, calculate integral and limit to avoid windup
