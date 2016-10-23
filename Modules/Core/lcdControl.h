@@ -37,77 +37,90 @@ typedef struct menu_t
 	int dispatchFuncVal;
 } menu;
 
-//Handles function calls from lcdControl
-//Note: Must be implemented by the user
+/**
+ * Runs a callback function. This must be implemented bu the user
+ * @param func ID of callback
+ */
 void invoke(int func);
 
-//Adds and initializes a menu
+/**
+ * Initializes a menu
+ * @param  msg             Menu message displayed on LCD
+ * @param  dispatchFuncVal Callback ID
+ * @param  next            Right-linked menu
+ * @param  prev            Left-linked menu
+ * @param  up              Up-linked menu
+ * @param  down            Down-linked menu
+ * @return                 Initialized menu
+ */
 menu* newMenu(const string *msg, const int dispatchFuncVal = -1, const menu *next = NULL, const menu *prev = NULL, const menu *up = NULL, const menu *down = NULL);
 
-//Sets a blink rate (in Hz) for the lcd backlight
+/**
+ * Sets a blink rate (in Hz) for the lcd backlight
+ * @param rate Backlight blink rate (Hz)
+ */
 void setBacklightBlinkRate(const int rate);
 
-//Changes the function a menu has
+/**
+ * Changes the function a menu has
+ * @param m    Menu to change
+ * @param func New callback ID
+ */
 void changeFunction(menu *m, const int func);
 
-//Changes the message a menu has
+/**
+ * Changes the message a menu has
+ * @param m      Menu to change
+ * @param newMsg New message
+ */
 void changeMessage(const menu *m, const string *newMsg);
 
-//Returns the current game state safety state
+/**
+ * Returns the current game state safety state
+ * @return current game state safety state
+ */
 bool getLCDSafetyState();
 
-//Childs 1 menu to a parent
+/**
+ * Forms a level between a parent and children menus
+ * @param parent Parent menu
+ * @param child  Child menu
+ */
 void formLevel(menu *parent, menu *child);
-
-//Childs 2 menus to a parent
 void formLevel(menu *parent, menu *child, menu *child2);
-
-//Childs 3 menus to a parent
 void formLevel(menu *parent, menu *child, menu *child2, menu *child3);
-
-//Childs 4 menus to a parent
 void formLevel(menu *parent, menu *child, menu *child2, menu *child3, menu *child4);
-
-//Childs 5 menus to a parent
 void formLevel(menu *parent, menu *child, menu *child2, menu *child3, menu *child4, menu *child5);
-
-//Childs 6 menus to a parent
 void formLevel(menu *parent, menu *child, menu *child2, menu *child3, menu *child4, menu *child5, menu *child6);
-
-//Childs n menus to a parent
-//Note: This is dependent upon allocation order
-//		  As a result, this can also be used with an array
 void formLevel(menu *parent, menu *startingMenu, const int count = 1);
 
-//Inserts a menu into a row
+/**
+ * Inserts a menu into a row
+ * @param m    Menu to insert
+ * @param next Right-linked menu
+ * @param prev Left-linked menu
+ */
 void putMenuInRow(menu *m, menu *next, menu *prev = NULL);
 
-//Pairs 2 menus
+/**
+ * Links menus together into a row
+ * @param m1 One menu to link
+ * @param m2 Another menu to link
+ */
 void linkMenus(menu *m1, menu *m2);
-
-//Pairs 3 menus
 void linkMenus(menu *m1, menu *m2, menu *m3);
-
-//Pairs 4 menus
 void linkMenus(menu *m1, menu *m2, menu *m3, menu *m4);
-
-//Pairs 5 menus
 void linkMenus(menu *m1, menu *m2, menu *m3, menu *m4, menu *m5);
-
-//Pairs 6 menus
 void linkMenus(menu *m1, menu *m2, menu *m3, menu *m4, menu *m5, menu *m6);
-
-//Pairs 7 menus
 void linkMenus(menu *m1, menu *m2, menu *m3, menu *m4, menu *m5, menu *m6, menu *m7);
-
-//Pairs n menus
-//Note: This is dependent upon allocation order
-//		As a result, this can also be used with an array
 void linkMenus(menu *m1, const int count = 1);
 
-//Updates the LCD and responds to button presses
-//LCD_NO_SAFETY can be used to disable driver control safety
-//LCD_SAFETY_REQ_COMP_SWITCH can be used to limit driver control safety to a competition switch being plugged in
+/**
+ * Displays menus on LCD and handles user interaction.
+ * Define flag LCD_NO_SAFETY to disable driver control safety
+ * Define flag LCD_SAFETY_REQ_COMP_SWITCH to limit driver control safety to fire
+ * 	only when a competition switch is plugged in
+ */
 task updateLCDTask();
 
 #endif //MENU_NUM > 0

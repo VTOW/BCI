@@ -36,20 +36,63 @@ typedef struct TUAFilter_t
 	int index;
 } TUAFilter;
 
-//Exponential moving average filter
+/**
+ * Initializes an exponential moving average filter
+ * @param filter EMA filter to initialize
+ */
 void filter_Init_EMA(EMAFilter *filter);
+
+/**
+ * Filters an input
+ * @param  filter EMA filter to use
+ * @param  readIn Input reading
+ * @param  alpha  Alpha gain
+ * @return        Filtered value
+ */
 float filter_EMA(EMAFilter *filter, const float readIn, const float alpha);
 
-//Double exponential moving average filter
+/**
+ * Initializes a double exponential moving average filter
+ * @param filter DEMA filter to initialize
+ */
 void filter_Init_DEMA(DEMAFilter *filter);
+
+/**
+ * Filters an input
+ * @param  filter DEMA filter to use
+ * @param  readIn Input reading
+ * @param  alpha  Alpha gain
+ * @param  beta   Beta gain
+ * @return        Filtered value
+ */
 float filter_DEMA(DEMAFilter *filter, const float readIn, const float alpha, const float beta);
 
-//Five-unit average filter
+/**
+ * Initializes a five-unit average filter
+ * @param filter FUA filter to initialize
+ */
 void filter_Init_FUA(FUAFilter *filter);
+
+/**
+ * Filters an input
+ * @param  filter      FUA filter to use
+ * @param  componentIn Input reading
+ * @return             Filtered value
+ */
 float filter_FUA(FUAFilter *filter, const float componentIn);
 
-//Ten-unit average filter
+/**
+ * Initializes a ten-unit average filter
+ * @param filter TUA filter to initialize
+ */
 void filter_Init_TUA(TUAFilter *filter);
+
+/**
+ * Filters an input
+ * @param  filter      TUA filter to use
+ * @param  componentIn Input reading
+ * @return             Filtered value
+ */
 float filter_TUA(TUAFilter *filter, const float componentIn);
 
 #endif //BCI_FILTER_H_INCLUDED
