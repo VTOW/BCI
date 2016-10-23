@@ -64,7 +64,7 @@ bool timer_Repeat(timer *timer, long timeMs)
 		timer->repeatMark = nSysTime;
 	}
 
-	if (nSysTime - timer->repeatMark > timeMs)
+	if (nSysTime - timer->repeatMark >= timeMs)
 	{
 		timer->repeatMark = -1;
 		return true;
