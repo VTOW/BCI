@@ -49,12 +49,12 @@ void timer_ClearHardMarker(timer *timer)
 
 long timer_GetDTFromMarker(timer *timer)
 {
-	return nSysTime - timer->mark;
+	return timer->mark == -1 ? 0 : nSysTime - timer->mark;
 }
 
 long timer_GetDTFromHardMarker(timer *timer)
 {
-	return nSysTime - timer->hardMark;
+	return timer->hardMark == -1 ? 0 : nSysTime - timer->hardMark;
 }
 
 bool timer_Repeat(timer *timer, long timeMs)
