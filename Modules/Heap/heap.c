@@ -20,6 +20,11 @@ void heap_init()
   }
 }
 
+void heap_defrag()
+{
+
+}
+
 float* heap_malloc(const unsigned int size, bool recursive)
 {
   //Get next free spot in heap
@@ -45,7 +50,8 @@ float* heap_malloc(const unsigned int size, bool recursive)
         bciHeap[i - j] = 0;
       }
 
-      return &(bciHeap[i]);
+      //Return index of block
+      return i;
     }
 
     //If we've gone down the entire heap
@@ -59,6 +65,7 @@ float* heap_malloc(const unsigned int size, bool recursive)
       else
       {
         //Defragment the heap
+        heap_defrag();
 
         //Try again
         return heap_malloc(size, true);
@@ -69,29 +76,31 @@ float* heap_malloc(const unsigned int size, bool recursive)
   }
 }
 
-matrix* heap_matrix_malloc(const unsigned int width, const unsigned int height)
+matrix heap_matrix_malloc(const unsigned int width, const unsigned int height)
 {
-
+  matrix mat;
+  mat.width = width;
+  mat.height = height;
+  mat.data = heap_malloc(width * height);
+  return mat;
 }
 
 void heap_free(const unsigned int loc, const unsigned int size)
 {
-
 }
 
 void heap_free_matrix(matrix *mat)
 {
-
+  heap_free(mat->data, mat->width * mat->height);
 }
 
 void heap_print(const unsigned int loc, const unsigned int size)
 {
-
+  
 }
 
 void heap_printStats(const unsigned int loc, const unsigned int size)
 {
-
 }
 
 #endif //BCI_HEAP_C_INCLUDED

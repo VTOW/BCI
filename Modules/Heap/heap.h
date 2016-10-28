@@ -9,13 +9,18 @@ typedef stuct matrix_t
 {
   float width;
   float height;
-  float *data;
+  float data; //Starting index in heap
 } matrix;
 
 /**
  * Initializes the heap
  */
 void heap_init();
+
+/**
+ * Defragments the heap
+ */
+void heap_defrag();
 
 /**
  * Allocates memory on the heap
@@ -29,9 +34,9 @@ float* heap_malloc(const unsigned int size, bool recursive = false);
  * Allocates a matrix on the heap
  * @param  width  Width of matrix
  * @param  height Height of matrix
- * @return        Matrix reference
+ * @return        Matrix
  */
-matrix* heap_matrix_malloc(const unsigned int width, const unsigned int height);
+matrix heap_matrix_malloc(const unsigned int width, const unsigned int height);
 
 /**
  * Frees memory
