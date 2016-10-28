@@ -96,11 +96,18 @@ void heap_free_matrix(matrix *mat)
 
 void heap_print(const unsigned int loc, const unsigned int size)
 {
-  
+  writeDebugStream("BCI HEAP DUMP:\n%d", bciHeap[loc]);
+
+  for (int i = loc + 1; i < loc + size; i++)
+  {
+    writeDebugStream(",%d", bciHeap[i]);
+  }
 }
 
 void heap_printStats(const unsigned int loc, const unsigned int size)
 {
+  //Run through the heap and record free space
+  //Print out percent space used, free space, and used space
 }
 
 #endif //BCI_HEAP_C_INCLUDED
