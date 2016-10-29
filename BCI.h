@@ -18,6 +18,10 @@
  #include "Modules\PID_Optional\driveStraight.c"
 #endif
 
+#ifdef BCI_USE_HEAP
+  #include "Modules\Heap\heap.c"
+#endif
+
 #include "Modules\Core\suppressWarning.c"
 
 #endif //BCI_H_INCLUDED

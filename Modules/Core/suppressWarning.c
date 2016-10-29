@@ -37,6 +37,7 @@ void ZQ_KILL_WARNING(void *trash)
 	pos_PID_GetOutput((pos_PID*)0);
 	pos_PID_StepController((pos_PID*)0);
 	pos_PID_StepController((pos_PID*)0,0);
+	pos_PID_GetPosition((pos_PID*)0);
 
 	timer_Initialize((timer*)0);
 	timer_GetDT((timer*)0);
@@ -63,6 +64,7 @@ void ZQ_KILL_WARNING(void *trash)
 	vel_PID_StepVelocity((vel_PID*)0);
 	vel_PID_StepController((vel_PID*)0);
 	vel_PID_StepController((vel_PID*)0,0);
+	vel_PID_GetVelocity((vel_PID*)0);
 
 	vel_TBH_InitController((vel_TBH*)0,(tSensors)0,0,0);
 	vel_TBH_InitController((vel_TBH*)0,(tMotor)0,0,0);
@@ -84,6 +86,14 @@ void ZQ_KILL_WARNING(void *trash)
 
 	#ifdef BCI_USE_PID_OPT
 	 PID_Opt_DriveStraight((tMotor*)0,(tMotor*)0,0,(long*)0,(long*)0,0);
+	#endif
+
+	#ifdef BCI_USE_HEAP
+		heap_init();
+		heap_malloc(0);
+		heap_free(0,0);
+		heap_print(0,0);
+		heap_printStats(0,0);
 	#endif
 }
 

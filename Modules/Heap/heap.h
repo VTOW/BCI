@@ -2,15 +2,8 @@
 #define BCI_HEAP_H_INCLUDED
 
 #ifndef BCI_HEAP_SIZE
-#define BCI_HEAP_SIZE 1000
+  #define BCI_HEAP_SIZE 1000
 #endif //BCI_HEAP_SIZE
-
-typedef stuct matrix_t
-{
-  float width;
-  float height;
-  float data; //Starting index in heap
-} matrix;
 
 /**
  * Initializes the heap
@@ -18,25 +11,12 @@ typedef stuct matrix_t
 void heap_init();
 
 /**
- * Defragments the heap
- */
-void heap_defrag();
-
-/**
  * Allocates memory on the heap
  * @param  size      Number of floats to allocate
  * @param  recursive Internal parameter - Do not use
  * @return           Memory reference
  */
-float* heap_malloc(const unsigned int size, bool recursive = false);
-
-/**
- * Allocates a matrix on the heap
- * @param  width  Width of matrix
- * @param  height Height of matrix
- * @return        Matrix
- */
-matrix heap_matrix_malloc(const unsigned int width, const unsigned int height);
+float heap_malloc(const unsigned int size);
 
 /**
  * Frees memory
@@ -44,12 +24,6 @@ matrix heap_matrix_malloc(const unsigned int width, const unsigned int height);
  * @param size Length to free
  */
 void heap_free(const unsigned int loc, const unsigned int size);
-
-/**
- * Frees a matrix
- * @param mat Matrix to free
- */
-void heap_free_matrix(matrix *mat);
 
 /**
  * Prints a range of the heap

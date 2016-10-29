@@ -5,27 +5,23 @@
 
 //Using BNS Error code here as a flag
 //https://github.com/JMarple/BNSLibrary/blob/master/Modules/Core/BNSHeap.h
-#define BCI_FREE_FLAG 2852126720
+//0000 1010 1010 0000 0000 0000 0000 0000
+#define BCI_FREE_FLAG 178257920
+
+//0101 0101 0000 0000 0000 0000 0000 0000
+#define BCI_MALLOC_FAIL 1426063360
 
 static float bciHeap[BCI_HEAP_SIZE];
 
-//Float to reference for a malloc fail
-float BCI_MALLOC_FAIL = 0;
-
 void heap_init()
 {
-  for (int i = 0; i < BCI_HEAP_SIZE; i++)
+  for (unsigned int i = 0; i < BCI_HEAP_SIZE; i++)
   {
-    bciHeap[i] = BCI_DATA_FLAG;
+    bciHeap[i] = BCI_FREE_FLAG;
   }
 }
 
-void heap_defrag()
-{
-
-}
-
-float* heap_malloc(const unsigned int size, bool recursive)
+float heap_malloc(const unsigned int size)
 {
   //Get next free spot in heap
   unsigned int i = 0, runLength = 0;
@@ -34,6 +30,7 @@ float* heap_malloc(const unsigned int size, bool recursive)
     //Empty flag
     if (bciHeap[i] == BCI_FREE_FLAG)
     {
+      writeDebugStreamLine("%d",i);
       runLength++;
     }
     else
@@ -45,7 +42,7 @@ float* heap_malloc(const unsigned int size, bool recursive)
     if (runLength == size)
     {
       //Clear free flags
-      for (int j = runLength; j > 0; j--)
+      for (unsigned int j = 0; j < runLength; j++)
       {
         bciHeap[i - j] = 0;
       }
@@ -57,57 +54,52 @@ float* heap_malloc(const unsigned int size, bool recursive)
     //If we've gone down the entire heap
     if (i == BCI_HEAP_SIZE - 1)
     {
-      //If we've already tried to defrag
-      if (recursive)
-      {
-        return &BCI_MALLOC_FAIL;
-      }
-      else
-      {
-        //Defragment the heap
-        heap_defrag();
+      #ifdef BCI_HEAP_DEBUG
+        writeDebugStreamLine("BCI HEAP ERROR: No space for malloc of size %d", size);
+      #endif //BCI_HEAP_DEBUG
 
-        //Try again
-        return heap_malloc(size, true);
-      }
+      return BCI_MALLOC_FAIL;
     }
 
     i++;
   }
 }
 
-matrix heap_matrix_malloc(const unsigned int width, const unsigned int height)
-{
-  matrix mat;
-  mat.width = width;
-  mat.height = height;
-  mat.data = heap_malloc(width * height);
-  return mat;
-}
-
 void heap_free(const unsigned int loc, const unsigned int size)
 {
-}
-
-void heap_free_matrix(matrix *mat)
-{
-  heap_free(mat->data, mat->width * mat->height);
+  for (unsigned int i = loc; i < loc + size; i++)
+  {
+    bciHeap[i] = BCI_FREE_FLAG;
+  }
 }
 
 void heap_print(const unsigned int loc, const unsigned int size)
 {
   writeDebugStream("BCI HEAP DUMP:\n%d", bciHeap[loc]);
 
-  for (int i = loc + 1; i < loc + size; i++)
+  for (unsigned int i = loc + 1; i < loc + size; i++)
   {
     writeDebugStream(",%d", bciHeap[i]);
   }
+
+  writeDebugStreamLine("");
 }
 
 void heap_printStats(const unsigned int loc, const unsigned int size)
 {
   //Run through the heap and record free space
+  int freeSpace = 0;
+  for (unsigned int i = 0; i < BCI_HEAP_SIZE; i++)
+  {
+    if (bciHeap[i] == BCI_FREE_FLAG)
+    {
+      freeSpace++;
+    }
+  }
+
   //Print out percent space used, free space, and used space
+  writeDebugStreamLine("BCI HEAP STATS:");
+  writeDebugStreamLine("Percent used: %1.2f, Used space: %d, Free space: %d", 100 * ((float)(BCI_HEAP_SIZE - freeSpace) / (float)BCI_HEAP_SIZE), BCI_HEAP_SIZE - freeSpace, freeSpace);
 }
 
 #endif //BCI_HEAP_C_INCLUDED
