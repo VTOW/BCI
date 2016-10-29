@@ -1,5 +1,5 @@
-#ifndef DRIVESTRAIGHT_C_INCLUDED
-#define DRIVESTRAIGHT_C_INCLUDED
+#ifndef BCI_DRIVESTRAIGHT_C_INCLUDED
+#define BCI_DRIVESTRAIGHT_C_INCLUDED
 
 bool PID_Opt_DriveStraight(tMotor *leftMotors, tMotor *rightMotors, const unsigned int numMotors, const long *leftSensor, const long *rightSensor, const int distance)
 {
@@ -92,4 +92,4 @@ bool PID_Opt_DriveStraight(tMotor *leftMotors, tMotor *rightMotors, const unsign
 	return true;
 }
 
-#endif //DRIVESTRAIGHT_C_INCLUDED
+#endif //BCI_DRIVESTRAIGHT_C_INCLUDED
