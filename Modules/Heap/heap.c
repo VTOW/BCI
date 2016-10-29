@@ -104,6 +104,8 @@ bool heap_free(const unsigned int loc, const unsigned int size)
   {
     bciHeap[i] = BCI_FREE_FLAG;
   }
+
+  return true;
 }
 
 void heap_print(const unsigned int loc, const unsigned int size)
@@ -147,7 +149,7 @@ void heap_printStats(const unsigned int loc, const unsigned int size)
       writeDebugStreamLine("BCI HEAP ERROR: Invalid size given to heap_printStats: %d", size);
     #endif
   }
-  
+
   //Run through the heap and record free space
   int freeSpace = 0;
   for (unsigned int i = 0; i < BCI_HEAP_SIZE; i++)
