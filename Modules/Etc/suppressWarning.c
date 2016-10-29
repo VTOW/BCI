@@ -85,7 +85,7 @@ void ZQ_KILL_WARNING(void *trash)
 	ZQ_KILL_WARNING((void*)vrNoXmiters);
 
 	#ifdef BCI_USE_PID_OPT
-	 PID_Opt_DriveStraight((tMotor*)0,(tMotor*)0,0,(long*)0,(long*)0,0);
+	 PID_Opt_DriveStraight((tMotor*)0,(tMotor*)0,0,(float*)0,(float*)0,0,(pos_PID*)0,(pos_PID*)0);
 	#endif
 
 	#ifdef BCI_USE_HEAP

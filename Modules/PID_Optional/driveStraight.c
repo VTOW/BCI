@@ -1,10 +1,10 @@
 #ifndef BCI_DRIVESTRAIGHT_C_INCLUDED
 #define BCI_DRIVESTRAIGHT_C_INCLUDED
 
-bool PID_Opt_DriveStraight(tMotor *leftMotors, tMotor *rightMotors, const unsigned int numMotors, const long *leftSensor, const long *rightSensor, const int distance)
+bool PID_Opt_DriveStraight(tMotor *leftMotors, tMotor *rightMotors, const unsigned int numMotors, const float *leftSensor, const float *rightSensor, const int distance, pos_PID *distancePID, pos_PID *anglePID)
 {
 	//Save left and right quad values instead of setting them to zero
-	const long encoderLeft = *leftSensor, encoderRight = *rightSensor;
+	const float encoderLeft = *leftSensor, encoderRight = *rightSensor;
 
 	//Total distance elapsed since start and total angle change since start
 	float distanceElapsed = 0, angleChange = 0;
@@ -13,13 +13,8 @@ bool PID_Opt_DriveStraight(tMotor *leftMotors, tMotor *rightMotors, const unsign
 	//Angle PID controller's target is 0
 	const int targetDistance = distance;
 
-	pos_PID distancePID , anglePID;
-
-	pos_PID_InitController(&distancePID, &distanceElapsed, 0, 0, 0);
-	pos_PID_InitController(&anglePID, &angleChange, 0, 0, 0);
-
-	pos_PID_SetTargetPosition(&distancePID, targetDistance);
-	pos_PID_SetTargetPosition(&anglePID, 0);
+	pos_PID_SetTargetPosition(distancePID, targetDistance);
+	pos_PID_SetTargetPosition(anglePID, 0);
 
 	//If distance PID controller is at target
 	bool atTarget = false;
@@ -35,7 +30,7 @@ bool PID_Opt_DriveStraight(tMotor *leftMotors, tMotor *rightMotors, const unsign
 	const int timeoutPeriod = 250;
 
 	//Current left and right quad displacements
-	long currentLeft, currentRight;
+	float currentLeft, currentRight;
 
 	//Distance and angle PID output
 	int distOutput, angleOutput;
@@ -56,8 +51,8 @@ bool PID_Opt_DriveStraight(tMotor *leftMotors, tMotor *rightMotors, const unsign
 		angleChange = currentRight - currentLeft;
 
 		//Get output from both PID's
-		distOutput = pos_PID_StepController(&distancePID);
-		angleOutput = pos_PID_StepController(&anglePID);
+		distOutput = pos_PID_StepController(distancePID);
+		angleOutput = pos_PID_StepController(anglePID);
 
 		//Set motors to distance PID output with correction from angle PID
 		for (i = 0; i < numMotors; i++)
