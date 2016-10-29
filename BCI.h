@@ -1,18 +1,21 @@
 #ifndef BCI_H_INCLUDED
 #define BCI_H_INCLUDED
 
-#include "Modules\Core\math.h"
-#include "Modules\Core\joystickDefinitions.h"
-#include "Modules\Core\util.c"
-#include "Modules\Core\timer.c"
-#include "Modules\Core\filter.c"
+#include "Modules\Math\math.h"
 
-#include "Modules\Core\positionPID.c"
-#include "Modules\Core\velocityPID.c"
-#include "Modules\Core\velocityTBH.c"
-#include "Modules\Core\bangBang.c"
-#include "Modules\Core\motorControl.c"
-#include "Modules\Core\lcdControl.c"
+#include "Modules\Util\joystickDefinitions.h"
+#include "Modules\Util\util.c"
+#include "Modules\Util\timer.c"
+
+#include "Modules\Filter\filter.c"
+
+#include "Modules\Control\positionPID.c"
+#include "Modules\Control\velocityPID.c"
+#include "Modules\Control\velocityTBH.c"
+#include "Modules\Control\bangBang.c"
+#include "Modules\Control\motorControl.c"
+
+#include "Modules\LCD\lcdControl.c"
 
 #ifdef BCI_USE_PID_OPT
  #include "Modules\PID_Optional\driveStraight.c"
@@ -22,6 +25,6 @@
   #include "Modules\Heap\heap.c"
 #endif
 
-#include "Modules\Core\suppressWarning.c"
+#include "Modules\Etc\suppressWarning.c"
 
 #endif //BCI_H_INCLUDED
