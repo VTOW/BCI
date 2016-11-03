@@ -83,6 +83,11 @@ void pos_PID_InitController(pos_PID *pid, const float *var, const float kP, cons
 	pid->outVal = 0;
 }
 
+void pos_PID_ChangeBias(pos_PID *pid, const float kBias)
+{
+	pid->kBias = kBias;
+}
+
 void pos_PID_SetTargetPosition(pos_PID *pid, const int targetPos)
 {
 	pid->targetPos = targetPos;

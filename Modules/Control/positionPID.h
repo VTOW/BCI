@@ -78,6 +78,13 @@ void pos_PID_InitController(pos_PID *pid, const tMotor imeMotor, const float kP,
 void pos_PID_InitController(pos_PID *pid, const float *var, const float kP, const float kI, const float kD, const float kBias = 0.0, const int errorThreshold = 0, const int integralLimit = 1000000);
 
 /**
+ * Sets a new kBias term
+ * @param pid   PID controller to use
+ * @param kBias New kBias term
+ */
+void pos_PID_ChangeBias(pos_PID *pid, const float kBias);
+
+/**
  * Sets the target position
  * @param pid       PID controller to use
  * @param targetPos New target position
