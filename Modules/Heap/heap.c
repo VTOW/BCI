@@ -48,7 +48,7 @@ float heap_malloc(const unsigned int size)
       }
 
       //Return index of block
-      return i;
+      return i - runLength;
     }
 
     //If we've gone down the entire heap
