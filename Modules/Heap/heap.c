@@ -13,7 +13,7 @@
 
 static float bciHeap[BCI_HEAP_SIZE];
 
-void heap_init()
+void heap_Init()
 {
   for (unsigned int i = 0; i < BCI_HEAP_SIZE; i++)
   {
@@ -21,16 +21,15 @@ void heap_init()
   }
 }
 
-float heap_malloc(const unsigned int size)
+//Walk and allocate a block
+int heap_Walk(const unsigned int startLoc, const unsigned int len)
 {
-  //Get next free spot in heap
-  unsigned int i = 0, runLength = 0;
+  unsigned int i = startLoc, runLength = 0;
   while (true)
   {
     //Empty flag
     if (bciHeap[i] == BCI_FREE_FLAG)
     {
-      writeDebugStreamLine("%d",i);
       runLength++;
     }
     else
@@ -39,7 +38,7 @@ float heap_malloc(const unsigned int size)
     }
 
     //If block is long enough, use it
-    if (runLength == size)
+    if (runLength == len)
     {
       //Clear free flags
       for (unsigned int j = 0; j < runLength; j++)
@@ -65,7 +64,27 @@ float heap_malloc(const unsigned int size)
   }
 }
 
-float heap_get(const unsigned int loc)
+int heap_Malloc(const unsigned int size)
+{
+  return heap_Walk(0, size);
+}
+
+bool heap_Expand(const unsigned int loc, const unsigned int size, const unsigned int expand)
+{
+  //Bounds check
+  if (loc >= BCI_HEAP_SIZE)
+  {
+    #ifdef BCI_HEAP_DEBUG
+      writeDebugStreamLine("BCI HEAP ERROR: Invalid location given to heap_get: %d", loc);
+    #endif
+
+    return false;
+  }
+
+  return heap_Walk(loc + size, expand) != BCI_HEAP_FAIL;
+}
+
+float heap_Get(const unsigned int loc)
 {
   //Bounds check
   if (loc >= BCI_HEAP_SIZE)
@@ -80,7 +99,23 @@ float heap_get(const unsigned int loc)
   return bciHeap[loc];
 }
 
-bool heap_free(const unsigned int loc, const unsigned int size)
+bool heap_Set(const unsigned int loc, const float data)
+{
+  //Bounds check
+  if (loc >= BCI_HEAP_SIZE)
+  {
+    #ifdef BCI_HEAP_DEBUG
+      writeDebugStreamLine("BCI HEAP ERROR: Invalid location given to heap_get: %d", loc);
+    #endif
+
+    return false;
+  }
+
+  bciHeap[loc] = data;
+  return true;
+}
+
+bool heap_Free(const unsigned int loc, const unsigned int size)
 {
   //Bounds check
   if (loc >= BCI_HEAP_SIZE)
@@ -108,7 +143,7 @@ bool heap_free(const unsigned int loc, const unsigned int size)
   return true;
 }
 
-void heap_print(const unsigned int loc, const unsigned int size)
+void heap_Print(const unsigned int loc, const unsigned int size)
 {
   //Bounds check
   if (loc >= BCI_HEAP_SIZE)
@@ -134,7 +169,7 @@ void heap_print(const unsigned int loc, const unsigned int size)
   writeDebugStreamLine("");
 }
 
-void heap_printStats(const unsigned int loc, const unsigned int size)
+void heap_PrintStats(const unsigned int loc, const unsigned int size)
 {
   //Bounds check
   if (loc >= BCI_HEAP_SIZE)
