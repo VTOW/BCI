@@ -1,6 +1,8 @@
 #ifndef BCI_ARRAYLIST_C_INCLUDED
 #define BCI_ARRAYLIST_C_INCLUDED
 
+#include "arrayList.h"
+
 bool arrayList_Initialize(arrayList *list, const int size)
 {
   list->size = size;
