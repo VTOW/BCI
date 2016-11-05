@@ -5,7 +5,6 @@
 typedef struct EMAFilter_t
 {
 	float alpha;
-	float readIn;
 	float output;
 	float output_old;
 } EMAFilter;
@@ -13,8 +12,17 @@ typedef struct EMAFilter_t
 /**
  * Initializes an exponential moving average filter
  * @param filter EMA filter to initialize
+ * @param alpha  Alpha gain
  */
-void filter_Init_EMA(EMAFilter *filter);
+void filter_Init_EMA(EMAFilter *filter, float alpha = 1.0);
+
+/**
+ * Filters an input
+ * @param  filter EMA filter to use
+ * @param  readIn Input reading
+ * @return        Filtered value
+ */
+float filter_EMA(EMAFilter *filter, const float readIn);
 
 /**
  * Filters an input
