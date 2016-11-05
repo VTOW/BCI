@@ -1,5 +1,5 @@
-#ifndef ARRAYLIST_H_INCLUDED
-#define ARRAYLIST_H_INCLUDED
+#ifndef BCI_ARRAYLIST_H_INCLUDED
+#define BCI_ARRAYLIST_H_INCLUDED
 
 typedef struct arrayList_t
 {
@@ -29,4 +29,4 @@ void arrayList_Initialize(arrayList *list);
  */
 void arrayList_Add(arrayList *list, const float data);
 
-#endif //ARRAYLIST_H_INCLUDED
+#endif //BCI_ARRAYLIST_H_INCLUDED

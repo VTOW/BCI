@@ -5,6 +5,8 @@
 
 #include "Modules\Util\joystickDefinitions.h"
 #include "Modules\Util\util.c"
+#include "Modules\Util\semaphore.h"
+#include "Modules\Util\uart.h"
 #include "Modules\Util\timer.c"
 
 #include "Modules\Filter\filter.c"

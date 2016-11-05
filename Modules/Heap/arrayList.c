@@ -1,5 +1,5 @@
-#ifndef ARRAYLIST_C_INCLUDED
-#define ARRAYLIST_C_INCLUDED
+#ifndef BCI_ARRAYLIST_C_INCLUDED
+#define BCI_ARRAYLIST_C_INCLUDED
 
 bool arrayList_Initialize(arrayList *list, const int size)
 {
@@ -34,4 +34,4 @@ void arrayList_Add(arrayList *list, const float data)
   }
 }
 
-#endif //ARRAYLIST_C_INCLUDED
+#endif //BCI_ARRAYLIST_C_INCLUDED
