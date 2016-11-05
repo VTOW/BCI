@@ -20,7 +20,7 @@ float filter_EMA(EMAFilter *filter, const float readIn)
 float filter_EMA(EMAFilter *filter, const float readIn, const float alpha)
 {
 	filter->alpha = alpha;
-	filter_EMA(filter, readIn);
+	return filter_EMA(filter, readIn);
 }
 
 #endif //BCI_EMAFILTER_C_INCLUDED

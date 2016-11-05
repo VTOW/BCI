@@ -27,7 +27,7 @@ float filter_DEMA(DEMAFilter *filter, const float readIn, const float alpha, con
 {
 	filter->alpha = alpha;
 	filter->beta = beta;
-	filter_DEMA(filter, readIn);
+	return filter_DEMA(filter, readIn);
 }
 
 #endif //BCI_DEMAFILTER_C_INCLUDED
