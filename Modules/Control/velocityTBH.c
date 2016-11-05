@@ -26,7 +26,7 @@ void vel_TBH_InitController(vel_TBH *tbh, const tSensors sensor, const float gai
 	tbh->ticksPerRev = ticksPerRev;
 	tbh->targetVelocity = targetVelocity;
 
-	filter_Init_DEMA(&bb->filter, 0.19, 0.0526);
+	filter_Init_DEMA(&tbh->filter, 0.19, 0.0526);
 
 	tbh->outVal = 0.0;
 }
@@ -54,7 +54,7 @@ void vel_TBH_InitController(vel_TBH *tbh, const tMotor imeMotor, const float gai
 	tbh->ticksPerRev = ticksPerRev;
 	tbh->targetVelocity = targetVelocity;
 
-	filter_Init_DEMA(&bb->filter, 0.19, 0.0526);
+	filter_Init_DEMA(&tbh->filter, 0.19, 0.0526);
 
 	tbh->outVal = 0.0;
 }
@@ -81,7 +81,7 @@ void vel_TBH_InitController(vel_TBH *tbh, const float *var, const float gain, co
 	tbh->ticksPerRev = ticksPerRev;
 	tbh->targetVelocity = targetVelocity;
 
-	filter_Init_DEMA(&bb->filter, 0.19, 0.0526);
+	filter_Init_DEMA(&tbh->filter, 0.19, 0.0526);
 
 	tbh->outVal = 0.0;
 }

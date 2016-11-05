@@ -24,7 +24,7 @@ void vel_PID_InitController(vel_PID *pid, const tSensors sensor, const float kP,
 	pid->currentPosition = 0;
 	pid->targetVelocity = 0.0;
 
-	filter_Init_DEMA(&bb->filter, 0.19, 0.0526);
+	filter_Init_DEMA(&pid->filter, 0.19, 0.0526);
 
 	pid->outVal = 0.0;
 }
@@ -49,7 +49,7 @@ void vel_PID_InitController(vel_PID *pid, const tMotor imeMotor, const float kP,
 	pid->currentPosition = 0;
 	pid->targetVelocity = 0.0;
 
-	filter_Init_DEMA(&bb->filter, 0.19, 0.0526);
+	filter_Init_DEMA(&pid->filter, 0.19, 0.0526);
 
 	pid->outVal = 0.0;
 }
@@ -75,7 +75,7 @@ void vel_PID_InitController(vel_PID *pid, const float *var, const float kP, cons
 	pid->currentPosition = 0;
 	pid->targetVelocity = 0.0;
 
-	filter_Init_DEMA(&bb->filter, 0.19, 0.0526);
+	filter_Init_DEMA(&pid->filter, 0.19, 0.0526);
 
 	pid->outVal = 0.0;
 }
