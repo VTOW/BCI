@@ -18,13 +18,23 @@ void heap_Init();
 int heap_Malloc(const unsigned int size);
 
 /**
+ * Reallocates a block
+ * @param  loc   Location in the heap
+ * @param  size  Size of block
+ * @param expand Size to increase block by
+ * @return       New index of the block
+ */
+int heap_Realloc(const unsigned int loc, const unsigned int size, const unsigned int expand);
+
+/**
  * Expands the size of a block on the heap
  * @param  loc   Location in the heap
  * @param  size  Size of block
  * @param expand Size to increase block by
- * @return       Whether the block was expanded successfully
+ * @return       Whether the block was expanded successfully, or the index of
+ *               the reallocated block
  */
-bool heap_Expand(const unsigned int loc, const unsigned int size, const unsigned int expand);
+int heap_Expand(const unsigned int loc, const unsigned int size, const unsigned int expand);
 
 /**
  * Returns the data at a location in the heap
