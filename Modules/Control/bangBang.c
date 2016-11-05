@@ -6,7 +6,7 @@
 /*
 * Initializes a bangbang controller with a sensor
 */
-void bangBang_InitController(bangBang *bb, const tSensors sensor, const int highPower, const int lowPower, const int targetVelocity, const float ticksPerRev)
+void bangBang_InitController(bangBang *bb, const tSensors sensor, const int highPower, const int lowPower, int targetVelocity, float ticksPerRev)
 {
 	bb->highPower = highPower;
 	bb->lowPower = lowPower;
@@ -26,9 +26,7 @@ void bangBang_InitController(bangBang *bb, const tSensors sensor, const int high
 	bb->ticksPerRev = ticksPerRev;
 	bb->targetVelocity = targetVelocity;
 
-	filter_Init_DEMA(&bb->filter);
-	bb->alpha = 0.19;
-	bb->beta = 0.0526;
+	filter_Init_DEMA(&bb->filter, 0.19, 0.0526);
 
 	bb->outVal = 0;
 }
@@ -36,7 +34,7 @@ void bangBang_InitController(bangBang *bb, const tSensors sensor, const int high
 /*
 * Initializes a bangbang controller with an IME
 */
-void bangBang_InitController(bangBang *bb, const tMotor imeMotor, const int highPower, const int lowPower, const int targetVelocity, const float ticksPerRev)
+void bangBang_InitController(bangBang *bb, const tMotor imeMotor, const int highPower, const int lowPower, int targetVelocity, float ticksPerRev)
 {
 	bb->highPower = highPower;
 	bb->lowPower = lowPower;
@@ -56,9 +54,7 @@ void bangBang_InitController(bangBang *bb, const tMotor imeMotor, const int high
 	bb->ticksPerRev = ticksPerRev;
 	bb->targetVelocity = targetVelocity;
 
-	filter_Init_DEMA(&bb->filter);
-	bb->alpha = 0.19;
-	bb->beta = 0.0526;
+	filter_Init_DEMA(&bb->filter, 0.19, 0.0526);
 
 	bb->outVal = 0;
 }
@@ -66,7 +62,7 @@ void bangBang_InitController(bangBang *bb, const tMotor imeMotor, const int high
 /*
 * Initializes a bangbang controller with a float reference
 */
-void bangBang_InitController(bangBang *bb, const float *var, const int highPower, const int lowPower, const int targetVelocity, const float ticksPerRev)
+void bangBang_InitController(bangBang *bb, const float *var, const int highPower, const int lowPower, int targetVelocity, float ticksPerRev)
 {
 	bb->highPower = highPower;
 	bb->lowPower = lowPower;
@@ -86,9 +82,7 @@ void bangBang_InitController(bangBang *bb, const float *var, const int highPower
 	bb->ticksPerRev = ticksPerRev;
 	bb->targetVelocity = targetVelocity;
 
-	filter_Init_DEMA(&bb->filter);
-	bb->alpha = 0.19;
-	bb->beta = 0.0526;
+	filter_Init_DEMA(&bb->filter, 0.19, 0.0526);
 
 	bb->outVal = 0;
 }

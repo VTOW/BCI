@@ -47,7 +47,7 @@ typedef struct vel_PID_t
  * @param kD          Derivative gain
  * @param ticksPerRev Sensor ticks per one revolution
  */
-void vel_PID_InitController(vel_PID *pid, const tSensors sensor, const float kP, const float kD, const float ticksPerRev = UTIL_QUAD_TPR);
+void vel_PID_InitController(vel_PID *pid, const tSensors sensor, const float kP, const float kD, float ticksPerRev = UTIL_QUAD_TPR);
 
 /**
  * Initializes a velocity PID controller
@@ -57,7 +57,7 @@ void vel_PID_InitController(vel_PID *pid, const tSensors sensor, const float kP,
  * @param kD          Derivative gain
  * @param ticksPerRev Sensor ticks per one revolution
  */
-void vel_PID_InitController(vel_PID *pid, const tMotor imeMotor, const float kP, const float kD, const float ticksPerRev = UTIL_IME_HT_TPR);
+void vel_PID_InitController(vel_PID *pid, const tMotor imeMotor, const float kP, const float kD, float ticksPerRev = UTIL_IME_HT_TPR);
 
 /**
  * Initializes a velocity PID controller
@@ -67,7 +67,7 @@ void vel_PID_InitController(vel_PID *pid, const tMotor imeMotor, const float kP,
  * @param kD          Derivative gain
  * @param ticksPerRev Sensor ticks per one revolution
  */
-void vel_PID_InitController(vel_PID *pid, const float *var, const float kP, const float kD, const float ticksPerRev = UTIL_QUAD_TPR);
+void vel_PID_InitController(vel_PID *pid, const float *var, const float kP, const float kD, float ticksPerRev = UTIL_QUAD_TPR);
 
 /**
  * Sets new filter constants

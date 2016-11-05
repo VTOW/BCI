@@ -3,7 +3,7 @@
 
 #include "velocityTBH.h"
 
-void vel_TBH_InitController(vel_TBH *tbh, const tSensors sensor, const float gain, const int outValApprox, const int targetVelocity, const float ticksPerRev)
+void vel_TBH_InitController(vel_TBH *tbh, const tSensors sensor, const float gain, const int outValApprox, int targetVelocity, float ticksPerRev)
 {
 	tbh->gain = gain;
 
@@ -26,14 +26,12 @@ void vel_TBH_InitController(vel_TBH *tbh, const tSensors sensor, const float gai
 	tbh->ticksPerRev = ticksPerRev;
 	tbh->targetVelocity = targetVelocity;
 
-	filter_Init_DEMA(&tbh->filter);
-	tbh->alpha = 0.19;
-	tbh->beta = 0.0526;
+	filter_Init_DEMA(&bb->filter, 0.19, 0.0526);
 
 	tbh->outVal = 0.0;
 }
 
-void vel_TBH_InitController(vel_TBH *tbh, const tMotor imeMotor, const float gain, const int outValApprox, const int targetVelocity, const float ticksPerRev)
+void vel_TBH_InitController(vel_TBH *tbh, const tMotor imeMotor, const float gain, const int outValApprox, int targetVelocity, float ticksPerRev)
 {
 	tbh->gain = gain;
 
@@ -56,13 +54,11 @@ void vel_TBH_InitController(vel_TBH *tbh, const tMotor imeMotor, const float gai
 	tbh->ticksPerRev = ticksPerRev;
 	tbh->targetVelocity = targetVelocity;
 
-	filter_Init_DEMA(&tbh->filter);
-	tbh->alpha = 0.19;
-	tbh->beta = 0.0526;
+	filter_Init_DEMA(&bb->filter, 0.19, 0.0526);
 
 	tbh->outVal = 0.0;
 }
-void vel_TBH_InitController(vel_TBH *tbh, const float *var, const float gain, const int outValApprox, const int targetVelocity, const float ticksPerRev)
+void vel_TBH_InitController(vel_TBH *tbh, const float *var, const float gain, const int outValApprox, int targetVelocity, float ticksPerRev)
 {
 	tbh->gain = gain;
 
@@ -85,9 +81,7 @@ void vel_TBH_InitController(vel_TBH *tbh, const float *var, const float gain, co
 	tbh->ticksPerRev = ticksPerRev;
 	tbh->targetVelocity = targetVelocity;
 
-	filter_Init_DEMA(&tbh->filter);
-	tbh->alpha = 0.19;
-	tbh->beta = 0.0526;
+	filter_Init_DEMA(&bb->filter, 0.19, 0.0526);
 
 	tbh->outVal = 0.0;
 }

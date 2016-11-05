@@ -3,7 +3,7 @@
 
 #include "positionPID.h"
 
-void pos_PID_InitController(pos_PID *pid, const tSensors sensor, const float kP, const float kI, const float kD, const float kBias, const int errorThreshold, const int integralLimit)
+void pos_PID_InitController(pos_PID *pid, const tSensors sensor, const float kP, const float kI, const float kD, float kBias, int errorThreshold, int integralLimit)
 {
 	pid->kP = kP;
 	pid->kI = kI;
@@ -31,7 +31,7 @@ void pos_PID_InitController(pos_PID *pid, const tSensors sensor, const float kP,
 	pid->outVal = 0;
 }
 
-void pos_PID_InitController(pos_PID *pid, const tMotor imeMotor, const float kP, const float kI, const float kD, const float kBias, const int errorThreshold, const int integralLimit)
+void pos_PID_InitController(pos_PID *pid, const tMotor imeMotor, const float kP, const float kI, const float kD, float kBias, int errorThreshold, int integralLimit)
 {
 	pid->kP = kP;
 	pid->kI = kI;
@@ -57,7 +57,7 @@ void pos_PID_InitController(pos_PID *pid, const tMotor imeMotor, const float kP,
 	pid->outVal = 0;
 }
 
-void pos_PID_InitController(pos_PID *pid, const float *var, const float kP, const float kI, const float kD, const float kBias, const int errorThreshold, const int integralLimit)
+void pos_PID_InitController(pos_PID *pid, const float *var, const float kP, const float kI, const float kD, float kBias, int errorThreshold, int integralLimit)
 {
 	pid->kP = kP;
 	pid->kI = kI;

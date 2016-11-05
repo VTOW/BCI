@@ -51,7 +51,7 @@ typedef struct vel_TBH_t
  * @param targetVelocity Target velocity
  * @param ticksPerRev    Sensor ticks per revolution
  */
-void vel_TBH_InitController(vel_TBH *tbh, const tSensors sensor, const float gain, const int outValApprox, const int targetVelocity = 0.0, const float ticksPerRev = UTIL_QUAD_TPR);
+void vel_TBH_InitController(vel_TBH *tbh, const tSensors sensor, const float gain, const int outValApprox, int targetVelocity = 0.0, float ticksPerRev = UTIL_QUAD_TPR);
 
 /**
  * Initializes a velocity TBH controller
@@ -63,7 +63,7 @@ void vel_TBH_InitController(vel_TBH *tbh, const tSensors sensor, const float gai
  * @param targetVelocity Target velocity
  * @param ticksPerRev    Sensor ticks per revolution
  */
-void vel_TBH_InitController(vel_TBH *tbh, const tMotor imeMotor, const float gain, const int outValApprox, const int targetVelocity = 0.0, const float ticksPerRev = UTIL_IME_HT_TPR);
+void vel_TBH_InitController(vel_TBH *tbh, const tMotor imeMotor, const float gain, const int outValApprox, int targetVelocity = 0.0, float ticksPerRev = UTIL_IME_HT_TPR);
 
 /**
  * Initializes a velocity TBH controller
@@ -75,7 +75,7 @@ void vel_TBH_InitController(vel_TBH *tbh, const tMotor imeMotor, const float gai
  * @param targetVelocity Target velocity
  * @param ticksPerRev    Sensor ticks per revolution
  */
-void vel_TBH_InitController(vel_TBH *tbh, const float *var, const float gain, const int outValApprox, const int targetVelocity = 0.0, const float ticksPerRev = UTIL_QUAD_TPR);
+void vel_TBH_InitController(vel_TBH *tbh, const float *var, const float gain, const int outValApprox, int targetVelocity = 0.0, float ticksPerRev = UTIL_QUAD_TPR);
 
 /**
  * Reinitializes a velocity TBH controller with previous sensor, gain, open-loop
