@@ -95,9 +95,9 @@ void ZQ_KILL_WARNING(void *trash)
 		heap_print(0,0);
 		heap_printStats(0,0);
 
-		bool arrayList_Initialize((arrayList*)0, 0);
-		void arrayList_Initialize((arrayList*)0);
-		void arrayList_Add((arrayList*)0, 0);
+		arrayList_Initialize((arrayList*)0, 0);
+		arrayList_Initialize((arrayList*)0);
+		arrayList_Add((arrayList*)0, 0);
 	#endif
 
 	BCI_UART_ClearDataInBuffer(uart1);

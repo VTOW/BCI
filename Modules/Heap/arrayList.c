@@ -31,7 +31,7 @@ void arrayList_Add(arrayList *list, const float data)
   //Else, we have to realloc
   else
   {
-    heap_Expand(list->startIndex, 1);
+    heap_Expand(list->startIndex, list->capacity, 1);
     //TODO: if expand fails, we need to defragment the heap
   }
 }
