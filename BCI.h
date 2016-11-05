@@ -9,7 +9,10 @@
 #include "Modules\Util\uart.c"
 #include "Modules\Util\timer.c"
 
-#include "Modules\Filter\filter.c"
+#include "Modules\Filter\emaFilter.c"
+#include "Modules\Filter\demaFilter.c"
+#include "Modules\Filter\fuaFilter.c"
+#include "Modules\Filter\tuaFilter.c"
 
 #include "Modules\Control\positionPID.c"
 #include "Modules\Control\velocityPID.c"
