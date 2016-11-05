@@ -9,6 +9,6 @@
  * @param  var  Variable to save data to
  * @param  port UART port to read from
  */
-#define BCI_UART_ReadNextData(var, port) while ((var = getChar(port)) == UART_NO_DATA) { wait1Msec(1); }
+#define BCI_UART_ReadNextData(var, port) while ((var = getChar(port)) == BCI_UART_NO_DATA) { wait1Msec(1); }
 
 #endif //BCI_UART_H_INCLUDED
