@@ -11,4 +11,10 @@
  */
 #define BCI_UART_ReadNextData(var, port) while ((var = getChar(port)) == BCI_UART_NO_DATA) { wait1Msec(1); }
 
+/**
+ * Wipes the buffer clean of all data
+ * @param port UART port to use
+ */
+void BCI_UART_ClearDataInBuffer(TUARTs port);
+
 #endif //BCI_UART_H_INCLUDED

@@ -6,8 +6,6 @@
 #if MENU_NUM > 0
 
 #include "lcdControl.h"
-#include "util.h"
-#include "timer.c"
 
 //LCD system loop wait time in ms
 static int lcdSystemLoopWait = 100;
