@@ -8,16 +8,10 @@ task main()
   heap_Init();
 
   heap_Malloc(3);
-  heap_Print(0,10);
+  heap_Print(0,11);
 
-  heap_Malloc(2);
-  heap_Print(0,10);
-
-  heap_Free(1,2);
-  heap_Print(0,10);
-
-  heap_Malloc(3);
-  heap_Print(0,10);
+  heap_Expand(2, 3, 1);
+  heap_Print(0,11);
 
   heap_PrintStats(0,10);
 }

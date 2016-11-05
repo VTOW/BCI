@@ -30,17 +30,17 @@ bool heap_ClearFreeFlags(const unsigned int startLoc, const unsigned int len)
   for (unsigned int j = 0; j < len; j++)
   {
     //Bounds check
-    if (startLoc - j >= BCI_HEAP_SIZE)
+    if (startLoc + j >= BCI_HEAP_SIZE)
     {
       #ifdef BCI_HEAP_DEBUG
-        writeDebugStreamLine("BCI HEAP ERROR: heap_ClearFreeFlags: Invalid location: %d", startLoc - j);
+        writeDebugStreamLine("BCI HEAP ERROR: heap_ClearFreeFlags: Invalid location: %d", startLoc + j);
       #endif
 
       return false;
     }
 
     //Clear flag
-    bciHeap[startLoc - j] = 0;
+    bciHeap[startLoc + j] = 0;
   }
 
   return true;
@@ -93,7 +93,7 @@ int heap_FindBlock(const unsigned int startLoc, const unsigned int len, unsigned
   if (startLoc < 0 || startLoc >= BCI_HEAP_SIZE)
   {
     #ifdef BCI_HEAP_DEBUG
-      writeDebugStreamLine("BCI HEAP ERROR: heap_Expand: Invalid location: %d", startLoc);
+      writeDebugStreamLine("BCI HEAP ERROR: heap_FindBlock: Invalid location: %d", startLoc);
     #endif
 
     return false;
@@ -178,7 +178,7 @@ int heap_Expand(const unsigned int loc, const unsigned int size, const unsigned 
   }
 
   //Try to find a block below to expand into
-  if (heap_FindBlock(loc + size, expand) == loc + size)
+  if (heap_FindBlock(loc + size - 1, expand) == loc + size - 1)
   {
     //There is a block to expand into, use it
     heap_ClearFreeFlags(loc + size, expand);
@@ -203,6 +203,7 @@ int heap_Expand(const unsigned int loc, const unsigned int size, const unsigned 
   //Reallocate entire block
   else
   {
+    writeDebugStreamLine("realloc");
     return heap_Realloc(loc, size, expand);
   }
 }
