@@ -89,18 +89,26 @@ void ZQ_KILL_WARNING(void *trash)
 	#endif
 
 	#ifdef BCI_USE_HEAP
-		heap_init();
-		heap_malloc(0);
-		heap_free(0,0);
-		heap_print(0,0);
-		heap_printStats(0,0);
+		heap_Init();
+		heap_Malloc(0);
+		heap_Realloc(0,0,0);
+		heap_Expand(0,0,0);
+		heap_Get(0);
+		heap_Set(0,0);
+		heap_Free(0,0);
+		heap_Print(0,0);
+		heap_PrintStats(0,0);
+
+		heap_ClearFreeFlags(0,0);
+		heap_Walk(0,0);
+		heap_FindBlock(0,0);
 
 		arrayList_Initialize((arrayList*)0, 0);
 		arrayList_Initialize((arrayList*)0);
 		arrayList_Add((arrayList*)0, 0);
 	#endif
 
-	BCI_UART_ClearDataInBuffer(uart1);
+	BCI_UART_ClearDataInBuffer(UART1);
 }
 
 #endif //BCI_SUPPRESSWARNING_C_INCLUDED
