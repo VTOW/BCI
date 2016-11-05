@@ -286,7 +286,14 @@ void heap_Print(const unsigned int loc, const unsigned int size)
 
   for (unsigned int i = loc + 1; i < loc + size; i++)
   {
-    writeDebugStream(",%d", bciHeap[i]);
+    if (bciHeap[i] == BCI_FREE_FLAG)
+    {
+      writeDebugStream(",#");
+    }
+    else
+    {
+      writeDebugStream(",%d", bciHeap[i]);
+    }
   }
 
   writeDebugStreamLine("");
