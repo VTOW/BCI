@@ -12,7 +12,7 @@ void filter_Init_EMA(EMAFilter *filter, float alpha)
 
 float filter_EMA(EMAFilter *filter, const float readIn)
 {
-	filter->output = alpha * readIn + (1.0 - alpha) * filter->output_old;
+	filter->output = filter->alpha * readIn + (1.0 - filter->alpha) * filter->output_old;
 	filter->output_old = filter->output;
 	return filter->output;
 }

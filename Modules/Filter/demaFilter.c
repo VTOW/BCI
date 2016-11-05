@@ -15,10 +15,8 @@ void filter_Init_DEMA(DEMAFilter *filter, float alpha, float beta)
 
 float filter_DEMA(DEMAFilter *filter, const float readIn)
 {
-	filter->alpha = alpha;
-	filter->beta = beta;
-	filter->outputS = (alpha * readIn) + ((1.0 - alpha) * (filter->outputS_old + filter->outputB_old));
-	filter->outputB = (beta * (filter->outputS - filter->outputS_old)) + ((1.0 - beta) * filter->outputB_old);
+	filter->outputS = (filter->alpha * readIn) + ((1.0 - filter->alpha) * (filter->outputS_old + filter->outputB_old));
+	filter->outputB = (filter->beta * (filter->outputS - filter->outputS_old)) + ((1.0 - filter->beta) * filter->outputB_old);
 	filter->outputS_old = filter->outputS;
 	filter->outputB_old = filter->outputB;
 
