@@ -23,19 +23,14 @@ enum LEDState
 };
 
 //Converts an analog in value to millivolts
+//Divide by this to convert
 #define ANALOG_IN_TO_V 286.0
 
-//IME high torque ticks per rev
-#define UTIL_IME_HT_TPR 627.2
-
-//IME high speed ticks per rev
-#define UTIL_IME_HS_TPR 392.0
-
-//IME turbo gear ticks per rev
-#define UTIL_IME_TG_TPR 261.333
-
-//Quad encoder ticks per rev
-#define UTIL_QUAD_TPR 360.0
+#define UTIL_IME_HT_TPR 627.2   // IME high torque ticks per rev
+#define UTIL_IME_HS_TPR 392.0   // IME high speed ticks per rev
+#define UTIL_IME_TG_TPR 261.333 // IME turbo gear ticks per rev
+#define UTIL_269_TPR 240.448    // IME 269 ticks per rev
+#define UTIL_QUAD_TPR 360.0     // Quad encoder ticks per rev
 
 /**
  * Waits for a value to become zero
