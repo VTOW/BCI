@@ -12,10 +12,10 @@
 
 //Default text
 string DEFAULT_LINE       = "<<            >>";
-string SUBMENU_SELECT     =  "<<   SELECT   >>";
-string EXIT_MENU_SELECT   =  "<<     OK     >>";
-string SUBMENU_BACK       =  "<<    BACK    >>";
-string SAFETY_TRIG        =  "   SAFETY_TRIG  ";
+string SUBMENU_SELECT     = "<<   SELECT   >>";
+string EXIT_MENU_SELECT   = "<<     OK     >>";
+string SUBMENU_BACK       = "<<    BACK    >>";
+string SAFETY_TRIG        = "   SAFETY_TRIG  ";
 string INCORRECT_MENU_NUM = "  BAD MENU_NUM  ";
 
 //Menu type
