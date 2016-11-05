@@ -33,7 +33,7 @@ bool heap_ClearFreeFlags(const unsigned int startLoc, const unsigned int len)
     if (startLoc - j >= BCI_HEAP_SIZE)
     {
       #ifdef BCI_HEAP_DEBUG
-        writeDebugStreamLine("BCI HEAP ERROR: heap_ClearFreeFlags: Invalid location: %d", loc);
+        writeDebugStreamLine("BCI HEAP ERROR: heap_ClearFreeFlags: Invalid location: %d", startLoc - j);
       #endif
 
       return false;
@@ -93,7 +93,7 @@ int heap_FindBlock(const unsigned int startLoc, const unsigned int len, unsigned
   if (startLoc < 0 || startLoc >= BCI_HEAP_SIZE)
   {
     #ifdef BCI_HEAP_DEBUG
-      writeDebugStreamLine("BCI HEAP ERROR: heap_Expand: Invalid location: %d", loc);
+      writeDebugStreamLine("BCI HEAP ERROR: heap_Expand: Invalid location: %d", startLoc);
     #endif
 
     return false;
