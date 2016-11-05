@@ -3,7 +3,7 @@
 
 #include "velocityPID.h"
 
-void vel_PID_InitController(vel_PID *pid, const tSensors sensor, const float kP, const float kD, cst float ticksPerRev)
+void vel_PID_InitController(vel_PID *pid, const tSensors sensor, const float kP, const float kD, float ticksPerRev)
 {
 	pid->kP = kP;
 	pid->kD = kD;
