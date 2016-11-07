@@ -17,3 +17,7 @@ Currently, BCI features these tools:
  - LCD menu system
  - PID-based autonomous functions (drive in a straight line, etc.)
  - Dynamic memory (heap based)
+
+----------------
+
+For tutorials, see the files in the folder "Modules\Example" or the Wiki. Additionally, all header files are thoroughly and consistantly documented (these are the best source of up-to-date information).
