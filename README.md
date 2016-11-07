@@ -20,4 +20,4 @@ Currently, BCI features these tools:
 
 ----------------
 
-For tutorials, see the files in the folder "Modules\Example" or the Wiki. Additionally, all header files are thoroughly and consistantly documented (these are the best source of up-to-date information).
+For tutorials, see the files in the folder "Modules\Example" or the Wiki. Additionally, all header files are thoroughly and consistantly documented (these are the best sources of up-to-date information).
