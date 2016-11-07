@@ -29,7 +29,6 @@
 #ifdef BCI_USE_HEAP
   #include "Modules\Heap\heap.c"
   #include "Modules\Heap\block.c"
-  #include "Modules\Heap\arrayList.c"
 #endif
 
 #include "Modules\Etc\suppressWarning.c"
