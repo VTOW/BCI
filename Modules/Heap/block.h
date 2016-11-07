@@ -42,11 +42,10 @@ bool block_Set(const block *b, const unsigned int loc, const float data);
 
 /**
  * Frees a block
- * @param loc  Start of block
- * @param size Length of block
+ * @param  b   Block to free
  * @return     Whether the free was successful
  */
-bool block_Free(const unsigned int loc, const unsigned int size);
+bool block_Free(const block *b);
 
 /**
  * Shrinks a block

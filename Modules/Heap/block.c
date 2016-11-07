@@ -77,4 +77,9 @@ bool block_Set(const block *b, const unsigned int loc, const float data)
   return heap_Set(b->loc + loc, data);
 }
 
+bool block_Free(const block *b)
+{
+  return heap_Free(b->loc, b->size);
+}
+
 #endif //BCI_BLOCK_C_INCLUDED
