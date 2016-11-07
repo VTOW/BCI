@@ -14,40 +14,76 @@
 //0010 1010 1000 0000 0000 0000 0000 0000
 #define BCI_HEAP_SUCCESS 713031680
 
+//Headers
+bool heap_SetFreeFlags(const unsigned int startLoc, const unsigned int len);
+
 static float bciHeap[BCI_HEAP_SIZE];
 
 void heap_Init()
 {
-  for (unsigned int i = 0; i < BCI_HEAP_SIZE; i++)
+  heap_SetFreeFlags(0, BCI_HEAP_SIZE);
+}
+
+//Set free flags for a block
+bool heap_SetFreeFlags(const unsigned int startLoc, const unsigned int len)
+{
+  //Bounds check
+  if (startLoc < 0)
   {
-    bciHeap[i] = BCI_FREE_FLAG;
+    #ifdef BCI_HEAP_DEBUG
+      writeDebugStreamLine("BCI HEAP ERROR: heap_SetFreeFlags: Invalid location: %d", startLoc);
+    #endif
+
+    return false;
+  }
+  else if (startLoc + len > BCI_HEAP_SIZE)
+  {
+    #ifdef BCI_HEAP_DEBUG
+      writeDebugStreamLine("BCI HEAP ERROR: heap_SetFreeFlags: Invalid end location: %d", startLoc + len);
+    #endif
+
+    return false;
+  }
+
+  for (unsigned int j = 0; j < len; j++)
+  {
+    //Set flag
+    bciHeap[startLoc + j] = BCI_FREE_FLAG;
   }
 }
 
 //Clear the free flags for a block
-bool heap_ClearFreeFlags(const unsigned int startLoc, const unsigned int len)
+bool heap_ClearFreeFlags(const unsigned int startLoc, const unsigned int len, float initialValue = 0)
 {
+  //Bounds check
+  if (startLoc < 0)
+  {
+    #ifdef BCI_HEAP_DEBUG
+      writeDebugStreamLine("BCI HEAP ERROR: heap_ClearFreeFlags: Invalid location: %d", startLoc);
+    #endif
+
+    return false;
+  }
+  else if (startLoc + len > BCI_HEAP_SIZE)
+  {
+    #ifdef BCI_HEAP_DEBUG
+      writeDebugStreamLine("BCI HEAP ERROR: heap_ClearFreeFlags: Invalid end location: %d", startLoc + len);
+    #endif
+
+    return false;
+  }
+
   for (unsigned int j = 0; j < len; j++)
   {
-    //Bounds check
-    if (startLoc + j >= BCI_HEAP_SIZE)
-    {
-      #ifdef BCI_HEAP_DEBUG
-        writeDebugStreamLine("BCI HEAP ERROR: heap_ClearFreeFlags: Invalid location: %d", startLoc + j);
-      #endif
-
-      return false;
-    }
-
     //Clear flag
-    bciHeap[startLoc + j] = 0;
+    bciHeap[startLoc + j] = initialValue;
   }
 
   return true;
 }
 
 //Walk and allocate a block
-int heap_Walk(const unsigned int startLoc, const unsigned int len)
+int heap_Walk(const unsigned int startLoc, const unsigned int len, float initialValue = 0)
 {
   unsigned int i = startLoc, runLength = 0;
   while (true)
@@ -66,7 +102,7 @@ int heap_Walk(const unsigned int startLoc, const unsigned int len)
     if (runLength == len)
     {
       //Clear free flags
-      heap_ClearFreeFlags(i, runLength);
+      heap_ClearFreeFlags(i - runLength + 1, runLength, initialValue);
 
       //Return index of block
       return i - runLength;
@@ -96,7 +132,15 @@ int heap_FindBlock(const unsigned int startLoc, const unsigned int len, unsigned
       writeDebugStreamLine("BCI HEAP ERROR: heap_FindBlock: Invalid location: %d", startLoc);
     #endif
 
-    return false;
+    return BCI_HEAP_FAIL;
+  }
+  else if (startLoc + len > BCI_HEAP_SIZE)
+  {
+    #ifdef BCI_HEAP_DEBUG
+      writeDebugStreamLine("BCI HEAP ERROR: heap_FindBlock: Impossible to find block of length: %d for start location: %d", len, startLoc);
+    #endif
+
+    return BCI_HEAP_FAIL;
   }
 
   unsigned int i = startLoc, runLength = 0;
@@ -142,9 +186,9 @@ int heap_FindBlock(const unsigned int startLoc, const unsigned int len, unsigned
   }
 }
 
-int heap_Malloc(const unsigned int size)
+int heap_Malloc(const unsigned int size, float initialValue)
 {
-  return heap_Walk(0, size);
+  return heap_Walk(0, size, initialValue);
 }
 
 int heap_Realloc(const unsigned int loc, const unsigned int size, const unsigned int expand)
@@ -154,7 +198,7 @@ int heap_Realloc(const unsigned int loc, const unsigned int size, const unsigned
   if ((newBlock = heap_Malloc(size + expand)) != BCI_HEAP_FAIL)
   {
     //Move data into new block
-    for (int i = loc; i < loc + size; i++)
+    for (unsigned int i = loc; i < loc + size; i++)
     {
       bciHeap[newBlock + i - loc] = bciHeap[i];
     }
@@ -253,7 +297,7 @@ bool heap_Free(const unsigned int loc, const unsigned int size)
   else if (loc + size >= BCI_HEAP_SIZE)
   {
     #ifdef BCI_HEAP_DEBUG
-      writeDebugStreamLine("BCI HEAP ERROR: heap_Free: Invalid size: %d", size);
+      writeDebugStreamLine("BCI HEAP ERROR: heap_Free: Invalid end location: %d", size);
     #endif
 
     return false;
@@ -262,6 +306,26 @@ bool heap_Free(const unsigned int loc, const unsigned int size)
   for (unsigned int i = loc; i < loc + size; i++)
   {
     bciHeap[i] = BCI_FREE_FLAG;
+  }
+
+  return true;
+}
+
+bool heap_Shrink(const unsigned int loc, const unsigned int size, bool shrinkFromEnd)
+{
+  //Bounds check
+  if (loc < 0 || loc >= BCI_HEAP_SIZE)
+  {
+    #ifdef BCI_HEAP_DEBUG
+      writeDebugStreamLine("BCI HEAP ERROR: heap_Shrink: Invalid location: %d", loc);
+    #endif
+
+    return false;
+  }
+
+  if (shrinkFromEnd)
+  {
+    
   }
 
   return true;
@@ -276,7 +340,7 @@ void heap_Print(const unsigned int loc, const unsigned int size)
       writeDebugStreamLine("BCI HEAP ERROR: heap_Print: Invalid location: %d", loc);
     #endif
   }
-  else if (loc + size >= BCI_HEAP_SIZE)
+  else if (loc + size > BCI_HEAP_SIZE)
   {
     #ifdef BCI_HEAP_DEBUG
       writeDebugStreamLine("BCI HEAP ERROR: heap_Print: Invalid size: %d", size);
@@ -323,16 +387,16 @@ void heap_PrintStats(const unsigned int loc, const unsigned int size)
       writeDebugStreamLine("BCI HEAP ERROR: heap_PrintStats: Invalid location: %d", loc);
     #endif
   }
-  else if (loc + size >= BCI_HEAP_SIZE)
+  else if (loc + size > BCI_HEAP_SIZE)
   {
     #ifdef BCI_HEAP_DEBUG
       writeDebugStreamLine("BCI HEAP ERROR: heap_PrintStats: Invalid size: %d", size);
     #endif
   }
 
-  //Run through the heap and record free space
+  //Run through the block and record free space
   int freeSpace = 0;
-  for (unsigned int i = 0; i < BCI_HEAP_SIZE; i++)
+  for (unsigned int i = 0; i < size; i++)
   {
     if (bciHeap[i] == BCI_FREE_FLAG)
     {
@@ -342,7 +406,7 @@ void heap_PrintStats(const unsigned int loc, const unsigned int size)
 
   //Print out percent space used, free space, and used space
   writeDebugStreamLine("BCI HEAP STATS:");
-  writeDebugStreamLine("Percent used: %1.2f, Used space: %d, Free space: %d", 100 * ((float)(BCI_HEAP_SIZE - freeSpace) / (float)BCI_HEAP_SIZE), BCI_HEAP_SIZE - freeSpace, freeSpace);
+  writeDebugStreamLine("Percent used: %1.2f, Used space: %d, Free space: %d", 100 * ((float)(size - freeSpace) / (float)size), size - freeSpace, freeSpace);
 }
 
 #endif //BCI_HEAP_C_INCLUDED

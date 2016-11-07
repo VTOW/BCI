@@ -12,24 +12,27 @@ void heap_Init();
 
 /**
  * Allocates memory on the heap
- * @param  size      Size of block
- * @return           Index of the start of the block
+ * @param  size         Length of block
+ * @param  initialValue Value to initialize block elements to
+ * @return              Index of the start of the block
  */
-int heap_Malloc(const unsigned int size);
+int heap_Malloc(const unsigned int size, float initialValue = 0);
 
 /**
  * Reallocates a block
- * @param  loc   Location in the heap
- * @param  size  Size of block
+ * @param  loc   Start of block
+ * @param  size  Length of block
  * @param expand Size to increase block by
  * @return       New index of the block
  */
 int heap_Realloc(const unsigned int loc, const unsigned int size, const unsigned int expand);
 
 /**
- * Expands the size of a block on the heap
- * @param  loc   Location in the heap
- * @param  size  Size of block
+ * Expands the size of a block on the heap. This function may call heap_Realloc
+ * if it can't find enough contiguous free elements to expand into. Do not try
+ * to expand from the middle of a block, this is undefined behavour
+ * @param  loc   Start of block
+ * @param  size  Length of block
  * @param expand Size to increase block by
  * @return       Whether the block was expanded successfully, or the index of
  *               the reallocated block
@@ -44,7 +47,7 @@ int heap_Expand(const unsigned int loc, const unsigned int size, const unsigned 
 float heap_Get(const unsigned int loc);
 
 /**
- * Sets an element of the heap
+ * Sets an element of a block
  * @param  loc  Location in the heap
  * @param  data Element to set to
  * @return      Whether the element was set successfully
@@ -52,12 +55,22 @@ float heap_Get(const unsigned int loc);
 bool heap_Set(const unsigned int loc, const float data);
 
 /**
- * Frees memory
- * @param loc  Location to free from
- * @param size Length to free
+ * Frees a block
+ * @param loc  Start of block
+ * @param size Length of block
  * @return     Whether the free was successful
  */
 bool heap_Free(const unsigned int loc, const unsigned int size);
+
+/**
+ * Shrinks a block
+ * @param  loc           Start of block
+ * @param  size          Length of block
+ * @param  shrinkFromEnd Whether to shrink from the end of the block (if true,
+ *                       shrink from end; if false, shrink from front)
+ * @return               Whether the shrink was successful
+ */
+bool heap_Shrink(const unsigned int loc, const unsigned int size, bool shrinkFromEnd = true);
 
 /**
  * Prints a range of the heap
