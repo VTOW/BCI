@@ -82,4 +82,9 @@ bool block_Free(const block *b)
   return heap_Free(b->loc, b->size);
 }
 
+bool block_Shrink(const block *b, const unsigned int shrink, bool shrinkFromEnd)
+{
+  return heap_Shrink(b->loc, b->size, shrink, shrinkFromEnd);
+}
+
 #endif //BCI_BLOCK_C_INCLUDED

@@ -49,13 +49,12 @@ bool block_Free(const block *b);
 
 /**
  * Shrinks a block
- * @param  loc           Start of block
- * @param  size          Length of block
+ * @param  b             Block to free
  * @param  shrink        Length to shrink block by
  * @param  shrinkFromEnd Whether to shrink from the end of the block (if true,
  *                       shrink from end; if false, shrink from front)
  * @return               Whether the shrink was successful
  */
-bool block_Shrink(const unsigned int loc, const unsigned int size, const unsigned int shrink, bool shrinkFromEnd = true);
+bool block_Shrink(const block *b, const unsigned int shrink, bool shrinkFromEnd = true);
 
 #endif //BCI_BLOCK_H_INCLUDED
