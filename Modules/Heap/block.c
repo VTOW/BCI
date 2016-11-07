@@ -84,7 +84,19 @@ bool block_Free(const block *b)
 
 bool block_Shrink(const block *b, const unsigned int shrink, bool shrinkFromEnd)
 {
-  return heap_Shrink(b->loc, b->size, shrink, shrinkFromEnd);
+  if (heap_Shrink(b->loc, b->size, shrink, shrinkFromEnd))
+  {
+    //We need to adjust start index if we shrunk from the front
+    if (!shrinkFromEnd)
+    {
+      b->loc += shrink;
+    }
+
+    b->size -= shrink;
+    return true;
+  }
+
+  return false;
 }
 
 #endif //BCI_BLOCK_C_INCLUDED

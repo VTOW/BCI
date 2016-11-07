@@ -19,6 +19,10 @@ task main()
   //heap_PrintStats(0,11);
 
   block b;
-  block_Initialize(&b, 2);heap_Print(0,11);
-  writeDebugStreamLine("%d",block_Shrink(&b,1,false));heap_Print(0,11);
+  block_Initialize(&b, 2);
+  writeDebugStreamLine("%d,%d",b.loc,b.size);
+  heap_Print(0,11);
+  writeDebugStreamLine("%d",block_Shrink(&b,1));
+  heap_Print(0,11);
+  writeDebugStreamLine("%d,%d",b.loc,b.size);
 }
