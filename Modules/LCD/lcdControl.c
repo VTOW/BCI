@@ -6,8 +6,6 @@
 #if MENU_NUM > 0
 
 #include "lcdControl.h"
-#include "util.h"
-#include "timer.c"
 
 //LCD system loop wait time in ms
 static int lcdSystemLoopWait = 100;
@@ -30,7 +28,7 @@ bool lcdGameStateSafetyFired = false;
 /*
 * Adds and initializes a menu pointer, and adds the menu to the main array
 */
-menu* newMenu(const string *msg, const int dispatchFuncVal, const menu *next, const menu *prev, const menu *up, const menu *down)
+menu* newMenu(const string *msg, const int dispatchFuncVal, const string *msg2, const menu *next, const menu *prev, const menu *up, const menu *down)
 {
 	//Bounds check
 	if (nextMenu == MENU_NUM)
@@ -58,6 +56,7 @@ menu* newMenu(const string *msg, const int dispatchFuncVal, const menu *next, co
 	m->up = up;
 	m->down = down;
 	m->msg = msg;
+	m->msg2 = msg2;
 	m->dispatchFuncVal = dispatchFuncVal;
 
 	return m;
@@ -466,7 +465,7 @@ task updateLCDTask()
 		clearLCDLine(0);
 		clearLCDLine(1);
 		displayLCDString(0, 0, *currentMenu->msg);
-		displayLCDString(1, 0, SUBMENU_SELECT);
+		displayLCDString(1, 0, *currentMenu->msg2);
 
 		//Slow loop time to minimize impact on other threads
 		//Lower loop time for more responsive controls

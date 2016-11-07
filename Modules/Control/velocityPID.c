@@ -3,7 +3,7 @@
 
 #include "velocityPID.h"
 
-void vel_PID_InitController(vel_PID *pid, const tSensors sensor, const float kP, const float kD, const float ticksPerRev)
+void vel_PID_InitController(vel_PID *pid, const tSensors sensor, const float kP, const float kD, float ticksPerRev)
 {
 	pid->kP = kP;
 	pid->kD = kD;
@@ -24,13 +24,11 @@ void vel_PID_InitController(vel_PID *pid, const tSensors sensor, const float kP,
 	pid->currentPosition = 0;
 	pid->targetVelocity = 0.0;
 
-	filter_Init_DEMA(&pid->filter);
-	pid->alpha = 0.19;
-	pid->beta = 0.0526;
+	filter_Init_DEMA(&pid->filter, 0.19, 0.0526);
 
 	pid->outVal = 0.0;
 }
-void vel_PID_InitController(vel_PID *pid, const tMotor imeMotor, const float kP, const float kD, const float ticksPerRev)
+void vel_PID_InitController(vel_PID *pid, const tMotor imeMotor, const float kP, const float kD, float ticksPerRev)
 {
 	pid->kP = kP;
 	pid->kD = kD;
@@ -51,14 +49,12 @@ void vel_PID_InitController(vel_PID *pid, const tMotor imeMotor, const float kP,
 	pid->currentPosition = 0;
 	pid->targetVelocity = 0.0;
 
-	filter_Init_DEMA(&pid->filter);
-	pid->alpha = 0.19;
-	pid->beta = 0.0526;
+	filter_Init_DEMA(&pid->filter, 0.19, 0.0526);
 
 	pid->outVal = 0.0;
 }
 
-void vel_PID_InitController(vel_PID *pid, const float *var, const float kP, const float kD, const float ticksPerRev)
+void vel_PID_InitController(vel_PID *pid, const float *var, const float kP, const float kD, float ticksPerRev)
 {
 	pid->kP = kP;
 	pid->kD = kD;
@@ -79,9 +75,7 @@ void vel_PID_InitController(vel_PID *pid, const float *var, const float kP, cons
 	pid->currentPosition = 0;
 	pid->targetVelocity = 0.0;
 
-	filter_Init_DEMA(&pid->filter);
-	pid->alpha = 0.19;
-	pid->beta = 0.0526;
+	filter_Init_DEMA(&pid->filter, 0.19, 0.0526);
 
 	pid->outVal = 0.0;
 }

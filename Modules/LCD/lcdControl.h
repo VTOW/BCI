@@ -11,12 +11,12 @@
 #define BUTTON_RIGHT  4
 
 //Default text
-#define DEFAULT_LINE       "<<            >>"
-#define SUBMENU_SELECT     "<<   SELECT   >>"
-#define EXIT_MENU_SELECT   "<<     OK     >>"
-#define SUBMENU_BACK       "<<    BACK    >>"
-#define SAFETY_TRIG        "   SAFETY_TRIG  "
-#define INCORRECT_MENU_NUM "  BAD MENU_NUM  "
+string DEFAULT_LINE       = "<<            >>";
+string SUBMENU_SELECT     = "<<   SELECT   >>";
+string EXIT_MENU_SELECT   = "<<     OK     >>";
+string SUBMENU_BACK       = "<<    BACK    >>";
+string SAFETY_TRIG        = "   SAFETY_TRIG  ";
+string INCORRECT_MENU_NUM = "  BAD MENU_NUM  ";
 
 //Menu type
 typedef struct menu_t
@@ -32,6 +32,7 @@ typedef struct menu_t
 
 	//Displayed text
 	string *msg;
+	string *msg2;
 
 	//Function value in the "dispatch table"
 	int dispatchFuncVal;
@@ -50,13 +51,14 @@ typedef struct menu_t
  * Initializes a menu
  * @param  msg             Menu message displayed on LCD
  * @param  dispatchFuncVal Callback ID
+ * @param  msg2            String on LCD line 2
  * @param  next            Right-linked menu
  * @param  prev            Left-linked menu
  * @param  up              Up-linked menu
  * @param  down            Down-linked menu
  * @return                 Initialized menu
  */
-menu* newMenu(const string *msg, const int dispatchFuncVal = -1, const menu *next = NULL, const menu *prev = NULL, const menu *up = NULL, const menu *down = NULL);
+menu* newMenu(const string *msg, const int dispatchFuncVal = -1, const string *msg2 = &SUBMENU_SELECT, const menu *next = NULL, const menu *prev = NULL, const menu *up = NULL, const menu *down = NULL);
 
 /**
  * Sets a blink rate (in Hz) for the lcd backlight

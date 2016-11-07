@@ -5,19 +5,24 @@
 task main()
 {
 	clearDebugStream();
-  heap_init();
+  heap_Init();
 
-  heap_malloc(3);
-  heap_print(0,10);
+  //heap_Malloc(3, 1);
+  //heap_Print(0,11);
 
-  heap_malloc(2);
-  heap_print(0,10);
+  //heap_Malloc(2, 2);
+  //heap_Print(0,11);
 
-  heap_free(1,2);
-  heap_print(0,10);
+  //heap_Expand(0,3,1);
+  //heap_Print(0,11);
 
-  heap_malloc(3);
-  heap_print(0,10);
+  //heap_PrintStats(0,11);
 
-  heap_printStats(0,10);
+  block b;
+  block_Initialize(&b, 2);
+  writeDebugStreamLine("%d,%d",b.loc,b.size);
+  heap_Print(0,11);
+  writeDebugStreamLine("%d",block_Shrink(&b,1));
+  heap_Print(0,11);
+  writeDebugStreamLine("%d,%d",b.loc,b.size);
 }

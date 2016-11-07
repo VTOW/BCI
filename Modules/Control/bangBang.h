@@ -47,7 +47,7 @@ typedef struct bangBang_t
  * @param ticksPerRev    Sensor ticks per revolution (default set for quadrature
  * encoders)
  */
-void bangBang_InitController(bangBang *bb, const tSensors sensor, const int highPower, const int lowPower, const int targetVelocity = 0, const float ticksPerRev = UTIL_QUAD_TPR);
+void bangBang_InitController(bangBang *bb, const tSensors sensor, const int highPower, const int lowPower, int targetVelocity = 0, float ticksPerRev = UTIL_QUAD_TPR);
 
 /**
  * Initializes a bangBang controller
@@ -59,7 +59,7 @@ void bangBang_InitController(bangBang *bb, const tSensors sensor, const int high
  * @param ticksPerRev    Sensor ticks per revolution (default set for high
  * torque gearing)
  */
-void bangBang_InitController(bangBang *bb, const tMotor imeMotor, const int highPower, const int lowPower, const int targetVelocity = 0, const float ticksPerRev = UTIL_IME_HT_TPR);
+void bangBang_InitController(bangBang *bb, const tMotor imeMotor, const int highPower, const int lowPower, int targetVelocity = 0, float ticksPerRev = UTIL_IME_HT_TPR);
 
 /**
  * Initializes a bangBang controller
@@ -71,7 +71,7 @@ void bangBang_InitController(bangBang *bb, const tMotor imeMotor, const int high
  * @param ticksPerRev    Sensor ticks per revolution (default set for quadrature
  * encoder)
  */
-void bangBang_InitController(bangBang *bb, const float *var, const int highPower, const int lowPower, const int targetVelocity = 0, const float ticksPerRev = UTIL_QUAD_TPR);
+void bangBang_InitController(bangBang *bb, const float *var, const int highPower, const int lowPower, int targetVelocity = 0, float ticksPerRev = UTIL_QUAD_TPR);
 
 /**
  * Sets new filter constants

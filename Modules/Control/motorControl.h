@@ -11,6 +11,7 @@
 #define MOTOR_DEFAULT_SLEW_RATE 10     //Feels like nearly no slewing to a driver
 #define MOTOR_FAST_SLEW_RATE    256    //No slewing in output
 #define MOTOR_TASK_DELAY        15     //Wait 15ms between batch motor speed updates
+
 /**
  * Sets the speed of a motor
  * @param  index Motor to use (as named in Motors and Sensors Setup)
@@ -72,9 +73,6 @@
  * @return       Motor speed
  */
 #define getMotorSpeedRaw(index) motor[index]
-
-//Extra motor control
-#define stopAllMotorsRaw() motor[port1] = 0; motor[port2] = 0; motor[port3] = 0; motor[port4] = 0; motor[port5] = 0; motor[port6] = 0; motor[port7] = 0; motor[port8] = 0; motor[port9] = 0; motor[port10] = 0
 
 //Motor representation
 typedef struct driveMotor_t
