@@ -5,6 +5,7 @@ typedef struct arrayList_t
 {
   block b;
   unsigned int usedSpace;
+  bool firstAdd;
 } arrayList;
 
 /**
@@ -13,14 +14,7 @@ typedef struct arrayList_t
  * @param size Starting size
  * @return     Whether the arrayList was initialized successfully
  */
-bool arrayList_Initialize(arrayList *list, const unsigned int size = 10);
-
-/**
- * Trims the capacity of this arrayList down to the number of elements used
- * @param  list arrayList to trim
- * @return      Whether the trim was successful
- */
-bool arrayList_TrimToSize(arrayList *list);
+bool arrayList_Initialize(arrayList *list, const unsigned int size = 1);
 
 /**
  * Increases the capacity of this arrayList, if necessary, to ensure that it can

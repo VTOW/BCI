@@ -6,19 +6,15 @@
 bool arrayList_Initialize(arrayList *list, const unsigned int size)
 {
   list->usedSpace = 0;
+  list->firstAdd = true;
   return block_Initialize(&(list->b), size);
-}
-
-bool arrayList_TrimToSize(arrayList *list)
-{
-  return block_Shrink(&(list->b), list->b.size - list->usedSpace);
 }
 
 bool arrayList_EnsureCapacity(arrayList *list, const unsigned int minCapacity)
 {
   if (minCapacity > list->b.size)
   {
-    return block_Expand(&(list->b), minCapacity);
+    return block_Expand(&(list->b), minCapacity - list->b.size);
   }
 
   return true;
@@ -47,7 +43,7 @@ float arrayList_Get(const arrayList *list, const unsigned int index)
 bool arrayList_Set(arrayList *list, const unsigned int index, const float data)
 {
   //Bounds check
-  if (index < 0 || index > list->b.size)
+  if (index < 0 || index >= list->b.size)
   {
     #ifdef BCI_HEAP_DEBUG
       writeDebugStreamLine("BCI HEAP ERROR: arrayList_Set: Invalid location: %d", index);
@@ -61,7 +57,11 @@ bool arrayList_Set(arrayList *list, const unsigned int index, const float data)
 
 bool arrayList_Add(arrayList *list, const float data)
 {
-  arrayList_EnsureCapacity(list, list->b.size + 1);
+  if (!list->firstAdd)
+  {
+    arrayList_EnsureCapacity(list, list->b.size + 1);
+  }
+  list->firstAdd = false;
   block_Set(&(list->b), list->usedSpace++, data);
 }
 
@@ -87,6 +87,9 @@ float arrayList_Remove(arrayList *list, const unsigned int index)
       block_Set(&(list->b), index, block_Get(&(list->b), index + 1));
     }
   }
+
+  list->usedSpace--;
+  block_Shrink(&(list->b), 1);
 
   return out;
 }

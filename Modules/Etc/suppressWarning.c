@@ -104,7 +104,6 @@ void ZQ_KILL_WARNING(void *trash)
 		heap_FindBlock(0,0);
 
 		arrayList_Initialize((arrayList*)0);
-		arrayList_TrimToSize((arrayList*)0);
 		arrayList_EnsureCapacity((arrayList*)0, 0);
 		arrayList_Size((arrayList*)0);
 		arrayList_Get((arrayList*)0, 0);
