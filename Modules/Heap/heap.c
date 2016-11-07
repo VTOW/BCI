@@ -105,7 +105,7 @@ int heap_Walk(const unsigned int startLoc, const unsigned int len, float initial
       heap_ClearFreeFlags(i - runLength + 1, runLength, initialValue);
 
       //Return index of block
-      return i - runLength;
+      return i - runLength + 1;
     }
 
     //If we've gone down the entire heap
@@ -160,7 +160,7 @@ int heap_FindBlock(const unsigned int startLoc, const unsigned int len, unsigned
     if (runLength == len)
     {
       //Return index of block
-      return i - runLength;
+      return i - runLength + 1;
     }
 
     //If we've gone down the entire heap
@@ -188,7 +188,16 @@ int heap_FindBlock(const unsigned int startLoc, const unsigned int len, unsigned
 
 int heap_Malloc(const unsigned int size, float initialValue)
 {
-  return heap_Walk(0, size, initialValue);
+  #ifdef BCI_HEAP_DEBUG
+    int out = heap_Walk(0, size, initialValue);
+    if (out == BCI_HEAP_FAIL)
+    {
+      writeDebugStreamLine("BCI HEAP ERROR: heap_Malloc: No space for malloc of length: %d", size);
+    }
+    return out;
+  #else
+    return heap_Walk(0, size, initialValue);
+  #endif
 }
 
 int heap_Realloc(const unsigned int loc, const unsigned int size, const unsigned int expand)
@@ -202,6 +211,9 @@ int heap_Realloc(const unsigned int loc, const unsigned int size, const unsigned
     {
       bciHeap[newBlock + i - loc] = bciHeap[i];
     }
+
+    //Clear old block
+    heap_SetFreeFlags(loc, size);
 
     return newBlock;
   }
@@ -222,14 +234,14 @@ int heap_Expand(const unsigned int loc, const unsigned int size, const unsigned 
   }
 
   //Try to find a block below to expand into
-  if (heap_FindBlock(loc + size - 1, expand) == loc + size - 1)
+  if (heap_FindBlock(loc + size - 1, expand) == loc + size)
   {
     //There is a block to expand into, use it
     heap_ClearFreeFlags(loc + size, expand);
     return BCI_HEAP_SUCCESS;
   }
   //Try to find a block above to shift into
-  else if (heap_FindBlock(loc - expand, expand) == loc - expand)
+  else if (loc - expand >= 0 && heap_FindBlock(loc - expand, expand) == loc - expand)
   {
     //There is a block to expand into, use it
     heap_ClearFreeFlags(loc - expand, expand);

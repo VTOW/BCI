@@ -11,7 +11,9 @@
 void heap_Init();
 
 /**
- * Allocates memory on the heap
+ * Allocates memory on the heap. Allocating a block of size <= 0 will return
+ * BCI_HEAP_FAIL. ALlocating a block of size >= BCI_HEAP_SIZE will return
+ * BCI_HEAP_FAIL
  * @param  size         Length of block
  * @param  initialValue Value to initialize block elements to
  * @return              Index of the start of the block
@@ -19,7 +21,8 @@ void heap_Init();
 int heap_Malloc(const unsigned int size, float initialValue = 0);
 
 /**
- * Reallocates a block
+ * Reallocates a block. Do not try to reallocate from the middle of a block,
+ * this is undefined behaviour
  * @param  loc   Start of block
  * @param  size  Length of block
  * @param expand Size to increase block by
@@ -30,7 +33,7 @@ int heap_Realloc(const unsigned int loc, const unsigned int size, const unsigned
 /**
  * Expands the size of a block on the heap. This function may call heap_Realloc
  * if it can't find enough contiguous free elements to expand into. Do not try
- * to expand from the middle of a block, this is undefined behavour
+ * to expand from the middle of a block, this is undefined behaviour
  * @param  loc   Start of block
  * @param  size  Length of block
  * @param expand Size to increase block by
