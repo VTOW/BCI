@@ -62,7 +62,7 @@ float block_Get(const block *b, const unsigned int loc)
   return heap_Get(b->loc + loc);
 }
 
-bool block_Set(const block *b, const unsigned int loc, const float data)
+bool block_Set(block *b, const unsigned int loc, const float data)
 {
   //Bounds check
   if (loc < 0 || loc >= b->size)
@@ -77,12 +77,12 @@ bool block_Set(const block *b, const unsigned int loc, const float data)
   return heap_Set(b->loc + loc, data);
 }
 
-bool block_Free(const block *b)
+bool block_Free(block *b)
 {
   return heap_Free(b->loc, b->size);
 }
 
-bool block_Shrink(const block *b, const unsigned int shrink, bool shrinkFromEnd)
+bool block_Shrink(block *b, const unsigned int shrink, bool shrinkFromEnd)
 {
   if (heap_Shrink(b->loc, b->size, shrink, shrinkFromEnd))
   {
