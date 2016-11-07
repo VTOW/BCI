@@ -24,19 +24,21 @@ bool block_Initialize(block *b, const unsigned int size);
 bool block_Expand(block *b, const unsigned int expand);
 
 /**
- * Returns the data at a location in the heap
- * @param  loc Location in the heap
+ * Returns the data at a location in the block
+ * @param  b   Block to read from
+ * @param  loc Location in the block
  * @return     Data at the location
  */
-float block_Get(const unsigned int loc);
+float block_Get(const block *b, const unsigned int loc);
 
 /**
  * Sets an element of a block
+ * @param  b    Block to write to
  * @param  loc  Location in the heap
  * @param  data Element to set to
  * @return      Whether the element was set successfully
  */
-bool block_Set(const unsigned int loc, const float data);
+bool block_Set(const block *b, const unsigned int loc, const float data);
 
 /**
  * Frees a block

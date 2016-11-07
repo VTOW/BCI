@@ -20,8 +20,4 @@ task main()
 
   block b;
   block_Initialize(&b, 1);
-  heap_Print(0,11);
-  block_Expand(&b, 1);
-  heap_Print(0,11);
-  writeDebugStreamLine("%d,%d",b.loc,b.size);
 }

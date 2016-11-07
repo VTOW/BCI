@@ -47,4 +47,34 @@ bool block_Expand(block *b, const unsigned int expand)
   }
 }
 
+float block_Get(const block *b, const unsigned int loc)
+{
+  //Bounds check
+  if (loc < 0 || loc >= b->size)
+  {
+    #ifdef BCI_HEAP_DEBUG
+      writeDebugStreamLine("BCI HEAP ERROR: block_Get: Invalid location: %d", loc);
+    #endif
+
+    return BCI_HEAP_FAIL;
+  }
+
+  return heap_Get(b->loc + loc);
+}
+
+bool block_Set(const block *b, const unsigned int loc, const float data)
+{
+  //Bounds check
+  if (loc < 0 || loc >= b->size)
+  {
+    #ifdef BCI_HEAP_DEBUG
+      writeDebugStreamLine("BCI HEAP ERROR: block_Set: Invalid location: %d", loc);
+    #endif
+
+    return BCI_HEAP_FAIL;
+  }
+
+  return heap_Set(b->loc + loc, data);
+}
+
 #endif //BCI_BLOCK_C_INCLUDED
