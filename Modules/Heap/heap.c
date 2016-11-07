@@ -311,7 +311,7 @@ bool heap_Free(const unsigned int loc, const unsigned int size)
   return true;
 }
 
-bool heap_Shrink(const unsigned int loc, const unsigned int size, bool shrinkFromEnd)
+bool heap_Shrink(const unsigned int loc, const unsigned int size, const unsigned int shrink, bool shrinkFromEnd)
 {
   //Bounds check
   if (loc < 0 || loc >= BCI_HEAP_SIZE)
@@ -325,7 +325,11 @@ bool heap_Shrink(const unsigned int loc, const unsigned int size, bool shrinkFro
 
   if (shrinkFromEnd)
   {
-    
+    heap_SetFreeFlags(loc + size - shrink, shrink);
+  }
+  else
+  {
+    heap_SetFreeFlags(loc, shrink);
   }
 
   return true;

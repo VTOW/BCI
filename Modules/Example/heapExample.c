@@ -13,7 +13,8 @@ task main()
   heap_Malloc(2, 2);
   heap_Print(0,11);
 
-  heap_Expand(2, 2, 1);
+  //heap_Expand(2, 2, 1);
+  heap_Shrink(3,2,1,false);
   heap_Print(0,11);
 
   heap_PrintStats(0,11);

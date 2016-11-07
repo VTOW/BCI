@@ -66,11 +66,12 @@ bool heap_Free(const unsigned int loc, const unsigned int size);
  * Shrinks a block
  * @param  loc           Start of block
  * @param  size          Length of block
+ * @param  shrink        Length to shrink block by
  * @param  shrinkFromEnd Whether to shrink from the end of the block (if true,
  *                       shrink from end; if false, shrink from front)
  * @return               Whether the shrink was successful
  */
-bool heap_Shrink(const unsigned int loc, const unsigned int size, bool shrinkFromEnd = true);
+bool heap_Shrink(const unsigned int loc, const unsigned int size, const unsigned int shrink, bool shrinkFromEnd = true);
 
 /**
  * Prints a range of the heap
