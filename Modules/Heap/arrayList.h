@@ -17,7 +17,7 @@ typedef struct arrayList_t
 bool arrayList_Initialize(arrayList *list, const unsigned int size = 1);
 
 /**
- * Increases the capacity of this arrayList, if necessary, to ensure that it can
+ * Increases the capacity of an arrayList, if necessary, to ensure that it can
  * hold at least the number of elements specified
  * @param  list        arrayList to modify
  * @param  minCapacity Minimum capacity
@@ -26,14 +26,14 @@ bool arrayList_Initialize(arrayList *list, const unsigned int size = 1);
 bool arrayList_EnsureCapacity(arrayList *list, const unsigned int minCapacity);
 
 /**
- * Returns the size of this arrayList
+ * Returns the size of an arrayList
  * @param  list arrayList to read from
  * @return      The size of the arrayList
  */
 unsigned int arrayList_Size(arrayList *list);
 
 /**
- * Returns the data at an index in this arrayList
+ * Returns the data at an index in an arrayList
  * @param  list  arrayList to read from
  * @param  index Index of data
  * @return       Data at index
@@ -41,7 +41,7 @@ unsigned int arrayList_Size(arrayList *list);
 float arrayList_Get(const arrayList *list, const unsigned int index);
 
 /**
- * Sets the data at an index in this arrayList
+ * Sets the data at an index in an arrayList
  * @param  list  arrayList to write to
  * @param  index Index of data
  * @param  data  Data to write
@@ -50,7 +50,7 @@ float arrayList_Get(const arrayList *list, const unsigned int index);
 bool arrayList_Set(arrayList *list, const unsigned int index, const float data);
 
 /**
- * Adds data to this arrayList
+ * Adds data to an arrayList
  * @param  list arrayList to add to
  * @param  data Data to add
  * @return      Whether the add was successful
@@ -58,7 +58,7 @@ bool arrayList_Set(arrayList *list, const unsigned int index, const float data);
 bool arrayList_Add(arrayList *list, const float data);
 
 /**
- * Removed an element from this arrayList
+ * Removed an element from an arrayList
  * @param  list  arrayList to remove from
  * @param  index Index of data
  * @return       Data removed
@@ -66,7 +66,7 @@ bool arrayList_Add(arrayList *list, const float data);
 float arrayList_Remove(arrayList *list, const unsigned int index);
 
 /**
- * Clears this arrayList
+ * Clears an arrayList
  * @param  list     arrayList to clear
  * @param  clearVal Value to clear elements to
  * @return          Whether the clear was successful
@@ -74,7 +74,7 @@ float arrayList_Remove(arrayList *list, const unsigned int index);
 bool arrayList_Clear(arrayList *list, float clearVal = 0);
 
 /**
- * Frees this arrayList
+ * Frees an arrayList
  * @param  list arrayList to free
  * @return      Whether the free was successful
  */
