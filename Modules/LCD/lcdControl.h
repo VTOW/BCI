@@ -11,12 +11,12 @@
 #define BUTTON_RIGHT  4
 
 //Default text
-string DEFAULT_LINE       = "<<            >>";
-string SUBMENU_SELECT     = "<<   SELECT   >>";
-string EXIT_MENU_SELECT   = "<<     OK     >>";
-string SUBMENU_BACK       = "<<    BACK    >>";
-string SAFETY_TRIG        = "   SAFETY_TRIG  ";
-string INCORRECT_MENU_NUM = "  BAD MENU_NUM  ";
+string LCD_DEFAULT_LINE       = "<<            >>";
+string LCD_SUBMENU_SELECT     = "<<   SELECT   >>";
+string LCD_EXIT_MENU_SELECT   = "<<     OK     >>";
+string LCD_SUBMENU_BACK       = "<<    BACK    >>";
+string LCD_SAFETY_TRIG        = "   SAFETY_TRIG  ";
+string LCD_INCORRECT_MENU_NUM = "  BAD MENU_NUM  ";
 
 //Menu type
 typedef struct menu_t
@@ -58,7 +58,7 @@ typedef struct menu_t
  * @param  down            Down-linked menu
  * @return                 Initialized menu
  */
-menu* newMenu(const string *msg, const int dispatchFuncVal = -1, const string *msg2 = &SUBMENU_SELECT, const menu *next = NULL, const menu *prev = NULL, const menu *up = NULL, const menu *down = NULL);
+menu* newMenu(const string *msg, const int dispatchFuncVal = -1, const string *msg2 = &LCD_SUBMENU_SELECT, const menu *next = NULL, const menu *prev = NULL, const menu *up = NULL, const menu *down = NULL);
 menu* newMenu(const string *msg, const string *msg2, const int dispatchFuncVal = -1, const menu *next = NULL, const menu *prev = NULL, const menu *up = NULL, const menu *down = NULL);
 
 /**
