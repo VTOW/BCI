@@ -103,9 +103,13 @@ void ZQ_KILL_WARNING(void *trash)
 		heap_Walk(0,0);
 		heap_FindBlock(0,0);
 
-		arrayList_Initialize((arrayList*)0, 0);
 		arrayList_Initialize((arrayList*)0);
+		arrayList_EnsureCapacity((arrayList*)0, 0);
+		arrayList_Size((arrayList*)0);
+		arrayList_Get((arrayList*)0, 0);
+		arrayList_Set((arrayList*)0, 0, 0);
 		arrayList_Add((arrayList*)0, 0);
+		arrayList_Remove((arrayList*)0, 0);
 	#endif
 
 	BCI_UART_ClearDataInBuffer(UART1);

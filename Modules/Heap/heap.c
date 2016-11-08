@@ -233,8 +233,12 @@ int heap_Expand(const unsigned int loc, const unsigned int size, const unsigned 
     return BCI_HEAP_FAIL;
   }
 
+  if  (size == 0)
+  {
+    return heap_Malloc(1);
+  }
   //Try to find a block below to expand into
-  if (heap_FindBlock(loc + size - 1, expand) == loc + size)
+  else if (heap_FindBlock(loc + size - 1, expand) == loc + size)
   {
     //There is a block to expand into, use it
     heap_ClearFreeFlags(loc + size, expand);
