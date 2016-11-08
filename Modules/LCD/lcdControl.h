@@ -59,6 +59,7 @@ typedef struct menu_t
  * @return                 Initialized menu
  */
 menu* newMenu(const string *msg, const int dispatchFuncVal = -1, const string *msg2 = &SUBMENU_SELECT, const menu *next = NULL, const menu *prev = NULL, const menu *up = NULL, const menu *down = NULL);
+menu* newMenu(const string *msg, const string *msg2 = &SUBMENU_SELECT, const int dispatchFuncVal = -1, const menu *next = NULL, const menu *prev = NULL, const menu *up = NULL, const menu *down = NULL);
 
 /**
  * Sets a blink rate (in Hz) for the lcd backlight

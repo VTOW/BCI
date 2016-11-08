@@ -62,6 +62,11 @@ menu* newMenu(const string *msg, const int dispatchFuncVal, const string *msg2, 
 	return m;
 }
 
+menu* newMenu(const string *msg, const string *msg2, const int dispatchFuncVal, const menu *next, const menu *prev, const menu *up, const menu *down)
+{
+	return newMenu(msg, dispatchFuncVal, msg2, next, prev, up, down);
+}
+
 /*
 * Sets a blink rate (in Hz) for the lcd backlight
 */
