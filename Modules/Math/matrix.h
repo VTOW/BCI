@@ -18,6 +18,11 @@ typedef struct matrix_t
   */
 bool matrix_Initialize(matrix *mat, const unsigned int width, const unsigned int height, float defaultValue = 0);
 
+//--------------------------------------------------------------
+//These functions save the result to a separate matrix passed in
+//Consequently, they use space O(1)
+//--------------------------------------------------------------
+
 /**
  * Adds a scalar to every element of this matrix
  * @param mat    matrix to read from
@@ -80,6 +85,104 @@ void matrix_MultiplyByMatrix(const matrix *mat1, const matrix *mat2, matrix *res
  * @param result matrix to write to
  */
 void matrix_Invert(const matrix *mat, matrix *result);
+
+/**
+ * Transposes a matrix
+ * @param mat    matrix to read from
+ * @param result matrix to write to
+ */
+void matrix_Transpose(const matrix *mat, matrix *result);
+
+//------------------------------------------------------------
+//These functions save the result to the same matrix passed in
+//Consequently, they use space O(n)
+//------------------------------------------------------------
+
+/**
+ * Adds a scalar to every element of this matrix
+ * @param mat    matrix to read from
+ * @param scalar Scalar
+ * @param result matrix to write result to
+ */
+void matrix_AddScalar(matrix *mat, const float scalar);
+
+/**
+ * Subtracts a scalar to every element of this matrix
+ * @param mat    matrix to read from
+ * @param scalar Scalar
+ * @param result matrix to write result to
+ */
+void matrix_SubtractScalar(matrix *mat, const float scalar);
+
+/**
+ * Multiplies a matrix by a scalar
+ * @param mat    matrix to read from
+ * @param scalar Scalar
+ * @param result matrix to write result to
+ */
+void matrix_MultiplyByScalar(matrix *mat, const float scalar);
+
+/**
+ * Divides a matrix by a scalar
+ * @param mat    matrix to read from
+ * @param scalar Scalar
+ * @param result matrix to write result to
+ */
+void matrix_DivideByScalar(matrix *mat, const float scalar);
+
+/**
+ * Adds two matricies together
+ * @param mat1   First matrix
+ * @param mat2   Second matrix
+ * @param result matrix to write result to
+ */
+void matrix_AddMatrix(matrix *mat1, const matrix *mat2);
+
+/**
+ * Subtracts two matricies from each other
+ * @param mat1   First matrix
+ * @param mat2   Second matrix
+ * @param result matrix to write result to
+ */
+void matrix_SubtractMatrix(matrix *mat1, const matrix *mat2);
+
+/**
+ * Multiplies two matricies together
+ * @param mat1   First matrix
+ * @param mat2   Second matrix
+ * @param result matrix to write result to
+ */
+void matrix_MultiplyByMatrix(matrix *mat1, const matrix *mat2);
+
+/**
+ * Inverts a matrix
+ * @param mat    matrix to read from
+ * @param result matrix to write to
+ */
+void matrix_Invert(matrix *mat);
+
+/**
+ * Transposes a matrix
+ * @param mat    matrix to read from
+ * @param result matrix to write to
+ */
+void matrix_Transpose(matrix *mat);
+
+//-----------------------------------------------------------
+
+/**
+ * Returns the trace of a square matrix
+ * @param  mat Square matrix to read from
+ * @return     The trace of the matrix
+ */
+float matrix_Trace(const matrix *mat);
+
+/**
+ * Returns the determinant of a square matrix
+ * @param  mat Square matrix to read from
+ * @return     The determinant of that matrix
+ */
+float matrix_Determinant(const matrix *mat);
 
 /**
  * Clears a matrix
