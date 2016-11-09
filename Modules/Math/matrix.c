@@ -15,25 +15,32 @@ bool matrix_Initialize(matrix *mat, const unsigned int columns, const unsigned i
 {
   mat->columns = columns;
   mat->rows = rows;
-  bool result = block_Initialize(&(mat->data), columns * rows, defaultValue);
-  if (!result)
-  {
-    writeDebugStreamLine("init failed");
-  }
-  return result;
+  return block_Initialize(&(mat->data), columns * rows, defaultValue);
 }
 
 void matrix_Set(matrix *mat, const float *data)
 {
   for (int i = 0; i < mat->columns * mat->rows; i++)
   {
-    block_Set(&(mat->data), i, *(data + i));
+    #if defined(BCI_MATRIX_O0)
+      block_Set(&(mat->data), i, *(data + i));
+    #elif defined(BCI_MATRIX_O1)
+      heap_Set(mat->data.loc + i, *(data + i));
+    #elif defined(BCI_MATRIX_O2)
+      bciHeap[mat->data.loc + i] = *(data + i);
+    #endif
   }
 }
 
 void matrix_Set(matrix *mat, const unsigned int x, const unsigned int y, const float data)
 {
-  block_Set(&(mat->data), x + (mat->columns * y), data);
+  #if defined(BCI_MATRIX_O0)
+    block_Set(&(mat->data), y + (mat->columns * x), data);
+  #elif defined(BCI_MATRIX_O1)
+    heap_Set(mat->data.loc + y + (mat->columns * x), data);
+  #elif defined(BCI_MATRIX_O2)
+    bciHeap[mat->data.loc + y + (mat->columns * x)] = data;
+  #endif
 }
 
 /**
@@ -44,7 +51,13 @@ void matrix_Set(matrix *mat, const unsigned int x, const unsigned int y, const f
  */
 float matrix_Get(const matrix *mat, const unsigned int x, const unsigned int y)
 {
-  return block_Get(&(mat->data), x + (mat->columns * y));
+  #if defined(BCI_MATRIX_O0)
+    return block_Get(&(mat->data), y + (mat->columns * x));
+  #elif defined(BCI_MATRIX_O1)
+    return heap_Get(mat->data.loc + y + (mat->columns * x));
+  #elif defined(BCI_MATRIX_O2)
+    return bciHeap[mat->data.loc + y + (mat->columns * x)];
+  #endif
 }
 
 //--------------------------------------------------------------
@@ -62,7 +75,13 @@ void matrix_AddScalar(const matrix *mat, const float scalar, matrix *result)
 {
   for (int i = 0; i < mat->columns * mat->rows; i++)
   {
-    block_Set(&(result->data), i, block_Get(&(mat->data), i) + scalar);
+    #if defined(BCI_MATRIX_O0)
+      block_Set(&(result->data), i, block_Get(&(mat->data), i) + scalar);
+    #elif defined(BCI_MATRIX_O1)
+      heap_Set(result->data.loc + i, heap_Get(mat->data.loc + i) + scalar);
+    #elif defined(BCI_MATRIX_O2)
+      bciHeap[result->data.loc + i] = bciHeap[mat->data.loc + i] + scalar;
+    #endif
   }
 }
 
@@ -76,7 +95,13 @@ void matrix_SubtractScalar(const matrix *mat, const float scalar, matrix *result
 {
   for (int i = 0; i < mat->columns * mat->rows; i++)
   {
-    block_Set(&(result->data), i, block_Get(&(mat->data), i) - scalar);
+    #if defined(BCI_MATRIX_O0)
+      block_Set(&(result->data), i, block_Get(&(mat->data), i) - scalar);
+    #elif defined(BCI_MATRIX_O1)
+      heap_Set(result->data.loc + i, heap_Get(mat->data.loc + i) - scalar);
+    #elif defined(BCI_MATRIX_O2)
+      bciHeap[result->data.loc + i] = bciHeap[mat->data.loc + i] - scalar;
+    #endif
   }
 }
 
@@ -90,7 +115,13 @@ void matrix_MultiplyByScalar(const matrix *mat, const float scalar, matrix *resu
 {
   for (int i = 0; i < mat->columns * mat->rows; i++)
   {
-    block_Set(&(result->data), i, block_Get(&(mat->data), i) * scalar);
+    #if defined(BCI_MATRIX_O0)
+      block_Set(&(result->data), i, block_Get(&(mat->data), i) * scalar);
+    #elif defined(BCI_MATRIX_O1)
+      heap_Set(result->data.loc + i, heap_Get(mat->data.loc + i) * scalar);
+    #elif defined(BCI_MATRIX_O2)
+      bciHeap[result->data.loc + i] = bciHeap[mat->data.loc + i] * scalar;
+    #endif
   }
 }
 
@@ -104,7 +135,13 @@ void matrix_DivideByScalar(const matrix *mat, const float scalar, matrix *result
 {
   for (int i = 0; i < mat->columns * mat->rows; i++)
   {
-    block_Set(&(result->data), i, block_Get(&(mat->data), i) / scalar);
+    #if defined(BCI_MATRIX_O0)
+      block_Set(&(result->data), i, block_Get(&(mat->data), i) / scalar);
+    #elif defined(BCI_MATRIX_O1)
+      heap_Set(result->data.loc + i, heap_Get(mat->data.loc + i) / scalar);
+    #elif defined(BCI_MATRIX_O2)
+      bciHeap[result->data.loc + i] = bciHeap[mat->data.loc + i] / scalar;
+    #endif
   }
 }
 
@@ -118,7 +155,13 @@ void matrix_RaiseToScalar(const matrix *mat, const float scalar, matrix *result)
 {
   for (int i = 0; i < mat->columns * mat->rows; i++)
   {
-    block_Set(&(result->data), i, pow(block_Get(&(mat->data), i), scalar));
+    #if defined(BCI_MATRIX_O0)
+      block_Set(&(result->data), i, pow(block_Get(&(mat->data), i), scalar));
+    #elif defined(BCI_MATRIX_O1)
+      heap_Set(result->data.loc + i, pow(heap_Get(mat->data.loc + i), scalar));
+    #elif defined(BCI_MATRIX_O2)
+      bciHeap[result->data.loc + i] = pow(bciHeap[mat->data.loc + i], scalar);
+    #endif
   }
 }
 
@@ -132,7 +175,13 @@ void matrix_AddMatrix(const matrix *mat1, const matrix *mat2, matrix *result)
 {
   for (int i = 0; i < mat1->columns * mat1->rows; i++)
   {
-    block_Set(&(result->data), i, block_Get(&(mat1->data), i) + block_Get(&(mat2->data), i));
+    #if defined(BCI_MATRIX_O0)
+      block_Set(&(result->data), i, block_Get(&(mat1->data), i) + block_Get(&(mat2->data), i));
+    #elif defined(BCI_MATRIX_O1)
+      heap_Set(result->data.loc + i, heap_Get(mat1->data.loc + i) + heap_Get(mat2->data.loc + i));
+    #elif defined(BCI_MATRIX_O2)
+      bciHeap[result->data.loc + i] = bciHeap[mat1->data.loc + i] + bciHeap[mat2->data.loc + i];
+    #endif
   }
 }
 
@@ -146,7 +195,13 @@ void matrix_SubtractMatrix(const matrix *mat1, const matrix *mat2, matrix *resul
 {
   for (int i = 0; i < mat1->columns * mat1->rows; i++)
   {
-    block_Set(&(result->data), i, block_Get(&(mat1->data), i) - block_Get(&(mat2->data), i));
+    #if defined(BCI_MATRIX_O0)
+      block_Set(&(result->data), i, block_Get(&(mat1->data), i) - block_Get(&(mat2->data), i));
+    #elif defined(BCI_MATRIX_O1)
+      heap_Set(result->data.loc + i, heap_Get(mat1->data.loc + i) - heap_Get(mat2->data.loc + i));
+    #elif defined(BCI_MATRIX_O2)
+      bciHeap[result->data.loc + i] = bciHeap[mat1->data.loc + i] - bciHeap[mat2->data.loc + i];
+    #endif
   }
 }
 
@@ -169,10 +224,6 @@ void matrix_MultiplyByMatrix(const matrix *mat1, const matrix *mat2, matrix *res
   {
     for (int j = 0; j < mat2->columns; j++)
     {
-      #if !defined(BCI_MATRIX_O0) && !defined(BCI_MATRIX_O1) && !defined(BCI_MATRIX_O2)
-        #define BCI_MATRIX_O0
-      #endif
-
       #if defined(BCI_MATRIX_O0)
         block_Set(&(result->data), j + (result->columns * i), 0);
       #elif defined(BCI_MATRIX_O1)

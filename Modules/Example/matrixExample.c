@@ -23,24 +23,27 @@ task main()
   	                 17,18,19};
   matrix_Set(&m2, m2Vals);
 
-  //matrix_MultiplyByMatrix(&m1, &m2, &m3);
-  //for (int i = 0; i < 9; i++)
-  //{
-  //	writeDebugStreamLine("%d", block_Get(&(m3.data), i));
-  //}
+  matrix_SubtractMatrix(&m1, &m2, &m3);
+  for (int i = 0; i < 3; i++)
+  {
+  	for (int j = 0; j < 3; j++)
+  	{
+  		writeDebugStreamLine("%d", matrix_Get(&m3, i, j));
+  	}
+  }
 
   //Naive implementation takes 2889.6 milliseconds on average
   //Optimized naive implemenetation takes 872 milliseconds on average
-  for (int j = 0; j < 5; j++)
-  {
-	  long startTime, endTime;
-	  int i = 0;
-	  startTime = time1[T1];
-	  for (; i < 100000; i++)
-	  {
-	  	matrix_MultiplyByMatrix(&m1, &m2, &m3);
-	  }
-	  endTime = time1[T1];
-	  writeDebugStreamLine("Time taken: %d", endTime - startTime);
-	}
+ // for (int j = 0; j < 5; j++)
+ // {
+	//  long startTime, endTime;
+	//  int i = 0;
+	//  startTime = time1[T1];
+	//  for (; i < 100000; i++)
+	//  {
+	//  	matrix_MultiplyByMatrix(&m1, &m2, &m3);
+	//  }
+	//  endTime = time1[T1];
+	//  writeDebugStreamLine("Time taken: %d", endTime - startTime);
+	//}
 }

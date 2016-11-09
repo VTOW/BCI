@@ -1,6 +1,10 @@
 #ifndef BCI_MATRIX_H_INCLUDED
 #define BCI_MATRIX_H_INCLUDED
 
+#if !defined(BCI_MATRIX_O0) && !defined(BCI_MATRIX_O1) && !defined(BCI_MATRIX_O2)
+  #define BCI_MATRIX_O0
+#endif
+
 typedef struct matrix_t
 {
   int columns;
