@@ -3,20 +3,27 @@
 
 typedef struct matrix_t
 {
-  int width;
-  int height;
+  int columns;
+  int rows;
   block data;
-}
+} matrix;
 
  /**
   * Initializes a matrix
   * @param  mat          matrix to initialze
-  * @param  width        Width
-  * @param  height       Height
+  * @param  columns      Columns
+  * @param  rows         Rows
   * @param  defaultValue Value to initialze the elements to
   * @return              Whether the matrix was initialized successfully
   */
-bool matrix_Initialize(matrix *mat, const unsigned int width, const unsigned int height, float defaultValue = 0);
+bool matrix_Initialize(matrix *mat, const unsigned int columns, const unsigned int rows, float defaultValue = 0);
+
+/**
+ * Sets the elements of this matrix from an arry
+ * @param mat  matrix to write to
+ * @param data Array of new data
+ */
+void matrix_Set(matrix *mat, const float *data);
 
 //--------------------------------------------------------------
 //These functions save the result to a separate matrix passed in

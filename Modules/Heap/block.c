@@ -3,9 +3,9 @@
 
 #include "block.h"
 
-bool block_Initialize(block *b, const unsigned int size)
+bool block_Initialize(block *b, const unsigned int size, float defaultValue)
 {
-  b->loc = heap_Malloc(size);
+  b->loc = heap_Malloc(size, defaultValue);
 
   #ifdef BCI_HEAP_DEBUG
     if (b->loc == BCI_HEAP_FAIL)

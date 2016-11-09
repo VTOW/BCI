@@ -30,6 +30,7 @@
   #include "Modules\Heap\heap.c"
   #include "Modules\Heap\block.c"
   #include "Modules\Heap\arrayList.c"
+  #include "Modules\Math\matrix.c"
 #endif
 
 #include "Modules\Etc\suppressWarning.c"

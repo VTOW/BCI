@@ -13,7 +13,7 @@ typedef struct block_t
  * @param  size Size of block
  * @return      Whether the block was initialized successfully
  */
-bool block_Initialize(block *b, const unsigned int size);
+bool block_Initialize(block *b, const unsigned int size, float defaultValue = 0);
 
 /**
  * Expands the size of a block
