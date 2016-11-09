@@ -1,5 +1,5 @@
 #define BCI_USE_HEAP
-#define BCI_MATRIX_O2
+#define BCI_MATRIX_O0
 #define BCI_HEAP_DEBUG
 #include "..\..\BCI.h"
 

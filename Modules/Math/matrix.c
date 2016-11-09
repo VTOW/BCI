@@ -164,10 +164,12 @@ void matrix_MultiplyByScalar(const matrix *mat, const float scalar, matrix *resu
 */
 void matrix_DivideByScalar(const matrix *mat, const float scalar, matrix *result)
 {
-  #ifdef BCI_HEAP_DEBUG
+  #if defined(BCI_MATRIX_O0)
     if (scalar == 0)
     {
-      writeDebugStreamLine("BCI HEAP ERROR: matrix_DivideByScalar: Divide by zero error");
+      #ifdef BCI_HEAP_DEBUG
+        writeDebugStreamLine("BCI HEAP ERROR: matrix_DivideByScalar: Divide by zero error");
+      #endif
       return;
     }
   #endif
@@ -192,10 +194,13 @@ void matrix_DivideByScalar(const matrix *mat, const float scalar, matrix *result
 */
 void matrix_RaiseToScalar(const matrix *mat, const float scalar, matrix *result)
 {
-  #ifdef BCI_HEAP_DEBUG
+  #if defined(BCI_MATRIX_O0)
     if (scalar < 0)
     {
-      writeDebugStreamLine("BCI HEAP ERROR: matrix_RaiseToScalar: Negative power error");
+      #ifdef BCI_HEAP_DEBUG
+        writeDebugStreamLine("BCI HEAP ERROR: matrix_RaiseToScalar: Negative power error");
+      #endif
+
       return;
     }
   #endif
@@ -220,10 +225,13 @@ void matrix_RaiseToScalar(const matrix *mat, const float scalar, matrix *result)
 */
 void matrix_AddMatrix(const matrix *mat1, const matrix *mat2, matrix *result)
 {
-  #ifdef BCI_HEAP_DEBUG
+  #if defined(BCI_MATRIX_O0)
     if (mat1->columns != mat2->columns || mat1->rows != mat2->rows)
     {
-      writeDebugStreamLine("BCI HEAP ERROR: matrix_AddMatrix: Cannot add matrices of sizes [%d,%d] and [%d,%d]", mat1->columns, mat1->rows, mat2->columns, mat2->rows);
+      #ifdef BCI_HEAP_DEBUG
+        writeDebugStreamLine("BCI HEAP ERROR: matrix_AddMatrix: Cannot add matrices of sizes [%d,%d] and [%d,%d]", mat1->columns, mat1->rows, mat2->columns, mat2->rows);
+      #endif
+
       return;
     }
   #endif
@@ -248,10 +256,13 @@ void matrix_AddMatrix(const matrix *mat1, const matrix *mat2, matrix *result)
 */
 void matrix_SubtractMatrix(const matrix *mat1, const matrix *mat2, matrix *result)
 {
-  #ifdef BCI_HEAP_DEBUG
+  #if defined(BCI_MATRIX_O0)
     if (mat1->columns != mat2->columns || mat1->rows != mat2->rows)
     {
-      writeDebugStreamLine("BCI HEAP ERROR: matrix_SubtractMatrix: Cannot subtract matrices of sizes [%d,%d] and [%d,%d]", mat1->columns, mat1->rows, mat2->columns, mat2->rows);
+      #ifdef BCI_HEAP_DEBUG
+        writeDebugStreamLine("BCI HEAP ERROR: matrix_SubtractMatrix: Cannot subtract matrices of sizes [%d,%d] and [%d,%d]", mat1->columns, mat1->rows, mat2->columns, mat2->rows);
+      #endif
+
       return;
     }
   #endif
@@ -283,10 +294,13 @@ void matrix_SubtractMatrix(const matrix *mat1, const matrix *mat2, matrix *resul
 */
 void matrix_MultiplyByMatrix(const matrix *mat1, const matrix *mat2, matrix *result)
 {
-  #ifdef BCI_HEAP_DEBUG
+  #if defined(BCI_MATRIX_O0)
     if (mat1->columns != mat2->rows || mat1->rows != mat2->columns)
     {
-      writeDebugStreamLine("BCI HEAP ERROR: matrix_MultiplyByMatrix: Cannot multiply matrices of sizes [%d,%d] and [%d,%d]", mat1->columns, mat1->rows, mat2->columns, mat2->rows);
+      #ifdef BCI_HEAP_DEBUG
+        writeDebugStreamLine("BCI HEAP ERROR: matrix_MultiplyByMatrix: Cannot multiply matrices of sizes [%d,%d] and [%d,%d]", mat1->columns, mat1->rows, mat2->columns, mat2->rows);
+      #endif
+
       return;
     }
   #endif
