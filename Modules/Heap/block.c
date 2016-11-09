@@ -7,13 +7,14 @@ bool block_Initialize(block *b, const unsigned int size)
 {
   b->loc = heap_Malloc(size);
 
-  #ifdef BCI_HEAP_DEBUG
-    if (b->loc == BCI_HEAP_FAIL)
-    {
+  if (b->loc == BCI_HEAP_FAIL)
+  {
+    #ifdef BCI_HEAP_DEBUG
       writeDebugStreamLine("BCI HEAP ERROR: block_Initialize: No space for new block of size: %d", size);
-      return false;
-    }
-  #endif
+    #endif
+    
+    return false;
+  }
 
   b->size = size;
   return true;
