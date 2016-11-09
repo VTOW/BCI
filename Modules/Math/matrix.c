@@ -168,7 +168,7 @@ void matrix_DivideByScalar(const matrix *mat, const float scalar, matrix *result
     if (scalar == 0)
     {
       #ifdef BCI_HEAP_DEBUG
-        writeDebugStreamLine("BCI HEAP ERROR: matrix_DivideByScalar: Divide by zero error");
+        writeDebugStreamLine("BCI HEAP ERROR: matrix_DivideByScalar: Cannot divide matrix by zero");
       #endif
       return;
     }
@@ -198,7 +198,7 @@ void matrix_RaiseToScalar(const matrix *mat, const float scalar, matrix *result)
     if (scalar < 0)
     {
       #ifdef BCI_HEAP_DEBUG
-        writeDebugStreamLine("BCI HEAP ERROR: matrix_RaiseToScalar: Negative power error");
+        writeDebugStreamLine("BCI HEAP ERROR: matrix_RaiseToScalar: Cannot raise matrix to a negative scalar");
       #endif
 
       return;
@@ -372,6 +372,24 @@ void matrix_MultiplyByMatrix(const matrix *mat1, const matrix *mat2, matrix *res
 */
 void matrix_Invert(const matrix *mat, matrix *result)
 {
+  #if defined(BCI_MATRIX_O0)
+    if (mat1->columns != mat1->rows)
+    {
+      #ifdef BCI_HEAP_DEBUG
+        writeDebugStreamLine("BCI HEAP ERROR: matrix_Invert: Cannot invert matrix of size [%d,%d]", mat1->columns, mat1->rows);
+      #endif
+
+      return;
+    }
+    else if (result->rows != mat1->rows || result->columns != mat1->columns)
+    {
+      #ifdef BCI_HEAP_DEBUG
+        writeDebugStreamLine("BCI HEAP ERROR: matrix_Invert: Cannot invert matrix of size [%d,%d] into result matrix of size [%d,%d]", mat1->columns, mat1->rows, result->columns, result->rows);
+      #endif
+
+      return;
+    }
+  #endif
 }
 
 /**
