@@ -4,6 +4,7 @@
  */
 
 #define MENU_NUM 3 //Tell BCI we want to have three menus
+#define LCD_NO_SAFETY //Our example doesn't use the competition template, so we don't need a safety
 #include "..\..\BCI.h" //Include BCI after we've told it what we want
 
 //Make our three menus, these must be pointers
@@ -12,28 +13,31 @@ menu *mainMenu, *callbackMenu, *parentMenu;
 task main()
 {
   //Make a menu with only a string
-  mainMenu = newMenu("Main Menu");
+  mainMenu = lcd_newMenu("Main Menu");
 
   //Menu a menu with a string and a callback
-  callbackMenu = newMenu("Callback", 1);
+  callbackMenu = lcd_newMenu("Callback", 1);
 
   //Make a menu with only a string
-  parentMenu = newMenu("Parent");
+  parentMenu = lcd_newMenu("Parent");
 
   //Link the two menus together. linkMenus() supports up to seven menus. If you
   //want to link more, give it an array of menus and the length of the array
-  linkMenus(mainMenu, callbackMenu);
+  lcd_linkMenus(mainMenu, callbackMenu);
 
   //Form a level between parentMenu and mainMenu. If we hit the center button on
   //parentMenu, we will move down to mainMenu. If we hold the center button on
   //mainMenu, we will move up to parentMenu. If we navigate to callbackMenu and
   //try holding up, we won't move up to parentMenu because we havnen't linked it
   //in formLevel()
-  formLevel(parentMenu, mainMenu);
+  lcd_formLevel(parentMenu, mainMenu);
+
+  //Tell BCI to run interactions on the LCD
+  startTask(lcdControlTask);
 }
 
 //We need to implement invoke
-void invoke(int func)
+void lcd_invoke(int func)
 {
   switch (func)
   {
