@@ -31,6 +31,22 @@ void matrix_Set(matrix *mat, const float *data)
   }
 }
 
+void matrix_Set(matrix *mat, const unsigned int x, const unsigned int y, const float data)
+{
+  block_Set(&(mat->data), x + (mat->columns * y), data);
+}
+
+/**
+ * Gets an element of a matrix
+ * @param mat  matrix to read from
+ * @param x    Number of columns in
+ * @param y    Number of rows in
+ */
+float matrix_Get(const matrix *mat, const unsigned int x, const unsigned int y)
+{
+  return block_Get(&(mat->data), x + (mat->columns * y));
+}
+
 //--------------------------------------------------------------
 //These functions save the result to a separate matrix passed in
 //Consequently, they use space O(1)
@@ -135,7 +151,14 @@ void matrix_SubtractMatrix(const matrix *mat1, const matrix *mat2, matrix *resul
 }
 
 /**
-* Multiplies two matricies together
+* Multiplies two matricies together. Because this is a very expensive operation,
+* multiple optimization options are provided. Only use these option if you are
+* sure your matricies can be multiplied together. If an error occurs, it will be
+* ignored and the operation will continue incorrectly, corrupting heap memory.
+*  - Option BCI_MATRIX_O0 is the default option and does not optimize.
+*  - Option BCI_MATRIX_O1 optimizes block access and skips block bounds checks.
+*  - Option BCI_MATRIX_O2 contains the previous optimizations, and adds heap
+*    access optimizations and skips heap bounds checks.
 * @param mat1   First matrix
 * @param mat2   Second matrix
 * @param result matrix to write result to
@@ -146,13 +169,64 @@ void matrix_MultiplyByMatrix(const matrix *mat1, const matrix *mat2, matrix *res
   {
     for (int j = 0; j < mat2->columns; j++)
     {
-      block_Set(&(result->data), j + (result->columns * i), 0);
+      #if !defined(BCI_MATRIX_O0) && !defined(BCI_MATRIX_O1) && !defined(BCI_MATRIX_O2)
+        #define BCI_MATRIX_O0
+      #endif
+
+      #if defined(BCI_MATRIX_O0)
+        block_Set(&(result->data), j + (result->columns * i), 0);
+      #elif defined(BCI_MATRIX_O1)
+        heap_Set(result->data.loc + j + (result->columns * i), 0);
+      #elif defined(BCI_MATRIX_O2)
+        bciHeap[result->data.loc + j + (result->columns * i)] = 0;
+      #endif
+
       for (int k = 0; k < mat1->columns; k++)
       {
-        block_Set(&(result->data), j + (result->columns * i), block_Get(&(result->data), j + (result->columns * i)) + block_Get(&(mat1->data), k + (mat1->columns * i)) * block_Get(&(mat2->data), j + (mat2->columns * k)));
+        #if defined(BCI_MATRIX_O0)
+          block_Set(&(result->data),
+          j + (result->columns * i),
+          block_Get(&(result->data),
+             j + (result->columns * i)) +
+          block_Get(&(mat1->data),
+             k + (mat1->columns * i)) *
+          block_Get(&(mat2->data),
+             j + (mat2->columns * k)));
+        #elif defined(BCI_MATRIX_O1)
+          heap_Set(result->data.loc + j + (result->columns * i),
+              heap_Get(result->data.loc + j + (result->columns * i)) +
+              heap_Get(mat1->data.loc + k + (mat1->columns * i)) *
+              heap_Get(mat2->data.loc + j + (mat2->columns * k)));
+        #elif defined(BCI_MATRIX_O2)
+          bciHeap[result->data.loc + j + (result->columns * i)] =
+              bciHeap[result->data.loc + j + (result->columns * i)] +
+              bciHeap[mat1->data.loc + k + (mat1->columns * i)] *
+              bciHeap[mat2->data.loc + j + (mat2->columns * k)];
+        #endif
       }
     }
   }
+
+  // #define TILE 16
+  // for (int i = 0; i < mat1->rows; i += TILE)
+  // {
+  //   for (int j = 0; j < mat2->columns; j += TILE)
+  //   {
+  //     for (int k = 0; k < mat1->columns; k += TILE)
+  //     {
+  //       for (int y = i; y < i + TILE; y++)
+  //       {
+  //         for (int x = j; x < j + TILE; x++)
+  //         {
+  //           for (int z = k; z < k + TILE; z++)
+  //           {
+  //             block_Set(&(result->data), x + (result->columns * y), block_Get(&(result->data), x + (result->columns * y)) + block_Get(&(mat1->data), z + (mat1->columns * y)) * block_Get(&(mat2->data), x + (mat2->columns * z)));
+  //           }
+  //         }
+  //       }
+  //     }
+  //   }
+  // }
 }
 
 /**

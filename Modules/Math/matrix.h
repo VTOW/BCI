@@ -19,11 +19,28 @@ typedef struct matrix_t
 bool matrix_Initialize(matrix *mat, const unsigned int columns, const unsigned int rows, float defaultValue = 0);
 
 /**
- * Sets the elements of this matrix from an arry
+ * Sets the elements of a matrix from an arry
  * @param mat  matrix to write to
  * @param data Array of new data
  */
 void matrix_Set(matrix *mat, const float *data);
+
+/**
+ * Sets an element of a matrix
+ * @param mat  matrix to write to
+ * @param x    Number of columns in
+ * @param y    Number of rows in
+ * @param data New data
+ */
+void matrix_Set(matrix *mat, const unsigned int x, const unsigned int y, const float data);
+
+/**
+ * Gets an element of a matrix
+ * @param mat  matrix to read from
+ * @param x    Number of columns in
+ * @param y    Number of rows in
+ */
+float matrix_Get(const matrix *mat, const unsigned int x, const unsigned int y);
 
 //--------------------------------------------------------------
 //These functions save the result to a separate matrix passed in
@@ -31,7 +48,7 @@ void matrix_Set(matrix *mat, const float *data);
 //--------------------------------------------------------------
 
 /**
- * Adds a scalar to every element of this matrix
+ * Adds a scalar to every element of a matrix
  * @param mat    matrix to read from
  * @param scalar Scalar
  * @param result matrix to write result to
@@ -39,7 +56,7 @@ void matrix_Set(matrix *mat, const float *data);
 void matrix_AddScalar(const matrix *mat, const float scalar, matrix *result);
 
 /**
- * Subtracts a scalar to every element of this matrix
+ * Subtracts a scalar to every element of a matrix
  * @param mat    matrix to read from
  * @param scalar Scalar
  * @param result matrix to write result to
@@ -114,14 +131,14 @@ void matrix_Transpose(const matrix *mat, matrix *result);
 //------------------------------------------------------------
 
 /**
- * Adds a scalar to every element of this matrix
+ * Adds a scalar to every element of a matrix
  * @param mat    matrix for read/write
  * @param scalar Scalar
  */
 void matrix_AddScalar(matrix *mat, const float scalar);
 
 /**
- * Subtracts a scalar to every element of this matrix
+ * Subtracts a scalar to every element of a matrix
  * @param mat    matrix for read/write
  * @param scalar Scalar
  */
