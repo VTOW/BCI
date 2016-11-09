@@ -15,7 +15,16 @@ bool matrix_Initialize(matrix *mat, const unsigned int columns, const unsigned i
 {
   mat->columns = columns;
   mat->rows = rows;
-  return block_Initialize(&(mat->data), columns * rows, defaultValue);
+  #ifdef BCI_HEAP_DEBUG
+    if (!block_Initialize(&(mat->data), columns * rows, defaultValue))
+    {
+      writeDebugStreamLine("BCI HEAP ERROR: matrix_Initialize: Cannot initialize matrix with columns: %d and rows: %d", columns, rows);
+      return false;
+    }
+    return true;
+  #else
+    return block_Initialize(&(mat->data), columns * rows, defaultValue);
+  #endif
 }
 
 void matrix_Set(matrix *mat, const float *data)
@@ -35,7 +44,18 @@ void matrix_Set(matrix *mat, const float *data)
 void matrix_Set(matrix *mat, const unsigned int x, const unsigned int y, const float data)
 {
   #if defined(BCI_MATRIX_O0)
-    block_Set(&(mat->data), y + (mat->columns * x), data);
+    #ifdef BCI_HEAP_DEBUG
+      if (y + (mat->columns * x) >= mat->columns * mat->rows)
+      {
+        writeDebugStreamLine("BCI HEAP ERROR: matrix_Set: Invalid location: %d", y + (mat->columns * x));
+      }
+      else
+      {
+        block_Set(&(mat->data), y + (mat->columns * x), data);
+      }
+    #else
+      block_Set(&(mat->data), y + (mat->columns * x), data);
+    #endif
   #elif defined(BCI_MATRIX_O1)
     heap_Set(mat->data.loc + y + (mat->columns * x), data);
   #elif defined(BCI_MATRIX_O2)
@@ -52,7 +72,18 @@ void matrix_Set(matrix *mat, const unsigned int x, const unsigned int y, const f
 float matrix_Get(const matrix *mat, const unsigned int x, const unsigned int y)
 {
   #if defined(BCI_MATRIX_O0)
-    return block_Get(&(mat->data), y + (mat->columns * x));
+    #ifdef BCI_HEAP_DEBUG
+      if (y + (mat->columns * x) >= mat->columns * mat->rows)
+      {
+        writeDebugStreamLine("BCI HEAP ERROR: matrix_Set: Invalid location: %d", y + (mat->columns * x));
+      }
+      else
+      {
+        return block_Get(&(mat->data), y + (mat->columns * x));
+      }
+    #else
+      return block_Get(&(mat->data), y + (mat->columns * x));
+    #endif
   #elif defined(BCI_MATRIX_O1)
     return heap_Get(mat->data.loc + y + (mat->columns * x));
   #elif defined(BCI_MATRIX_O2)
@@ -133,6 +164,14 @@ void matrix_MultiplyByScalar(const matrix *mat, const float scalar, matrix *resu
 */
 void matrix_DivideByScalar(const matrix *mat, const float scalar, matrix *result)
 {
+  #ifdef BCI_HEAP_DEBUG
+    if (scalar == 0)
+    {
+      writeDebugStreamLine("BCI HEAP ERROR: matrix_DivideByScalar: Divide by zero error");
+      return;
+    }
+  #endif
+
   for (int i = 0; i < mat->columns * mat->rows; i++)
   {
     #if defined(BCI_MATRIX_O0)
@@ -153,6 +192,14 @@ void matrix_DivideByScalar(const matrix *mat, const float scalar, matrix *result
 */
 void matrix_RaiseToScalar(const matrix *mat, const float scalar, matrix *result)
 {
+  #ifdef BCI_HEAP_DEBUG
+    if (scalar < 0)
+    {
+      writeDebugStreamLine("BCI HEAP ERROR: matrix_RaiseToScalar: Negative power error");
+      return;
+    }
+  #endif
+
   for (int i = 0; i < mat->columns * mat->rows; i++)
   {
     #if defined(BCI_MATRIX_O0)
@@ -173,6 +220,14 @@ void matrix_RaiseToScalar(const matrix *mat, const float scalar, matrix *result)
 */
 void matrix_AddMatrix(const matrix *mat1, const matrix *mat2, matrix *result)
 {
+  #ifdef BCI_HEAP_DEBUG
+    if (mat1->columns != mat2->columns || mat1->rows != mat2->rows)
+    {
+      writeDebugStreamLine("BCI HEAP ERROR: matrix_AddMatrix: Cannot add matrices of sizes [%d,%d] and [%d,%d]", mat1->columns, mat1->rows, mat2->columns, mat2->rows);
+      return;
+    }
+  #endif
+
   for (int i = 0; i < mat1->columns * mat1->rows; i++)
   {
     #if defined(BCI_MATRIX_O0)
@@ -193,6 +248,14 @@ void matrix_AddMatrix(const matrix *mat1, const matrix *mat2, matrix *result)
 */
 void matrix_SubtractMatrix(const matrix *mat1, const matrix *mat2, matrix *result)
 {
+  #ifdef BCI_HEAP_DEBUG
+    if (mat1->columns != mat2->columns || mat1->rows != mat2->rows)
+    {
+      writeDebugStreamLine("BCI HEAP ERROR: matrix_SubtractMatrix: Cannot subtract matrices of sizes [%d,%d] and [%d,%d]", mat1->columns, mat1->rows, mat2->columns, mat2->rows);
+      return;
+    }
+  #endif
+
   for (int i = 0; i < mat1->columns * mat1->rows; i++)
   {
     #if defined(BCI_MATRIX_O0)
@@ -220,6 +283,14 @@ void matrix_SubtractMatrix(const matrix *mat1, const matrix *mat2, matrix *resul
 */
 void matrix_MultiplyByMatrix(const matrix *mat1, const matrix *mat2, matrix *result)
 {
+  #ifdef BCI_HEAP_DEBUG
+    if (mat1->columns != mat2->rows || mat1->rows != mat2->columns)
+    {
+      writeDebugStreamLine("BCI HEAP ERROR: matrix_MultiplyByMatrix: Cannot multiply matrices of sizes [%d,%d] and [%d,%d]", mat1->columns, mat1->rows, mat2->columns, mat2->rows);
+      return;
+    }
+  #endif
+
   for (int i = 0; i < mat1->rows; i++)
   {
     for (int j = 0; j < mat2->columns; j++)
