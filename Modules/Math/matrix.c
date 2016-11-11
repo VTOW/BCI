@@ -342,27 +342,6 @@ void matrix_MultiplyByMatrix(const matrix *mat1, const matrix *mat2, matrix *res
       }
     }
   }
-
-  // #define TILE 16
-  // for (int i = 0; i < mat1->rows; i += TILE)
-  // {
-  //   for (int j = 0; j < mat2->columns; j += TILE)
-  //   {
-  //     for (int k = 0; k < mat1->columns; k += TILE)
-  //     {
-  //       for (int y = i; y < i + TILE; y++)
-  //       {
-  //         for (int x = j; x < j + TILE; x++)
-  //         {
-  //           for (int z = k; z < k + TILE; z++)
-  //           {
-  //             block_Set(&(result->data), x + (result->columns * y), block_Get(&(result->data), x + (result->columns * y)) + block_Get(&(mat1->data), z + (mat1->columns * y)) * block_Get(&(mat2->data), x + (mat2->columns * z)));
-  //           }
-  //         }
-  //       }
-  //     }
-  //   }
-  // }
 }
 
 /**
