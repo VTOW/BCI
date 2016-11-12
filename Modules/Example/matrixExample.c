@@ -20,14 +20,14 @@ task main()
   float m2Vals[9] = {1,2,3, 4,5,6, 7,8,9};
   matrix_Set(&m2, m2Vals);
 
-  matrix_MultiplyByMatrix(&m1, &m2, &m3);
-  for (int i = 0; i < 3; i++)
-  {
-  	for (int j = 0; j < 3; j++)
-  	{
-  		writeDebugStreamLine("%d", matrix_Get(&m3, i, j));
-  	}
-  }
+  writeDebugStreamLine("%d",matrix_Trace(&m1));
+  //for (int i = 0; i < 3; i++)
+  //{
+  //	for (int j = 0; j < 3; j++)
+  //	{
+  //		writeDebugStreamLine("%d", matrix_Get(&m3, i, j));
+  //	}
+  //}
 
   //Naive implementation takes 2889.6 milliseconds on average
   //Optimized naive implemenetation takes 872 milliseconds on average

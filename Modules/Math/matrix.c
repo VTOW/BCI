@@ -397,6 +397,31 @@ void matrix_Transpose(const matrix *mat, matrix *result)
 */
 float matrix_Trace(const matrix *mat)
 {
+  #if defined(BCI_MATRIX_O0)
+    if (mat->columns != mat->rows)
+    {
+      #ifdef BCI_HEAP_DEBUG
+        writeDebugStreamLine("BCI HEAP ERROR: matrix_Trace: Cannot calculate trace for non-square matrix of size [%d,%d]", mat->columns, mat->rows);
+      #endif
+
+      return 0;
+    }
+  #endif
+
+  float trace = 0;
+  
+  for (int i = 0; i < mat->rows; i++)
+  {
+    #if defined(BCI_MATRIX_O0)
+      trace += matrix_Get(mat, i, i);
+    #elif defined(BCI_MATRIX_O1)
+      trace += matrix_Get_Inline_2(mat, i, i);
+    #elif defined(BCI_MATRIX_O2)
+      trace += matrix_Get_Inline_3(mat, i, i);
+    #endif
+  }
+
+  return trace;
 }
 
 /**
