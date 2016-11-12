@@ -283,6 +283,10 @@ float heap_Get(const unsigned int loc)
   return bciHeap[loc];
 }
 
+//Inline version of heap_Get
+#define heap_Get_Inline(loc) bciHeap[loc]
+#define heap_Get_Inline_Deep(loc) bciHeap[loc]
+
 bool heap_Set(const unsigned int loc, const float data)
 {
   //Bounds check
@@ -298,6 +302,10 @@ bool heap_Set(const unsigned int loc, const float data)
   bciHeap[loc] = data;
   return true;
 }
+
+//Inline version of heap_Set
+#define heap_Set_Inline(loc, data) bciHeap[loc] = data
+#define heap_Set_Inline_Deep(loc, data) bciHeap[loc] = data
 
 bool heap_Free(const unsigned int loc, const unsigned int size)
 {

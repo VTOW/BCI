@@ -62,6 +62,12 @@ float block_Get(const block *b, const unsigned int loc)
   return heap_Get(b->loc + loc);
 }
 
+//Inline version of block_Get
+#define block_Get_Inline(b, offset) heap_Get(b->loc + offset)
+#define block_Get_Inline_NoPtr(b, offset) heap_Get(b.loc + offset)
+#define block_Get_Inline_Deep(b, offset) heap_Get_Inline_Deep(b->loc + offset)
+#define block_Get_Inline_Deep_NoPtr(b, offset) heap_Get_Inline_Deep(b.loc + offset)
+
 bool block_Set(block *b, const unsigned int loc, const float data)
 {
   //Bounds check
@@ -76,6 +82,12 @@ bool block_Set(block *b, const unsigned int loc, const float data)
 
   return heap_Set(b->loc + loc, data);
 }
+
+//Inline version of block_Set
+#define block_Set_Inline(b, offset, data) heap_Set(b->loc + offset, data)
+#define block_Set_Inline_NoPtr(b, offset, data) heap_Set(b.loc + offset, data)
+#define block_Set_Inline_Deep(b, offset, data) heap_Set_Inline_Deep(b->loc + offset, data)
+#define block_Set_Inline_Deep_NoPtr(b, offset, data) heap_Set_Inline_Deep(b.loc + offset, data)
 
 bool block_Free(block *b)
 {

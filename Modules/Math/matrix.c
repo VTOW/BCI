@@ -63,6 +63,11 @@ void matrix_Set(matrix *mat, const unsigned int x, const unsigned int y, const f
   #endif
 }
 
+//Inline version of matrix_Set
+#define matrix_Set_Inline_1(mat, x, y, dataIn) block_Set(&(mat->data), y + (mat->columns * x), dataIn)
+#define matrix_Set_Inline_2(mat, x, y, dataIn) block_Set_Inline_NoPtr(mat->data, y + (mat->columns * x), dataIn)
+#define matrix_Set_Inline_3(mat, x, y, dataIn) block_Set_Inline_Deep_NoPtr(mat->data, y + (mat->columns * x), dataIn)
+
 /**
  * Gets an element of a matrix
  * @param mat  matrix to read from
@@ -90,6 +95,11 @@ float matrix_Get(const matrix *mat, const unsigned int x, const unsigned int y)
     return bciHeap[mat->data.loc + y + (mat->columns * x)];
   #endif
 }
+
+//Inline version of matrix_Get
+#define matrix_Get_Inline_1(mat, x, y) block_Get(&(mat->data), y + (mat->columns * x))
+#define matrix_Get_Inline_2(mat, x, y) block_Get_Inline_NoPtr(mat->data, y + (mat->columns * x))
+#define matrix_Get_Inline_3(mat, x, y) block_Get_Inline_Deep_NoPtr(mat->data, y + (mat->columns * x))
 
 //--------------------------------------------------------------
 //These functions save the result to a separate matrix passed in
@@ -352,18 +362,18 @@ void matrix_MultiplyByMatrix(const matrix *mat1, const matrix *mat2, matrix *res
 void matrix_Invert(const matrix *mat, matrix *result)
 {
   #if defined(BCI_MATRIX_O0)
-    if (mat1->columns != mat1->rows)
+    if (mat->columns != mat->rows)
     {
       #ifdef BCI_HEAP_DEBUG
-        writeDebugStreamLine("BCI HEAP ERROR: matrix_Invert: Cannot invert matrix of size [%d,%d]", mat1->columns, mat1->rows);
+        writeDebugStreamLine("BCI HEAP ERROR: matrix_Invert: Cannot invert matrix of size [%d,%d]", mat->columns, mat->rows);
       #endif
 
       return;
     }
-    else if (result->rows != mat1->rows || result->columns != mat1->columns)
+    else if (result->rows != mat->rows || result->columns != mat->columns)
     {
       #ifdef BCI_HEAP_DEBUG
-        writeDebugStreamLine("BCI HEAP ERROR: matrix_Invert: Cannot invert matrix of size [%d,%d] into result matrix of size [%d,%d]", mat1->columns, mat1->rows, result->columns, result->rows);
+        writeDebugStreamLine("BCI HEAP ERROR: matrix_Invert: Cannot invert matrix of size [%d,%d] into result matrix of size [%d,%d]", mat->columns, mat->rows, result->columns, result->rows);
       #endif
 
       return;
@@ -378,6 +388,19 @@ void matrix_Invert(const matrix *mat, matrix *result)
 */
 void matrix_Transpose(const matrix *mat, matrix *result)
 {
+  for (int i = 0; i < mat->rows; i++)
+  {
+    for (int j = 0; j < mat->columns; j++)
+    {
+      #if defined(BCI_MATRIX_O0)
+        matrix_Set(result, j, i, matrix_Get(mat, i, j));
+      #elif defined(BCI_MATRIX_O1)
+        matrix_Set_Inline_2(result, j, i, matrix_Get_Inline_2(mat, i, j));
+      #elif defined(BCI_MATRIX_O2)
+        matrix_Set_Inline_3(result, j, i, matrix_Get_Inline_3(mat, i, j));
+      #endif
+    }
+  }
 }
 
 /**
