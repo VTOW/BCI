@@ -18,7 +18,7 @@ bool matrix_Initialize(matrix *mat, const unsigned int columns, const unsigned i
   #ifdef BCI_HEAP_DEBUG
     if (!block_Initialize(&(mat->data), columns * rows, defaultValue))
     {
-      writeDebugStreamLine("BCI HEAP ERROR: matrix_Initialize: Cannot initialize matrix with columns: %d and rows: %d", columns, rows);
+      writeDebugStreamLine("BCI MATRIX ERROR: matrix_Initialize: Cannot initialize matrix with columns: %d and rows: %d", columns, rows);
       return false;
     }
     return true;
@@ -47,7 +47,7 @@ void matrix_Set(matrix *mat, const unsigned int x, const unsigned int y, const f
     #ifdef BCI_HEAP_DEBUG
       if (y + (mat->columns * x) >= mat->columns * mat->rows)
       {
-        writeDebugStreamLine("BCI HEAP ERROR: matrix_Set: Invalid location: %d", y + (mat->columns * x));
+        writeDebugStreamLine("BCI MATRIX ERROR: matrix_Set: Invalid location: %d", y + (mat->columns * x));
       }
       else
       {
@@ -80,7 +80,7 @@ float matrix_Get(const matrix *mat, const unsigned int x, const unsigned int y)
     #ifdef BCI_HEAP_DEBUG
       if (y + (mat->columns * x) >= mat->columns * mat->rows)
       {
-        writeDebugStreamLine("BCI HEAP ERROR: matrix_Set: Invalid location: %d", y + (mat->columns * x));
+        writeDebugStreamLine("BCI MATRIX ERROR: matrix_Set: Invalid location: %d", y + (mat->columns * x));
       }
       else
       {
@@ -178,7 +178,7 @@ void matrix_DivideByScalar(const matrix *mat, const float scalar, matrix *result
     if (scalar == 0)
     {
       #ifdef BCI_HEAP_DEBUG
-        writeDebugStreamLine("BCI HEAP ERROR: matrix_DivideByScalar: Cannot divide matrix by zero");
+        writeDebugStreamLine("BCI MATRIX ERROR: matrix_DivideByScalar: Cannot divide matrix by zero");
       #endif
       return;
     }
@@ -208,7 +208,7 @@ void matrix_RaiseToScalar(const matrix *mat, const float scalar, matrix *result)
     if (scalar < 0)
     {
       #ifdef BCI_HEAP_DEBUG
-        writeDebugStreamLine("BCI HEAP ERROR: matrix_RaiseToScalar: Cannot raise matrix to a negative scalar");
+        writeDebugStreamLine("BCI MATRIX ERROR: matrix_RaiseToScalar: Cannot raise matrix to a negative scalar");
       #endif
 
       return;
@@ -239,7 +239,7 @@ void matrix_AddMatrix(const matrix *mat1, const matrix *mat2, matrix *result)
     if (mat1->columns != mat2->columns || mat1->rows != mat2->rows)
     {
       #ifdef BCI_HEAP_DEBUG
-        writeDebugStreamLine("BCI HEAP ERROR: matrix_AddMatrix: Cannot add matrices of sizes [%d,%d] and [%d,%d]", mat1->columns, mat1->rows, mat2->columns, mat2->rows);
+        writeDebugStreamLine("BCI MATRIX ERROR: matrix_AddMatrix: Cannot add matrices of sizes [%d,%d] and [%d,%d]", mat1->columns, mat1->rows, mat2->columns, mat2->rows);
       #endif
 
       return;
@@ -270,7 +270,7 @@ void matrix_SubtractMatrix(const matrix *mat1, const matrix *mat2, matrix *resul
     if (mat1->columns != mat2->columns || mat1->rows != mat2->rows)
     {
       #ifdef BCI_HEAP_DEBUG
-        writeDebugStreamLine("BCI HEAP ERROR: matrix_SubtractMatrix: Cannot subtract matrices of sizes [%d,%d] and [%d,%d]", mat1->columns, mat1->rows, mat2->columns, mat2->rows);
+        writeDebugStreamLine("BCI MATRIX ERROR: matrix_SubtractMatrix: Cannot subtract matrices of sizes [%d,%d] and [%d,%d]", mat1->columns, mat1->rows, mat2->columns, mat2->rows);
       #endif
 
       return;
@@ -308,7 +308,7 @@ void matrix_MultiplyByMatrix(const matrix *mat1, const matrix *mat2, matrix *res
     if (mat1->columns != mat2->rows || mat1->rows != mat2->columns)
     {
       #ifdef BCI_HEAP_DEBUG
-        writeDebugStreamLine("BCI HEAP ERROR: matrix_MultiplyByMatrix: Cannot multiply matrices of sizes [%d,%d] and [%d,%d]", mat1->columns, mat1->rows, mat2->columns, mat2->rows);
+        writeDebugStreamLine("BCI MATRIX ERROR: matrix_MultiplyByMatrix: Cannot multiply matrices of sizes [%d,%d] and [%d,%d]", mat1->columns, mat1->rows, mat2->columns, mat2->rows);
       #endif
 
       return;
@@ -352,7 +352,7 @@ void matrix_Invert(const matrix *mat, matrix *result)
     if (mat->columns != mat->rows)
     {
       #ifdef BCI_HEAP_DEBUG
-        writeDebugStreamLine("BCI HEAP ERROR: matrix_Invert: Cannot invert matrix of size [%d,%d]", mat->columns, mat->rows);
+        writeDebugStreamLine("BCI MATRIX ERROR: matrix_Invert: Cannot invert matrix of size [%d,%d]", mat->columns, mat->rows);
       #endif
 
       return;
@@ -360,7 +360,7 @@ void matrix_Invert(const matrix *mat, matrix *result)
     else if (result->rows != mat->rows || result->columns != mat->columns)
     {
       #ifdef BCI_HEAP_DEBUG
-        writeDebugStreamLine("BCI HEAP ERROR: matrix_Invert: Cannot invert matrix of size [%d,%d] into result matrix of size [%d,%d]", mat->columns, mat->rows, result->columns, result->rows);
+        writeDebugStreamLine("BCI MATRIX ERROR: matrix_Invert: Cannot invert matrix of size [%d,%d] into result matrix of size [%d,%d]", mat->columns, mat->rows, result->columns, result->rows);
       #endif
 
       return;
@@ -401,7 +401,7 @@ float matrix_Trace(const matrix *mat)
     if (mat->columns != mat->rows)
     {
       #ifdef BCI_HEAP_DEBUG
-        writeDebugStreamLine("BCI HEAP ERROR: matrix_Trace: Cannot calculate trace for non-square matrix of size [%d,%d]", mat->columns, mat->rows);
+        writeDebugStreamLine("BCI MATRIX ERROR: matrix_Trace: Cannot calculate trace for non-square matrix of size [%d,%d]", mat->columns, mat->rows);
       #endif
 
       return 0;
@@ -431,6 +431,17 @@ float matrix_Trace(const matrix *mat)
 */
 float matrix_Determinant(const matrix *mat)
 {
+  #if defined(BCI_MATRIX_O0)
+    if (mat->columns != mat->rows)
+    {
+      #ifdef BCI_HEAP_DEBUG
+        writeDebugStreamLine("BCI MATRIX ERROR: matrix_Determinant: Cannot calculate determinant for non-square matrix of size [%d,%d]", mat->columns, mat->rows);
+      #endif
+
+      return 0;
+    }
+  #endif
+
   return 0;
 }
 
