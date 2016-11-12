@@ -50,6 +50,8 @@ bool heap_SetFreeFlags(const unsigned int startLoc, const unsigned int len)
     //Set flag
     bciHeap[startLoc + j] = BCI_FREE_FLAG;
   }
+
+  return true;
 }
 
 //Clear the free flags for a block

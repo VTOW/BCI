@@ -29,7 +29,7 @@ bool matrix_Initialize(matrix *mat, const unsigned int columns, const unsigned i
 
 void matrix_Set(matrix *mat, const float *data)
 {
-  for (int i = 0; i < mat->columns * mat->rows; i++)
+  for (unsigned int i = 0; i < mat->columns * mat->rows; i++)
   {
     #if defined(BCI_MATRIX_O0)
       block_Set(&(mat->data), i, *(data + i));
@@ -114,7 +114,7 @@ float matrix_Get(const matrix *mat, const unsigned int x, const unsigned int y)
 */
 void matrix_AddScalar(const matrix *mat, const float scalar, matrix *result)
 {
-  for (int i = 0; i < mat->columns * mat->rows; i++)
+  for (unsigned int i = 0; i < mat->columns * mat->rows; i++)
   {
     #if defined(BCI_MATRIX_O0)
       block_Set(&(result->data), i, block_Get(&(mat->data), i) + scalar);
@@ -134,7 +134,7 @@ void matrix_AddScalar(const matrix *mat, const float scalar, matrix *result)
 */
 void matrix_SubtractScalar(const matrix *mat, const float scalar, matrix *result)
 {
-  for (int i = 0; i < mat->columns * mat->rows; i++)
+  for (unsigned int i = 0; i < mat->columns * mat->rows; i++)
   {
     #if defined(BCI_MATRIX_O0)
       block_Set(&(result->data), i, block_Get(&(mat->data), i) - scalar);
@@ -154,7 +154,7 @@ void matrix_SubtractScalar(const matrix *mat, const float scalar, matrix *result
 */
 void matrix_MultiplyByScalar(const matrix *mat, const float scalar, matrix *result)
 {
-  for (int i = 0; i < mat->columns * mat->rows; i++)
+  for (unsigned int i = 0; i < mat->columns * mat->rows; i++)
   {
     #if defined(BCI_MATRIX_O0)
       block_Set(&(result->data), i, block_Get(&(mat->data), i) * scalar);
@@ -184,7 +184,7 @@ void matrix_DivideByScalar(const matrix *mat, const float scalar, matrix *result
     }
   #endif
 
-  for (int i = 0; i < mat->columns * mat->rows; i++)
+  for (unsigned int i = 0; i < mat->columns * mat->rows; i++)
   {
     #if defined(BCI_MATRIX_O0)
       block_Set(&(result->data), i, block_Get(&(mat->data), i) / scalar);
@@ -215,7 +215,7 @@ void matrix_RaiseToScalar(const matrix *mat, const float scalar, matrix *result)
     }
   #endif
 
-  for (int i = 0; i < mat->columns * mat->rows; i++)
+  for (unsigned int i = 0; i < mat->columns * mat->rows; i++)
   {
     #if defined(BCI_MATRIX_O0)
       block_Set(&(result->data), i, pow(block_Get(&(mat->data), i), scalar));
@@ -246,7 +246,7 @@ void matrix_AddMatrix(const matrix *mat1, const matrix *mat2, matrix *result)
     }
   #endif
 
-  for (int i = 0; i < mat1->columns * mat1->rows; i++)
+  for (unsigned int i = 0; i < mat1->columns * mat1->rows; i++)
   {
     #if defined(BCI_MATRIX_O0)
       block_Set(&(result->data), i, block_Get(&(mat1->data), i) + block_Get(&(mat2->data), i));
@@ -277,7 +277,7 @@ void matrix_SubtractMatrix(const matrix *mat1, const matrix *mat2, matrix *resul
     }
   #endif
 
-  for (int i = 0; i < mat1->columns * mat1->rows; i++)
+  for (unsigned int i = 0; i < mat1->columns * mat1->rows; i++)
   {
     #if defined(BCI_MATRIX_O0)
       block_Set(&(result->data), i, block_Get(&(mat1->data), i) - block_Get(&(mat2->data), i));
@@ -315,9 +315,9 @@ void matrix_MultiplyByMatrix(const matrix *mat1, const matrix *mat2, matrix *res
     }
   #endif
 
-  for (int i = 0; i < mat1->rows; i++)
+  for (unsigned int i = 0; i < mat1->rows; i++)
   {
-    for (int j = 0; j < mat2->columns; j++)
+    for (unsigned int j = 0; j < mat2->columns; j++)
     {
       #if defined(BCI_MATRIX_O0)
         matrix_Set(result, i, j, 0);
@@ -327,7 +327,7 @@ void matrix_MultiplyByMatrix(const matrix *mat1, const matrix *mat2, matrix *res
         matrix_Set_Inline_3(result, i, j, 0);
       #endif
 
-      for (int k = 0; k < mat1->columns; k++)
+      for (unsigned int k = 0; k < mat1->columns; k++)
       {
         #if defined(BCI_MATRIX_O0)
           matrix_Set(result, i, j, matrix_Get(result, i, j) + matrix_Get(mat1, i, k) * matrix_Get(mat2, k, j));
@@ -375,9 +375,9 @@ void matrix_Invert(const matrix *mat, matrix *result)
 */
 void matrix_Transpose(const matrix *mat, matrix *result)
 {
-  for (int i = 0; i < mat->rows; i++)
+  for (unsigned int i = 0; i < mat->rows; i++)
   {
-    for (int j = 0; j < mat->columns; j++)
+    for (unsigned int j = 0; j < mat->columns; j++)
     {
       #if defined(BCI_MATRIX_O0)
         matrix_Set(result, j, i, matrix_Get(mat, i, j));
@@ -409,8 +409,8 @@ float matrix_Trace(const matrix *mat)
   #endif
 
   float trace = 0;
-  
-  for (int i = 0; i < mat->rows; i++)
+
+  for (unsigned int i = 0; i < mat->rows; i++)
   {
     #if defined(BCI_MATRIX_O0)
       trace += matrix_Get(mat, i, i);
@@ -431,6 +431,7 @@ float matrix_Trace(const matrix *mat)
 */
 float matrix_Determinant(const matrix *mat)
 {
+  return 0;
 }
 
 /**
@@ -440,9 +441,9 @@ float matrix_Determinant(const matrix *mat)
 */
 void matrix_Clear(matrix *mat, float clearVal)
 {
-  for (int i = 0; i < mat->rows; i++)
+  for (unsigned int i = 0; i < mat->rows; i++)
   {
-    for (int j = 0; j < mat->columns; j++)
+    for (unsigned int j = 0; j < mat->columns; j++)
     {
       #if defined(BCI_MATRIX_O0)
         matrix_Set(mat, i, j, clearVal);

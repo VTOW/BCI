@@ -7,8 +7,8 @@
 
 typedef struct matrix_t
 {
-  int columns;
-  int rows;
+  unsigned int columns;
+  unsigned int rows;
   block data;
 } matrix;
 
