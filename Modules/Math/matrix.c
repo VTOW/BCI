@@ -320,34 +320,21 @@ void matrix_MultiplyByMatrix(const matrix *mat1, const matrix *mat2, matrix *res
     for (int j = 0; j < mat2->columns; j++)
     {
       #if defined(BCI_MATRIX_O0)
-        block_Set(&(result->data), j + (result->columns * i), 0);
+        matrix_Set(result, i, j, 0);
       #elif defined(BCI_MATRIX_O1)
-        heap_Set(result->data.loc + j + (result->columns * i), 0);
+        matrix_Set_Inline_2(result, i, j, 0);
       #elif defined(BCI_MATRIX_O2)
-        bciHeap[result->data.loc + j + (result->columns * i)] = 0;
+        matrix_Set_Inline_3(result, i, j, 0);
       #endif
 
       for (int k = 0; k < mat1->columns; k++)
       {
         #if defined(BCI_MATRIX_O0)
-          block_Set(&(result->data),
-          j + (result->columns * i),
-          block_Get(&(result->data),
-             j + (result->columns * i)) +
-          block_Get(&(mat1->data),
-             k + (mat1->columns * i)) *
-          block_Get(&(mat2->data),
-             j + (mat2->columns * k)));
+          matrix_Set(result, i, j, matrix_Get(result, i, j) + matrix_Get(mat1, i, k) * matrix_Get(mat2, k, j));
         #elif defined(BCI_MATRIX_O1)
-          heap_Set(result->data.loc + j + (result->columns * i),
-              heap_Get(result->data.loc + j + (result->columns * i)) +
-              heap_Get(mat1->data.loc + k + (mat1->columns * i)) *
-              heap_Get(mat2->data.loc + j + (mat2->columns * k)));
+          matrix_Set_Inline_2(result, i, j, matrix_Get_Inline_2(result, i, j) + matrix_Get_Inline_2(mat1, i, k) * matrix_Get_Inline_2(mat2, k, j));
         #elif defined(BCI_MATRIX_O2)
-          bciHeap[result->data.loc + j + (result->columns * i)] =
-              bciHeap[result->data.loc + j + (result->columns * i)] +
-              bciHeap[mat1->data.loc + k + (mat1->columns * i)] *
-              bciHeap[mat2->data.loc + j + (mat2->columns * k)];
+          matrix_Set_Inline_3(result, i, j, matrix_Get_Inline_3(result, i, j) + matrix_Get_Inline_3(mat1, i, k) * matrix_Get_Inline_3(mat2, k, j));
         #endif
       }
     }
