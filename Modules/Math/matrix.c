@@ -428,6 +428,19 @@ float matrix_Determinant(const matrix *mat)
 */
 void matrix_Clear(matrix *mat, float clearVal)
 {
+  for (int i = 0; i < mat->rows; i++)
+  {
+    for (int j = 0; j < mat->columns; j++)
+    {
+      #if defined(BCI_MATRIX_O0)
+        matrix_Set(mat, i, j, clearVal);
+      #elif defined(BCI_MATRIX_O1)
+        matrix_Set_Inline_2(mat, i, j, clearVal);
+      #elif defined(BCI_MATRIX_O2)
+        matrix_Set_Inline_3(mat, i, j, clearVal);
+      #endif
+    }
+  }
 }
 
 #endif //BCI_MATRIX_C_INCLUDED

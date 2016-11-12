@@ -1,5 +1,5 @@
 #define BCI_USE_HEAP
-#define BCI_MATRIX_O2
+#define BCI_MATRIX_O0
 //#define BCI_HEAP_DEBUG
 #include "..\..\BCI.h"
 
@@ -22,28 +22,28 @@ task main()
   	                 17,18,19};
   matrix_Set(&m2, m2Vals);
 
-  //matrix_Transpose(&m1, &m3);
-  //for (int i = 0; i < 2; i++)
-  //{
-  //	for (int j = 0; j < 3; j++)
-  //	{
-  //		writeDebugStreamLine("%d", matrix_Get(&m3, i, j));
-  //	}
-  //}
+  matrix_Clear(&m3, 1);
+  for (int i = 0; i < 2; i++)
+  {
+  	for (int j = 0; j < 3; j++)
+  	{
+  		writeDebugStreamLine("%d", matrix_Get(&m3, i, j));
+  	}
+  }
 
   //Naive implementation takes 2889.6 milliseconds on average
   //Optimized naive implemenetation takes 872 milliseconds on average
-  for (int j = 0; j < 5; j++)
-  {
-	  long startTime, endTime;
-	  int i = 0;
-	  startTime = time1[T1];
-	  for (; i < 100000; i++)
-	  {
-	  	//matrix_MultiplyByMatrix(&m1, &m2, &m3);
-	  	matrix_Transpose(&m1, &m3);
-	  }
-	  endTime = time1[T1];
-	  writeDebugStreamLine("Time taken: %d", endTime - startTime);
-	}
+ // for (int j = 0; j < 5; j++)
+ // {
+	//  long startTime, endTime;
+	//  int i = 0;
+	//  startTime = time1[T1];
+	//  for (; i < 100000; i++)
+	//  {
+	//  	//matrix_MultiplyByMatrix(&m1, &m2, &m3);
+	//  	matrix_Transpose(&m1, &m3);
+	//  }
+	//  endTime = time1[T1];
+	//  writeDebugStreamLine("Time taken: %d", endTime - startTime);
+	//}
 }
