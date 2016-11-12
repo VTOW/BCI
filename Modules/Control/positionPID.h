@@ -85,6 +85,27 @@ void pos_PID_InitController(pos_PID *pid, const float *var, const float kP, cons
 void pos_PID_ChangeBias(pos_PID *pid, const float kBias);
 
 /**
+ * Changes the sensor
+ * @param pid    PID controller to use
+ * @param sensor New sensor
+ */
+void pos_PID_ChangeSensor(pos_PID *pid, const tSensors sensor);
+
+/**
+ * Changes the sensor
+ * @param pid      PID controller to use
+ * @param imeMotor New IME motor
+ */
+void pos_PID_ChangeSensor(pos_PID *pid, const tMotor imeMotor);
+
+/**
+ * Changes the sensor
+ * @param pid PID controller to use
+ * @param var New float to read from
+ */
+void pos_PID_ChangeSensor(pos_PID *pid, const float *var);
+
+/**
  * Sets the target position
  * @param pid       PID controller to use
  * @param targetPos New target position

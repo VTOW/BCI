@@ -88,6 +88,27 @@ void pos_PID_ChangeBias(pos_PID *pid, const float kBias)
 	pid->kBias = kBias;
 }
 
+void pos_PID_ChangeSensor(pos_PID *pid, const tSensors sensor)
+{
+	pid->sensor = sensor;
+	pid->usingIME = false;
+	pid->usingVar = false;
+}
+
+void pos_PID_ChangeSensor(pos_PID *pid, const tMotor imeMotor)
+{
+	pid->imeMotor = imeMotor;
+	pid->usingIME = true;
+	pid->usingVar = false;
+}
+
+void pos_PID_ChangeSensor(pos_PID *pid, const float *var)
+{
+	pid->var = var;
+	pid->usingVar = true;
+	pid->usingIME = false;
+}
+
 void pos_PID_SetTargetPosition(pos_PID *pid, const int targetPos)
 {
 	pid->targetPos = targetPos;

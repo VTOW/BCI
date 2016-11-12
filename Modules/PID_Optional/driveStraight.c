@@ -1,18 +1,19 @@
 #ifndef BCI_DRIVESTRAIGHT_C_INCLUDED
 #define BCI_DRIVESTRAIGHT_C_INCLUDED
 
-bool PID_Opt_DriveStraight(tMotor *leftMotors, tMotor *rightMotors, const unsigned int numMotors, const float *leftSensor, const float *rightSensor, const int distance, pos_PID *distancePID, pos_PID *anglePID)
+bool PID_Opt_DriveStraight(const int distance, tMotor *leftMotors, tMotor *rightMotors, const unsigned int numMotors, const tSensors leftSensor, const tSensors rightSensor, pos_PID *distancePID, pos_PID *anglePID)
 {
 	//Save left and right quad values instead of setting them to zero
-	const float encoderLeft = *leftSensor, encoderRight = *rightSensor;
+	const float encoderLeft = SensorValue[leftSensor], encoderRight = SensorValue[rightSensor];
 
 	//Total distance elapsed since start and total angle change since start
 	float distanceElapsed = 0, angleChange = 0;
+	pos_PID_ChangeSensor(distancePID, &distanceElapsed);
+	pos_PID_ChangeSensor(anglePID, &angleChange);
 
 	//Target distance for the distance PID controller
 	//Angle PID controller's target is 0
 	const int targetDistance = distance;
-
 	pos_PID_SetTargetPosition(distancePID, targetDistance);
 	pos_PID_SetTargetPosition(anglePID, 0);
 
@@ -41,8 +42,8 @@ bool PID_Opt_DriveStraight(tMotor *leftMotors, tMotor *rightMotors, const unsign
 	while (!atTarget)
 	{
 		//Calculate distance displacement
-		currentLeft = *leftSensor - encoderLeft;
-		currentRight = *rightSensor - encoderRight;
+		currentLeft = SensorValue[leftSensor] - encoderLeft;
+		currentRight = SensorValue[rightSensor] - encoderRight;
 
 		//Overall displacement is the average of left and right displacements
 		distanceElapsed = (currentLeft + currentRight) / 2.0;
