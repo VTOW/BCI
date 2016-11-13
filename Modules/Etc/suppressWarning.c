@@ -25,6 +25,8 @@ void ZQ_KILL_WARNING(void *trash)
 	filter_FUA((FUAFilter*)0,0);
 	filter_Init_TUA((TUAFilter*)0);
 	filter_TUA((TUAFilter*)0,0);
+	biquadFilter_Initialize((biquadFilter*)0,0,0,0,0);
+	biquadFilter_Sample((biquadFilter*)0,0);
 
 	addMotor((tMotor)0);
 	startTask(motorSlewRateTask);
