@@ -13,6 +13,7 @@
 #include "Modules\Filter\demaFilter.c"
 #include "Modules\Filter\fuaFilter.c"
 #include "Modules\Filter\tuaFilter.c"
+#include "Modules\Filter\biquadFilter.c"
 
 #include "Modules\Control\positionPID.c"
 #include "Modules\Control\velocityPID.c"
