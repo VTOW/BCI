@@ -23,6 +23,12 @@ typedef struct matrix_t
 bool matrix_Initialize(matrix *mat, const unsigned int columns, const unsigned int rows, float defaultValue = 0);
 
 /**
+ * Frees a matrix
+ * @param mat matrix to free
+ */
+void matrix_Free(matrix *mat);
+
+/**
  * Sets the elements of a matrix from an arry
  * @param mat  matrix to write to
  * @param data Array of new data

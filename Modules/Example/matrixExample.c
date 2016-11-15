@@ -10,17 +10,19 @@ task main()
 	heap_Init();
 
   matrix m1, m2, m3;
-  matrix_Initialize(&m1, 3, 3);
-  matrix_Initialize(&m2, 3, 3);
-  matrix_Initialize(&m3, 3, 3);
+  matrix_Initialize(&m1, 5, 5);
+  matrix_Initialize(&m2, 5, 5);
+  matrix_Initialize(&m3, 5, 5);
 
-  float m1Vals[9] = {1,2,3, 4,5,6, 7,8,9};
+  float m1Vals[25] = {5,2,3,3,5, 5,3,3,3,5, 3,3,7,3,7, 3,3,3,3,7, 5,5,7,7,6};
   matrix_Set(&m1, m1Vals);
 
-  float m2Vals[9] = {1,2,3, 4,5,6, 7,8,9};
+  float m2Vals[25] = {1,2,3,4,5, 1,2,3,4,5, 1,2,3,4,5, 1,2,3,4,5, 1,2,3,4,5};
   matrix_Set(&m2, m2Vals);
 
-  writeDebugStreamLine("%d",matrix_Trace(&m1));
+  //heap_PrintStats(0,1000);
+  //writeDebugStreamLine("%d",matrix_Determinant(&m1));
+  //heap_PrintStats(0,1000);
   //for (int i = 0; i < 3; i++)
   //{
   //	for (int j = 0; j < 3; j++)
@@ -31,17 +33,18 @@ task main()
 
   //Naive implementation takes 2889.6 milliseconds on average
   //Optimized naive implemenetation takes 872 milliseconds on average
- // for (int j = 0; j < 5; j++)
- // {
-	//  long startTime, endTime;
-	//  int i = 0;
-	//  startTime = time1[T1];
-	//  for (; i < 100000; i++)
-	//  {
-	//  	//matrix_MultiplyByMatrix(&m1, &m2, &m3);
-	//  	matrix_Transpose(&m1, &m3);
-	//  }
-	//  endTime = time1[T1];
-	//  writeDebugStreamLine("Time taken: %d", endTime - startTime);
-	//}
+  for (int j = 0; j < 5; j++)
+  {
+	  long startTime, endTime;
+	  int i = 0;
+	  startTime = time1[T1];
+	  for (; i < 5; i++)
+	  {
+	  	//matrix_MultiplyByMatrix(&m1, &m2, &m3);
+	  	//matrix_Transpose(&m1, &m3);
+	  	matrix_Determinant(&m1);
+	  }
+	  endTime = time1[T1];
+	  writeDebugStreamLine("Time taken: %d", endTime - startTime);
+	}
 }

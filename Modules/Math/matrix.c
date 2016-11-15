@@ -27,6 +27,11 @@ bool matrix_Initialize(matrix *mat, const unsigned int columns, const unsigned i
   #endif
 }
 
+void matrix_Free(matrix *mat)
+{
+  block_Free(mat->data);
+}
+
 void matrix_Set(matrix *mat, const float *data)
 {
   for (unsigned int i = 0; i < mat->columns * mat->rows; i++)
@@ -442,7 +447,94 @@ float matrix_Determinant(const matrix *mat)
     }
   #endif
 
-  return 0;
+  float sumOfDet;
+  matrix detMat;
+  int multiplier, col, row, index, i;
+
+  switch (mat->rows)
+  {
+    case 1:
+    {
+      #if defined(BCI_MATRIX_O0)
+        return matrix_Get(mat, 0, 0);
+      #elif defined(BCI_MATRIX_O1)
+        return matrix_Get_Inline_2(mat, 0, 0);
+      #elif defined(BCI_MATRIX_O2)
+        return matrix_Get_Inline_3(mat, 0, 0);
+      #endif
+    }
+
+    case 2:
+    {
+      #if defined(BCI_MATRIX_O0)
+        return matrix_Get(mat, 0, 0) * matrix_Get(mat, 1, 1) - matrix_Get(mat, 1, 0) * matrix_Get(mat, 0, 1);
+      #elif defined(BCI_MATRIX_O1)
+        return matrix_Get_Inline_2(mat, 0, 0) * matrix_Get_Inline_2(mat, 1, 1) - matrix_Get_Inline_2(mat, 1, 0) * matrix_Get_Inline_2(mat, 0, 1);
+      #elif defined(BCI_MATRIX_O2)
+        return matrix_Get_Inline_3(mat, 0, 0) * matrix_Get_Inline_3(mat, 1, 1) - matrix_Get_Inline_3(mat, 1, 0) * matrix_Get_Inline_3(mat, 0, 1);
+      #endif
+    }
+
+    case 3:
+    {
+      #if defined(BCI_MATRIX_O0)
+        return matrix_Get(mat, 0, 0) * (matrix_Get(mat, 1, 1) * matrix_Get(mat, 2, 2) - matrix_Get(mat, 1, 2) * matrix_Get(mat, 2, 1)) -
+               matrix_Get(mat, 0, 1) * (matrix_Get(mat, 1, 0) * matrix_Get(mat, 2, 2) - matrix_Get(mat, 1, 2) * matrix_Get(mat, 2, 0)) +
+               matrix_Get(mat, 0, 2) * (matrix_Get(mat, 1, 0) * matrix_Get(mat, 2, 1) - matrix_Get(mat, 1, 1) * matrix_Get(mat, 2, 1));
+      #elif defined(BCI_MATRIX_O1)
+        return matrix_Get_Inline_2(mat, 0, 0) * (matrix_Get_Inline_2(mat, 1, 1) * matrix_Get_Inline_2(mat, 2, 2) - matrix_Get_Inline_2(mat, 1, 2) * matrix_Get_Inline_2(mat, 2, 1)) -
+               matrix_Get_Inline_2(mat, 0, 1) * (matrix_Get_Inline_2(mat, 1, 0) * matrix_Get_Inline_2(mat, 2, 2) - matrix_Get_Inline_2(mat, 1, 2) * matrix_Get_Inline_2(mat, 2, 0)) +
+               matrix_Get_Inline_2(mat, 0, 2) * (matrix_Get_Inline_2(mat, 1, 0) * matrix_Get_Inline_2(mat, 2, 1) - matrix_Get_Inline_2(mat, 1, 1) * matrix_Get_Inline_2(mat, 2, 1));
+      #elif defined(BCI_MATRIX_O2)
+        return matrix_Get_Inline_3(mat, 0, 0) * (matrix_Get_Inline_3(mat, 1, 1) * matrix_Get_Inline_3(mat, 2, 2) - matrix_Get_Inline_3(mat, 1, 2) * matrix_Get_Inline_3(mat, 2, 1)) -
+               matrix_Get_Inline_3(mat, 0, 1) * (matrix_Get_Inline_3(mat, 1, 0) * matrix_Get_Inline_3(mat, 2, 2) - matrix_Get_Inline_3(mat, 1, 2) * matrix_Get_Inline_3(mat, 2, 0)) +
+               matrix_Get_Inline_3(mat, 0, 2) * (matrix_Get_Inline_3(mat, 1, 0) * matrix_Get_Inline_3(mat, 2, 1) - matrix_Get_Inline_3(mat, 1, 1) * matrix_Get_Inline_3(mat, 2, 1));
+      #endif
+    }
+
+    default:
+    {
+      sumOfDet = 0;
+      matrix_Initialize(&detMat, mat->rows-1, mat->columns-1);
+
+      multiplier = 1;
+      for(col = 0; col < mat->columns; col++)
+      {
+        index = 0;
+        for(i = 0; i < mat->columns; i++)
+        {
+          if(col != i)
+          {
+            for(row = 1; row < mat->rows; row++)
+            {
+              #if defined(BCI_MATRIX_O0)
+                matrix_Set(&detMat, index, row-1, matrix_Get(mat, i, row));
+              #elif defined(BCI_MATRIX_O1)
+                matrix_Set_Inline_2((&detMat), index, row-1, matrix_Get_Inline_2(mat, i, row));
+              #elif defined(BCI_MATRIX_O2)
+                matrix_Set_Inline_2((&detMat), index, row-1, matrix_Get_Inline_3(mat, i, row));
+              #endif
+            }
+            index++;
+          }
+        }
+
+        #if defined(BCI_MATRIX_O0)
+          sumOfDet += multiplier * matrix_Get(mat, col, 0) * matrix_Determinant(&detMat);
+        #elif defined(BCI_MATRIX_O1)
+          sumOfDet += multiplier * matrix_Get_Inline_2(mat, col, 0) * matrix_Determinant(&detMat);
+        #elif defined(BCI_MATRIX_O2)
+          sumOfDet += multiplier * matrix_Get_Inline_2(mat, col, 0) * matrix_Determinant(&detMat);
+        #endif
+
+        multiplier *= -1;
+      }
+
+      matrix_Free(&detMat);
+
+      return sumOfDet;
+    }
+  }
 }
 
 /**
