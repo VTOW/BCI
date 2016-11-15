@@ -53,6 +53,13 @@ void matrix_Set(matrix *mat, const unsigned int x, const unsigned int y, const f
 float matrix_Get(const matrix *mat, const unsigned int x, const unsigned int y);
 
 /**
+ * Copies one matrix to another
+ * @param from matrix to copy from
+ * @param to   matrix to copy to
+ */
+void matrix_Copy(const matrix *from, matrix *to);
+
+/**
  * Adds a scalar to every element of a matrix
  * @param mat    matrix to read from
  * @param scalar Scalar
@@ -117,18 +124,27 @@ void matrix_SubtractMatrix(const matrix *mat1, const matrix *mat2, matrix *resul
 void matrix_MultiplyByMatrix(const matrix *mat1, const matrix *mat2, matrix *result);
 
 /**
- * Inverts a matrix
- * @param mat    matrix to read from
- * @param result matrix to write to
- */
-void matrix_Invert(const matrix *mat, matrix *result);
-
-/**
  * Transposes a matrix
  * @param mat    matrix to read from
  * @param result matrix to write to
  */
 void matrix_Transpose(const matrix *mat, matrix *result);
+
+/**
+ * Calculates the matrix of minors
+ * @param  mat    matrix to read from
+ * @param  result matrix to write to
+ * @return        Whether the operation was successful
+ */
+bool matrix_Minors(const matrix *mat, matrix *result);
+
+/**
+ * Calculates the cofactor matrix
+ * @param  mat    matrix to read from
+ * @param  result matrix to write to
+ * @return        Whether the operation was successful
+ */
+bool matrix_Cofactor(const matrix *mat, matrix *result);
 
 /**
  * Returns the trace of a square matrix
@@ -143,6 +159,14 @@ float matrix_Trace(const matrix *mat);
  * @return     The determinant of that matrix
  */
 float matrix_Determinant(const matrix *mat);
+
+/**
+ * Inverts a matrix
+ * @param mat    matrix to read from
+ * @param result matrix to write to
+ * @return       Whether the matrix is invertible
+ */
+bool matrix_Invert(const matrix *mat, matrix *result);
 
 /**
  * Clears a matrix

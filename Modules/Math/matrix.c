@@ -3,14 +3,6 @@
 
 #include "matrix.h"
 
-/**
- * Initializes a matrix
- * @param  mat          matrix to initialze
- * @param  columns      Columns
- * @param  rows         Rows
- * @param  defaultValue Value to initialze the elements to
- * @return              Whether the matrix was initialized successfully
- */
 bool matrix_Initialize(matrix *mat, const unsigned int columns, const unsigned int rows, float defaultValue)
 {
   mat->columns = columns;
@@ -73,12 +65,6 @@ void matrix_Set(matrix *mat, const unsigned int x, const unsigned int y, const f
 #define matrix_Set_Inline_2(mat, x, y, dataIn) block_Set_Inline_NoPtr(mat->data, y + (mat->columns * x), dataIn)
 #define matrix_Set_Inline_3(mat, x, y, dataIn) block_Set_Inline_Deep_NoPtr(mat->data, y + (mat->columns * x), dataIn)
 
-/**
- * Gets an element of a matrix
- * @param mat  matrix to read from
- * @param x    Number of columns in
- * @param y    Number of rows in
- */
 float matrix_Get(const matrix *mat, const unsigned int x, const unsigned int y)
 {
   #if defined(BCI_MATRIX_O0)
@@ -106,17 +92,34 @@ float matrix_Get(const matrix *mat, const unsigned int x, const unsigned int y)
 #define matrix_Get_Inline_2(mat, x, y) block_Get_Inline_NoPtr(mat->data, y + (mat->columns * x))
 #define matrix_Get_Inline_3(mat, x, y) block_Get_Inline_Deep_NoPtr(mat->data, y + (mat->columns * x))
 
-//--------------------------------------------------------------
-//These functions save the result to a separate matrix passed in
-//Consequently, they use space O(1)
-//--------------------------------------------------------------
+void matrix_Copy(const matrix *from, matrix *to)
+{
+  #ifdef BCI_MATRIX_O0
+    if (to->rows != from->rows || to->columns != from->columns)
+    {
+      #ifdef BCI_HEAP_DEBUG
+        writeDebugStreamLine("BCI MATRIX ERROR: matrix_Copy: Cannot copy matrix of size [%d,%d] into result matrix of size [%d,%d]", from->columns, from->rows, to->columns, to->rows);
+      #endif
 
-/**
-* Adds a scalar to every element of this matrix
-* @param mat    matrix to read from
-* @param scalar Scalar
-* @param result matrix to write result to
-*/
+      return;
+    }
+  #endif
+
+  for (unsigned int i = 0; i < to->rows; i++)
+  {
+    for (unsigned int j = 0; j < to->columns; j++)
+    {
+      #if defined(BCI_MATRIX_O0)
+        matrix_Set(to, i, j, matrix_Get(from, i, j));
+      #elif defined(BCI_MATRIX_O1)
+        matrix_Set_Inline_2(to, i, j, matrix_Get_Inline_2(from, i, j));
+      #elif defined(BCI_MATRIX_O2)
+        matrix_Set_Inline_3(to, i, j, matrix_Get_Inline_3(from, i, j));
+      #endif
+    }
+  }
+}
+
 void matrix_AddScalar(const matrix *mat, const float scalar, matrix *result)
 {
   for (unsigned int i = 0; i < mat->columns * mat->rows; i++)
@@ -131,12 +134,6 @@ void matrix_AddScalar(const matrix *mat, const float scalar, matrix *result)
   }
 }
 
-/**
-* Subtracts a scalar to every element of this matrix
-* @param mat    matrix to read from
-* @param scalar Scalar
-* @param result matrix to write result to
-*/
 void matrix_SubtractScalar(const matrix *mat, const float scalar, matrix *result)
 {
   for (unsigned int i = 0; i < mat->columns * mat->rows; i++)
@@ -151,12 +148,6 @@ void matrix_SubtractScalar(const matrix *mat, const float scalar, matrix *result
   }
 }
 
-/**
-* Multiplies a matrix by a scalar
-* @param mat    matrix to read from
-* @param scalar Scalar
-* @param result matrix to write result to
-*/
 void matrix_MultiplyByScalar(const matrix *mat, const float scalar, matrix *result)
 {
   for (unsigned int i = 0; i < mat->columns * mat->rows; i++)
@@ -171,12 +162,6 @@ void matrix_MultiplyByScalar(const matrix *mat, const float scalar, matrix *resu
   }
 }
 
-/**
-* Divides a matrix by a scalar
-* @param mat    matrix to read from
-* @param scalar Scalar
-* @param result matrix to write result to
-*/
 void matrix_DivideByScalar(const matrix *mat, const float scalar, matrix *result)
 {
   #if defined(BCI_MATRIX_O0)
@@ -201,12 +186,6 @@ void matrix_DivideByScalar(const matrix *mat, const float scalar, matrix *result
   }
 }
 
-/**
-* Raises a matrix to a power
-* @param mat    matrix to read from
-* @param scalar Scalar
-* @param result matrix to write result to
-*/
 void matrix_RaiseToScalar(const matrix *mat, const float scalar, matrix *result)
 {
   #if defined(BCI_MATRIX_O0)
@@ -232,12 +211,6 @@ void matrix_RaiseToScalar(const matrix *mat, const float scalar, matrix *result)
   }
 }
 
-/**
-* Adds two matricies together
-* @param mat1   First matrix
-* @param mat2   Second matrix
-* @param result matrix to write result to
-*/
 void matrix_AddMatrix(const matrix *mat1, const matrix *mat2, matrix *result)
 {
   #if defined(BCI_MATRIX_O0)
@@ -263,12 +236,6 @@ void matrix_AddMatrix(const matrix *mat1, const matrix *mat2, matrix *result)
   }
 }
 
-/**
-* Subtracts two matricies from each other
-* @param mat1   First matrix
-* @param mat2   Second matrix
-* @param result matrix to write result to
-*/
 void matrix_SubtractMatrix(const matrix *mat1, const matrix *mat2, matrix *result)
 {
   #if defined(BCI_MATRIX_O0)
@@ -294,19 +261,6 @@ void matrix_SubtractMatrix(const matrix *mat1, const matrix *mat2, matrix *resul
   }
 }
 
-/**
-* Multiplies two matricies together. Because this is a very expensive operation,
-* multiple optimization options are provided. Only use these option if you are
-* sure your matricies can be multiplied together. If an error occurs, it will be
-* ignored and the operation will continue incorrectly, corrupting heap memory.
-*  - Option BCI_MATRIX_O0 is the default option and does not optimize.
-*  - Option BCI_MATRIX_O1 optimizes block access and skips block bounds checks.
-*  - Option BCI_MATRIX_O2 contains the previous optimizations, and adds heap
-*    access optimizations and skips heap bounds checks.
-* @param mat1   First matrix
-* @param mat2   Second matrix
-* @param result matrix to write result to
-*/
 void matrix_MultiplyByMatrix(const matrix *mat1, const matrix *mat2, matrix *result)
 {
   #if defined(BCI_MATRIX_O0)
@@ -346,38 +300,77 @@ void matrix_MultiplyByMatrix(const matrix *mat1, const matrix *mat2, matrix *res
   }
 }
 
-/**
-* Inverts a matrix
-* @param mat    matrix to read from
-* @param result matrix to write to
-*/
-void matrix_Invert(const matrix *mat, matrix *result)
+bool matrix_Minors(const matrix *mat, matrix *result)
 {
   #if defined(BCI_MATRIX_O0)
     if (mat->columns != mat->rows)
     {
       #ifdef BCI_HEAP_DEBUG
-        writeDebugStreamLine("BCI MATRIX ERROR: matrix_Invert: Cannot invert matrix of size [%d,%d]", mat->columns, mat->rows);
+        writeDebugStreamLine("BCI MATRIX ERROR: matrix_Minors: Cannot calculate matrix of minors for non-square matrix of size [%d,%d]", mat->columns, mat->rows);
       #endif
 
-      return;
-    }
-    else if (result->rows != mat->rows || result->columns != mat->columns)
-    {
-      #ifdef BCI_HEAP_DEBUG
-        writeDebugStreamLine("BCI MATRIX ERROR: matrix_Invert: Cannot invert matrix of size [%d,%d] into result matrix of size [%d,%d]", mat->columns, mat->rows, result->columns, result->rows);
-      #endif
-
-      return;
+      return false;
     }
   #endif
+
+  matrix tmp;
+  matrix_Initialize(&tmp, mat->rows - 1, mat->rows - 1);
+
+  for(unsigned int i = 0; i < mat->rows; i++)
+  {
+    for(unsigned int j = 0; j < mat->columns; j++)
+    {
+      int x = 0;
+
+      for(unsigned int m = 0; m < mat->rows - 1; m++)
+      {
+        int y = 0;
+        for(unsigned int n = 0; n < mat->columns - 1; n++)
+        {
+          matrix_Set(&tmp, x, y, matrix_Get(mat, m + (m >= i), n + (n >= j)));
+          y++;
+        }
+        x++;
+      }
+
+      matrix_Set(result, i, j, matrix_Determinant(&tmp));
+    }
+  }
+
+  matrix_Free(&tmp);
+
+  return true;
 }
 
-/**
-* Transposes a matrix
-* @param mat    matrix to read from
-* @param result matrix to write to
-*/
+bool matrix_Cofactor(const matrix *mat, matrix *result)
+{
+  #if defined(BCI_MATRIX_O0)
+    if (mat->columns != mat->rows)
+    {
+      #ifdef BCI_HEAP_DEBUG
+        writeDebugStreamLine("BCI MATRIX ERROR: matrix_Cofactor: Cannot calculate cofactor matrix for non-square matrix of size [%d,%d]", mat->columns, mat->rows);
+      #endif
+
+      return false;
+    }
+  #endif
+
+  matrix_Minors(result, mat);
+
+  for(unsigned int i = 0; i < result->rows; i++)
+  {
+    for(unsigned int j = 0; j < result->rows; j++)
+    {
+      if((i + j) % 2 == 1)
+      {
+        matrix_Set(result, j, i, matrix_Get(result, j, i) * -1);
+      }
+    }
+  }
+
+  return true;
+}
+
 void matrix_Transpose(const matrix *mat, matrix *result)
 {
   for (unsigned int i = 0; i < mat->rows; i++)
@@ -395,11 +388,6 @@ void matrix_Transpose(const matrix *mat, matrix *result)
   }
 }
 
-/**
-* Returns the trace of a square matrix
-* @param  mat Square matrix to read from
-* @return     The trace of the matrix
-*/
 float matrix_Trace(const matrix *mat)
 {
   #if defined(BCI_MATRIX_O0)
@@ -429,11 +417,6 @@ float matrix_Trace(const matrix *mat)
   return trace;
 }
 
-/**
-* Returns the determinant of a square matrix
-* @param  mat Square matrix to read from
-* @return     The determinant of that matrix
-*/
 float matrix_Determinant(const matrix *mat)
 {
   #if defined(BCI_MATRIX_O0)
@@ -537,11 +520,57 @@ float matrix_Determinant(const matrix *mat)
   }
 }
 
-/**
-* Clears a matrix
-* @param mat      matrix to clear
-* @param clearVal Value to clear the elements to
-*/
+bool matrix_Invert(const matrix *mat, matrix *result)
+{
+  #if defined(BCI_MATRIX_O0)
+    if (mat->columns != mat->rows)
+    {
+      #ifdef BCI_HEAP_DEBUG
+        writeDebugStreamLine("BCI MATRIX ERROR: matrix_Invert: Cannot invert matrix of size [%d,%d]", mat->columns, mat->rows);
+      #endif
+
+      return false;
+    }
+    else if (result->rows != mat->rows || result->columns != mat->columns)
+    {
+      #ifdef BCI_HEAP_DEBUG
+        writeDebugStreamLine("BCI MATRIX ERROR: matrix_Invert: Cannot invert matrix of size [%d,%d] into result matrix of size [%d,%d]", mat->columns, mat->rows, result->columns, result->rows);
+      #endif
+
+      return false;
+    }
+  #endif
+
+  matrix tmp, tmp2;
+  float det;
+
+  if (mat->rows == 1)
+  {
+    matrix_Set(result, 0, 0, 1.0 / matrix_Get(mat, 0, 0));
+    return true;
+  }
+
+  matrix_Initialize(&tmp, mat->columns, mat->rows);
+  matrix_Initialize(&tmp2, mat->columns, mat->rows);
+
+  matrix_Cofactor(mat, tmp);
+  matrix_Transpose(tmp, tmp2);
+  det = matrix_Determinant(mat);
+
+  if (det == 0)
+  {
+    return false;
+  }
+
+  matrix_DivideByScalar(&tmp2, det, &tmp);
+  matrix_Copy(&tmp, result);
+
+  matrix_Free(&tmp);
+  matrix_Free(&tmp2);
+
+  return true;
+}
+
 void matrix_Clear(matrix *mat, float clearVal)
 {
   for (unsigned int i = 0; i < mat->rows; i++)
