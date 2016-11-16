@@ -589,6 +589,8 @@ bool matrix_Invert(const matrix *mat, matrix *result)
 
   if (det == 0)
   {
+    matrix_Free(&tmp);
+    matrix_Free(&tmp2);
     return false;
   }
 
@@ -597,7 +599,6 @@ bool matrix_Invert(const matrix *mat, matrix *result)
 
   matrix_Free(&tmp);
   matrix_Free(&tmp2);
-
   return true;
 }
 
