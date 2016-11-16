@@ -50,10 +50,6 @@ void ZQ_KILL_WARNING(void *trash)
 	timer_GetDTFromHardMarker((timer*)0);
 	timer_Repeat((timer*)0,0);
 
-	dumpLevels();
-	printnVexRCRecieveState();
-	startTask(printBatteryVoltage);
-
 	vel_PID_InitController((vel_PID*)0,(tSensors)0,0,0);
 	vel_PID_InitController((vel_PID*)0,(tMotor)0,0,0);
 	vel_PID_InitController((vel_PID*)0,(float*)0,0,0);

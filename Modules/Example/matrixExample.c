@@ -1,6 +1,8 @@
 #define BCI_USE_HEAP
-#define BCI_MATRIX_O2
-//#define BCI_HEAP_DEBUG
+#define BCI_MATRIX_O0
+#define BCI_HEAP_DEBUG
+#define BCI_BLOCK_DEBUG
+#define BCI_MATRIX_DEBUG
 #include "..\..\BCI.h"
 
 task main()
