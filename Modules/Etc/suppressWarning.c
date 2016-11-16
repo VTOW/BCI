@@ -106,6 +106,28 @@ void ZQ_KILL_WARNING(void *trash)
 		arrayList_Set((arrayList*)0, 0, 0);
 		arrayList_Add((arrayList*)0, 0);
 		arrayList_Remove((arrayList*)0, 0);
+
+		matrix_Initialize((matrix*)0,0,0);
+		matrix_Free((matrix*)0);
+		matrix_Set((matrix*)0, (float*)0);
+		matrix_Set((matrix*)0, 0,0,0);
+		matrix_Get( (matrix*)0, 0,0);
+		matrix_Copy((matrix*)0,(matrix*)0);
+		matrix_AddScalar( (matrix*)0, 0, (matrix*)0);
+		matrix_SubtractScalar( (matrix*)0, 0, (matrix*)0);
+		matrix_MultiplyByScalar( (matrix*)0, 0, (matrix*)0);
+		matrix_DivideByScalar( (matrix*)0, 0, (matrix*)0);
+		matrix_RaiseToScalar( (matrix*)0, 0, (matrix*)0);
+		matrix_AddMatrix( (matrix*)0, (matrix*)0, (matrix*)0);
+		matrix_SubtractMatrix( (matrix*)0, (matrix*)0, (matrix*)0);
+		matrix_MultiplyByMatrix( (matrix*)0, (matrix*)0, (matrix*)0);
+		matrix_Transpose( (matrix*)0, (matrix*)0);
+		matrix_Minors( (matrix*)0, (matrix*)0);
+		matrix_Cofactor( (matrix*)0, (matrix*)0);
+		matrix_Trace( (matrix*)0);
+		matrix_Determinant( (matrix*)0);
+		matrix_Invert( (matrix*)0, (matrix*)0);
+		matrix_Clear((matrix*)0);
 	#endif
 
 	BCI_UART_ClearDataInBuffer(UART1);
