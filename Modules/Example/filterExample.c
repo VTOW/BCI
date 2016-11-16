@@ -8,6 +8,7 @@
 
 //We will have a quadrature encoder for the filter to filter
 
+#define BCI_USE_EMA_FILTER
 #include "..\..\BCI.h"
 
 EMAFilter myFilter; //Make an exponential moving average filter

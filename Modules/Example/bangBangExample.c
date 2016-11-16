@@ -10,6 +10,7 @@
 //We will have a quadrature encoder for the bangBang controller to run off of and a
 //motor to control the robot
 
+#define BCI_USE_BANGBANG
 #include "..\..\BCI.h"
 
 bangBang myBB; //Make a bangBang controller

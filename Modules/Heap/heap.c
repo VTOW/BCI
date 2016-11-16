@@ -33,7 +33,7 @@ bool heap_SetFreeFlags(const unsigned int startLoc, const unsigned int len)
     #ifdef BCI_HEAP_DEBUG
       string s;
       sprintf(s, "SetFreeFlags: Invalid location: %d", startLoc);
-      util_printHeapError(s);
+      util_PrintHeapError(s);
     #endif
 
     return false;
@@ -135,7 +135,7 @@ int heap_Walk(const unsigned int startLoc, const unsigned int len, float initial
 }
 
 //Walk heap without allocating
-int heap_FindBlock(const unsigned int startLoc, const unsigned int len, unsigned int max = BCI_HEAP_SIZE)
+unsigned int heap_FindBlock(const unsigned int startLoc, const unsigned int len, unsigned int max = BCI_HEAP_SIZE)
 {
   //Bounds check
   if (startLoc < 0 || startLoc >= BCI_HEAP_SIZE)

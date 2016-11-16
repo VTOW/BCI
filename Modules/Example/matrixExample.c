@@ -1,4 +1,4 @@
-#define BCI_USE_HEAP
+#define BCI_USE_MATRIX
 #define BCI_MATRIX_O0
 #define BCI_HEAP_DEBUG
 #define BCI_BLOCK_DEBUG

@@ -10,6 +10,7 @@
 //We will have a quadrature encoder for the TBH controller to run off of and a
 //motor to control the robot
 
+#define BCI_USE_VEL_TBH
 #include "..\..\BCI.h"
 
 vel_TBH myTBH; //Make a tbh controller
