@@ -3,17 +3,20 @@
 
 #include "block.h"
 
-bool block_Initialize(block *b, const unsigned int size)
+bool block_Initialize(block *b, const unsigned int size, float defaultValue)
 {
-  b->loc = heap_Malloc(size);
+  b->loc = heap_Malloc(size, defaultValue);
 
-  #ifdef BCI_HEAP_DEBUG
-    if (b->loc == BCI_HEAP_FAIL)
-    {
-      writeDebugStreamLine("BCI HEAP ERROR: block_Initialize: No space for new block of size: %d", size);
-      return false;
-    }
-  #endif
+  if (b->loc == BCI_HEAP_FAIL)
+  {
+    #ifdef BCI_BLOCK_DEBUG
+      string s;
+      sprintf(s, "Initialize: No space for new block of size: %d", size);
+      util_PrintBlockError(s);
+    #endif
+
+    return false;
+  }
 
   b->size = size;
   return true;
@@ -32,8 +35,10 @@ bool block_Expand(block *b, const unsigned int expand)
   //Expand failed
   else if (result == BCI_HEAP_FAIL)
   {
-    #ifdef BCI_HEAP_DEBUG
-      writeDebugStreamLine("BCI HEAP ERROR: block_Expand: No space for to expand block of size: %d by: %d", b->size, expand);
+    #ifdef BCI_BLOCK_DEBUG
+      string s;
+      sprintf(s, "Expand: No space for to expand block of size: %d by: %d", b->size, expand);
+      util_PrintBlockError(s);
     #endif
 
     return false;
@@ -52,8 +57,10 @@ float block_Get(const block *b, const unsigned int loc)
   //Bounds check
   if (loc < 0 || loc >= b->size)
   {
-    #ifdef BCI_HEAP_DEBUG
-      writeDebugStreamLine("BCI HEAP ERROR: block_Get: Invalid location: %d", loc);
+    #ifdef BCI_BLOCK_DEBUG
+      string s;
+      sprintf(s, "Get: Invalid location: %d", loc);
+      util_PrintBlockError(s);
     #endif
 
     return BCI_HEAP_FAIL;
@@ -62,13 +69,21 @@ float block_Get(const block *b, const unsigned int loc)
   return heap_Get(b->loc + loc);
 }
 
-bool block_Set(const block *b, const unsigned int loc, const float data)
+//Inline version of block_Get
+#define block_Get_Inline(b, offset) heap_Get(b->loc + offset)
+#define block_Get_Inline_NoPtr(b, offset) heap_Get(b.loc + offset)
+#define block_Get_Inline_Deep(b, offset) heap_Get_Inline_Deep(b->loc + offset)
+#define block_Get_Inline_Deep_NoPtr(b, offset) heap_Get_Inline_Deep(b.loc + offset)
+
+bool block_Set(block *b, const unsigned int loc, const float data)
 {
   //Bounds check
   if (loc < 0 || loc >= b->size)
   {
-    #ifdef BCI_HEAP_DEBUG
-      writeDebugStreamLine("BCI HEAP ERROR: block_Set: Invalid location: %d", loc);
+    #ifdef BCI_BLOCK_DEBUG
+      string s;
+      sprintf(s, "Set: Invalid location: %d", loc);
+      util_PrintBlockError(s);
     #endif
 
     return BCI_HEAP_FAIL;
@@ -77,12 +92,18 @@ bool block_Set(const block *b, const unsigned int loc, const float data)
   return heap_Set(b->loc + loc, data);
 }
 
-bool block_Free(const block *b)
+//Inline version of block_Set
+#define block_Set_Inline(b, offset, data) heap_Set(b->loc + offset, data)
+#define block_Set_Inline_NoPtr(b, offset, data) heap_Set(b.loc + offset, data)
+#define block_Set_Inline_Deep(b, offset, data) heap_Set_Inline_Deep(b->loc + offset, data)
+#define block_Set_Inline_Deep_NoPtr(b, offset, data) heap_Set_Inline_Deep(b.loc + offset, data)
+
+bool block_Free(block *b)
 {
   return heap_Free(b->loc, b->size);
 }
 
-bool block_Shrink(const block *b, const unsigned int shrink, bool shrinkFromEnd)
+bool block_Shrink(block *b, const unsigned int shrink, bool shrinkFromEnd)
 {
   if (heap_Shrink(b->loc, b->size, shrink, shrinkFromEnd))
   {

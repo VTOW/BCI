@@ -28,7 +28,7 @@ bool lcdGameStateSafetyFired = false;
 /*
 * Adds and initializes a menu pointer, and adds the menu to the main array
 */
-menu* newMenu(const string *msg, const int dispatchFuncVal, const string *msg2, const menu *next, const menu *prev, const menu *up, const menu *down)
+menu* lcd_newMenu(const string *msg, const int dispatchFuncVal, const string *msg2, const menu *next, const menu *prev, const menu *up, const menu *down)
 {
 	//Bounds check
 	if (nextMenu == MENU_NUM)
@@ -37,7 +37,7 @@ menu* newMenu(const string *msg, const int dispatchFuncVal, const string *msg2, 
 		//Make it very obvious to the user
 		for (int i = 0; i < MENU_NUM; i++)
 		{
-			changeMessage(&(menus[i]), INCORRECT_MENU_NUM);
+			lcd_changeMessage(&(menus[i]), LCD_INCORRECT_MENU_NUM);
 		}
 
 		//Return previously allocated menu
@@ -62,10 +62,15 @@ menu* newMenu(const string *msg, const int dispatchFuncVal, const string *msg2, 
 	return m;
 }
 
+menu* lcd_newMenu(const string *msg, const string *msg2, const int dispatchFuncVal, const menu *next, const menu *prev, const menu *up, const menu *down)
+{
+	return lcd_newMenu(msg, dispatchFuncVal, msg2, next, prev, up, down);
+}
+
 /*
 * Sets a blink rate (in Hz) for the lcd backlight
 */
-void setBacklightBlinkRate(const int rate)
+void lcd_setBacklightBlinkRate(const int rate)
 {
 	backlightBlinkRate = rate;
 }
@@ -73,7 +78,7 @@ void setBacklightBlinkRate(const int rate)
 /*
 * Changes the function a menu has
 */
-void changeFunction(menu *m, const int func)
+void lcd_changeFunction(menu *m, const int func)
 {
 	m->dispatchFuncVal = func;
 }
@@ -81,7 +86,7 @@ void changeFunction(menu *m, const int func)
 /*
 * Changes the message a menu has
 */
-void changeMessage(const menu *m, const string *newMsg)
+void lcd_changeMessage(const menu *m, const string *newMsg)
 {
 	m->msg = newMsg;
 }
@@ -89,7 +94,7 @@ void changeMessage(const menu *m, const string *newMsg)
 /*
 * Returns the current game state safety state
 */
-bool getLCDSafetyState()
+bool lcd_getLCDSafetyState()
 {
 	return lcdGameStateSafetyFired;
 }
@@ -97,7 +102,7 @@ bool getLCDSafetyState()
 /*
 * Childs 1 menu to a parent
 */
-void formLevel(menu *parent, menu *child)
+void lcd_formLevel(menu *parent, menu *child)
 {
 	child->up = parent;
 	parent->down = child;
@@ -106,7 +111,7 @@ void formLevel(menu *parent, menu *child)
 /*
 * Childs 2 menus to a parent
 */
-void formLevel(menu *parent, menu *child, menu *child2)
+void lcd_formLevel(menu *parent, menu *child, menu *child2)
 {
 	child->up = parent;
 	child2->up = parent;
@@ -116,7 +121,7 @@ void formLevel(menu *parent, menu *child, menu *child2)
 /*
 * Childs 3 menus to a parent
 */
-void formLevel(menu *parent, menu *child, menu *child2, menu *child3)
+void lcd_formLevel(menu *parent, menu *child, menu *child2, menu *child3)
 {
 	child->up = parent;
 	child2->up = parent;
@@ -127,7 +132,7 @@ void formLevel(menu *parent, menu *child, menu *child2, menu *child3)
 /*
 * Childs 4 menus to a parent
 */
-void formLevel(menu *parent, menu *child, menu *child2, menu *child3, menu *child4)
+void lcd_formLevel(menu *parent, menu *child, menu *child2, menu *child3, menu *child4)
 {
 	child->up = parent;
 	child2->up = parent;
@@ -139,7 +144,7 @@ void formLevel(menu *parent, menu *child, menu *child2, menu *child3, menu *chil
 /*
 * Childs 5 menus to a parent
 */
-void formLevel(menu *parent, menu *child, menu *child2, menu *child3, menu *child4, menu *child5)
+void lcd_formLevel(menu *parent, menu *child, menu *child2, menu *child3, menu *child4, menu *child5)
 {
 	child->up = parent;
 	child2->up = parent;
@@ -152,7 +157,7 @@ void formLevel(menu *parent, menu *child, menu *child2, menu *child3, menu *chil
 /*
 * Childs 6 menus to a parent
 */
-void formLevel(menu *parent, menu *child, menu *child2, menu *child3, menu *child4, menu *child5, menu *child6)
+void lcd_formLevel(menu *parent, menu *child, menu *child2, menu *child3, menu *child4, menu *child5, menu *child6)
 {
 	child->up = parent;
 	child2->up = parent;
@@ -168,7 +173,7 @@ void formLevel(menu *parent, menu *child, menu *child2, menu *child3, menu *chil
 * Note: This is dependent upon allocation order
 *		As a result, this can also be used with an array
 */
-void formLevel(menu *parent, menu *startingMenu, const int count)
+void lcd_formLevel(menu *parent, menu *startingMenu, const int count)
 {
 	//Step through memory to get child menus
 	for (int i = 0; i < count; i++)
@@ -182,7 +187,7 @@ void formLevel(menu *parent, menu *startingMenu, const int count)
 /*
 * Inserts a menu into a row
 */
-void putMenuInRow(menu *m, menu *next, menu *prev)
+void lcd_putMenuInRow(menu *m, menu *next, menu *prev)
 {
 	m->next = next;
 
@@ -195,7 +200,7 @@ void putMenuInRow(menu *m, menu *next, menu *prev)
 /*
 * Pairs 2 menus
 */
-void linkMenus(menu *m1, menu *m2)
+void lcd_linkMenus(menu *m1, menu *m2)
 {
 	m1->next = m2;
 	m1->prev = m2;
@@ -206,7 +211,7 @@ void linkMenus(menu *m1, menu *m2)
 /*
 * Pairs 3 menus
 */
-void linkMenus(menu *m1, menu *m2, menu *m3)
+void lcd_linkMenus(menu *m1, menu *m2, menu *m3)
 {
 	m1->next = m2;
 	m1->prev = m3;
@@ -219,7 +224,7 @@ void linkMenus(menu *m1, menu *m2, menu *m3)
 /*
 * Pairs 4 menus
 */
-void linkMenus(menu *m1, menu *m2, menu *m3, menu *m4)
+void lcd_linkMenus(menu *m1, menu *m2, menu *m3, menu *m4)
 {
 	m1->next = m2;
 	m1->prev = m4;
@@ -234,7 +239,7 @@ void linkMenus(menu *m1, menu *m2, menu *m3, menu *m4)
 /*
 * Pairs 5 menus
 */
-void linkMenus(menu *m1, menu *m2, menu *m3, menu *m4, menu *m5)
+void lcd_linkMenus(menu *m1, menu *m2, menu *m3, menu *m4, menu *m5)
 {
 	m1->next = m2;
 	m1->prev = m5;
@@ -251,7 +256,7 @@ void linkMenus(menu *m1, menu *m2, menu *m3, menu *m4, menu *m5)
 /*
 * Pairs 6 menus
 */
-void linkMenus(menu *m1, menu *m2, menu *m3, menu *m4, menu *m5, menu *m6)
+void lcd_linkMenus(menu *m1, menu *m2, menu *m3, menu *m4, menu *m5, menu *m6)
 {
 	m1->next = m2;
 	m1->prev = m6;
@@ -270,7 +275,7 @@ void linkMenus(menu *m1, menu *m2, menu *m3, menu *m4, menu *m5, menu *m6)
 /*
 * Pairs 7 menus
 */
-void linkMenus(menu *m1, menu *m2, menu *m3, menu *m4, menu *m5, menu *m6, menu *m7)
+void lcd_linkMenus(menu *m1, menu *m2, menu *m3, menu *m4, menu *m5, menu *m6, menu *m7)
 {
 	m1->next = m2;
 	m1->prev = m7;
@@ -293,7 +298,7 @@ void linkMenus(menu *m1, menu *m2, menu *m3, menu *m4, menu *m5, menu *m6, menu 
 * Note: This is dependent upon allocation order
 *		As a result, this can also be used with an array
 */
-void linkMenus(menu *m1, const int count)
+void lcd_linkMenus(menu *m1, const int count)
 {
 	//Pointer to current menu
 	//Start at input menu
@@ -328,7 +333,7 @@ void linkMenus(menu *m1, const int count)
 /*
 * Updates the LCD and responds to button presses
 */
-task updateLCDTask()
+task lcdControlTask()
 {
 	//Timer for backlight blink
 	timer backlightTimer;
@@ -338,7 +343,7 @@ task updateLCDTask()
 	clearLCDLine(1);
 	currentMenu = &(menus[0]);                //Start control with first menu
 	displayLCDString(0, 0, *menus[0].msg);    //Display first menu
-	displayLCDString(1, 0, SUBMENU_SELECT);   //Display default nav ui
+	displayLCDString(1, 0, LCD_SUBMENU_SELECT);   //Display default nav ui
 
 	while (true)
 	{
@@ -352,8 +357,8 @@ task updateLCDTask()
 				if (!(nVexRCReceiveState & vrDisabled) && !(nVexRCReceiveState & vrAutonomousMode))
 				{
 					startTask(usercontrol);
-					displayLCDString(0, 0, SAFETY_TRIG);
-					displayLCDString(1, 0, SAFETY_TRIG);
+					displayLCDString(0, 0, LCD_SAFETY_TRIG);
+					displayLCDString(1, 0, LCD_SAFETY_TRIG);
 					break;
 				}
 			}
@@ -363,8 +368,8 @@ task updateLCDTask()
 			if (!(nVexRCReceiveState & vrDisabled) && !(nVexRCReceiveState & vrAutonomousMode))
 			{
 				startTask(usercontrol);
-				displayLCDString(0, 0, SAFETY_TRIG);
-				displayLCDString(1, 0, SAFETY_TRIG);
+				displayLCDString(0, 0, LCD_SAFETY_TRIG);
+				displayLCDString(1, 0, LCD_SAFETY_TRIG);
 				break;
 			}
 
@@ -388,13 +393,13 @@ task updateLCDTask()
 		{
 			if (nLCDButtons & kButtonCenter)
 			{
-				#ifndef LCD_NO_CALLBACKS
+				#ifndef LCD_NO_INVOKE
 					if (currentMenu->dispatchFuncVal != -1)
 					{
 						//A function exists, execute it
-						invoke(currentMenu->dispatchFuncVal);
+						lcd_invoke(currentMenu->dispatchFuncVal);
 					}
-				#endif //LCD_NO_CALLBACKS
+				#endif //LCD_NO_INVOKE
 			}
 		}
 		else
@@ -434,7 +439,7 @@ task updateLCDTask()
 						clearLCDLine(0);
 						clearLCDLine(1);
 						displayLCDString(0, 0, *currentMenu->msg);
-						displayLCDString(1, 0, SUBMENU_SELECT);
+						displayLCDString(1, 0, LCD_SUBMENU_SELECT);
 
 						waitForLCDRelease();
 					}
@@ -453,7 +458,7 @@ task updateLCDTask()
 						else if (currentMenu->dispatchFuncVal != -1)
 						{
 							//A function exists, execute it
-							invoke(currentMenu->dispatchFuncVal);
+							lcd_invoke(currentMenu->dispatchFuncVal);
 
 							waitForLCDRelease();
 						}

@@ -13,7 +13,7 @@ typedef struct block_t
  * @param  size Size of block
  * @return      Whether the block was initialized successfully
  */
-bool block_Initialize(block *b, const unsigned int size);
+bool block_Initialize(block *b, const unsigned int size, float defaultValue = 0);
 
 /**
  * Expands the size of a block
@@ -38,14 +38,14 @@ float block_Get(const block *b, const unsigned int loc);
  * @param  data Element to set to
  * @return      Whether the element was set successfully
  */
-bool block_Set(const block *b, const unsigned int loc, const float data);
+bool block_Set(block *b, const unsigned int loc, const float data);
 
 /**
  * Frees a block
  * @param  b   Block to free
  * @return     Whether the free was successful
  */
-bool block_Free(const block *b);
+bool block_Free(block *b);
 
 /**
  * Shrinks a block
@@ -55,6 +55,6 @@ bool block_Free(const block *b);
  *                       shrink from end; if false, shrink from front)
  * @return               Whether the shrink was successful
  */
-bool block_Shrink(const block *b, const unsigned int shrink, bool shrinkFromEnd = true);
+bool block_Shrink(block *b, const unsigned int shrink, bool shrinkFromEnd = true);
 
 #endif //BCI_BLOCK_H_INCLUDED

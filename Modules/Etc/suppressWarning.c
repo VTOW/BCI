@@ -25,6 +25,8 @@ void ZQ_KILL_WARNING(void *trash)
 	filter_FUA((FUAFilter*)0,0);
 	filter_Init_TUA((TUAFilter*)0);
 	filter_TUA((TUAFilter*)0,0);
+	biquadFilter_Initialize((biquadFilter*)0,0,0,0,0);
+	biquadFilter_Sample((biquadFilter*)0,0);
 
 	addMotor((tMotor)0);
 	startTask(motorSlewRateTask);
@@ -49,10 +51,6 @@ void ZQ_KILL_WARNING(void *trash)
 	timer_GetDTFromMarker((timer*)0);
 	timer_GetDTFromHardMarker((timer*)0);
 	timer_Repeat((timer*)0,0);
-
-	dumpLevels();
-	printnVexRCRecieveState();
-	startTask(printBatteryVoltage);
 
 	vel_PID_InitController((vel_PID*)0,(tSensors)0,0,0);
 	vel_PID_InitController((vel_PID*)0,(tMotor)0,0,0);
@@ -85,7 +83,7 @@ void ZQ_KILL_WARNING(void *trash)
 	ZQ_KILL_WARNING((void*)vrNoXmiters);
 
 	#ifdef BCI_USE_PID_OPT
-	 PID_Opt_DriveStraight((tMotor*)0,(tMotor*)0,0,(float*)0,(float*)0,0,(pos_PID*)0,(pos_PID*)0);
+	 PID_Opt_DriveStraight(0,(tMotor*)0,(tMotor*)0,(tSensors)0,0,(tSensors)0,(pos_PID*)0,(pos_PID*)0);
 	#endif
 
 	#ifdef BCI_USE_HEAP
@@ -103,9 +101,35 @@ void ZQ_KILL_WARNING(void *trash)
 		heap_Walk(0,0);
 		heap_FindBlock(0,0);
 
-		arrayList_Initialize((arrayList*)0, 0);
 		arrayList_Initialize((arrayList*)0);
+		arrayList_EnsureCapacity((arrayList*)0, 0);
+		arrayList_Size((arrayList*)0);
+		arrayList_Get((arrayList*)0, 0);
+		arrayList_Set((arrayList*)0, 0, 0);
 		arrayList_Add((arrayList*)0, 0);
+		arrayList_Remove((arrayList*)0, 0);
+
+		matrix_Initialize((matrix*)0,0,0);
+		matrix_Free((matrix*)0);
+		matrix_Set((matrix*)0, (float*)0);
+		matrix_Set((matrix*)0, 0,0,0);
+		matrix_Get( (matrix*)0, 0,0);
+		matrix_Copy((matrix*)0,(matrix*)0);
+		matrix_AddScalar( (matrix*)0, 0, (matrix*)0);
+		matrix_SubtractScalar( (matrix*)0, 0, (matrix*)0);
+		matrix_MultiplyByScalar( (matrix*)0, 0, (matrix*)0);
+		matrix_DivideByScalar( (matrix*)0, 0, (matrix*)0);
+		matrix_RaiseToScalar( (matrix*)0, 0, (matrix*)0);
+		matrix_AddMatrix( (matrix*)0, (matrix*)0, (matrix*)0);
+		matrix_SubtractMatrix( (matrix*)0, (matrix*)0, (matrix*)0);
+		matrix_MultiplyByMatrix( (matrix*)0, (matrix*)0, (matrix*)0);
+		matrix_Transpose( (matrix*)0, (matrix*)0);
+		matrix_Minors( (matrix*)0, (matrix*)0);
+		matrix_Cofactor( (matrix*)0, (matrix*)0);
+		matrix_Trace( (matrix*)0);
+		matrix_Determinant( (matrix*)0);
+		matrix_Invert( (matrix*)0, (matrix*)0);
+		matrix_Clear((matrix*)0);
 	#endif
 
 	BCI_UART_ClearDataInBuffer(UART1);
