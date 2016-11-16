@@ -44,10 +44,38 @@ task main()
 	  startTime = time1[T1];
 	  for (; i < 1; i++)
 	  {
+	  	matrix_Copy(&m1, &m2);
+
 	  	matrix_MultiplyByMatrix(&m1, &m2, &m3);
-	  	matrix_Transpose(&m1, &m3);
-	  	matrix_Determinant(&m1);
+	  	matrix_MultiplyByMatrix(&m1, &m2, &m3);
+	  	matrix_MultiplyByMatrix(&m1, &m2, &m3);
+	  	matrix_AddMatrix(&m1, &m2, &m3);
+	  	matrix_MultiplyByMatrix(&m1, &m2, &m3);
+	  	matrix_MultiplyByMatrix(&m1, &m2, &m3);
+	  	matrix_MultiplyByMatrix(&m1, &m2, &m3);
+	  	matrix_Copy(&m1, &m2);
+
+	  	matrix_MultiplyByMatrix(&m1, &m2, &m3);
+	  	matrix_MultiplyByMatrix(&m1, &m2, &m3);
+	  	matrix_MultiplyByMatrix(&m1, &m2, &m3);
+	  	matrix_AddMatrix(&m1, &m2, &m3);
+	  	matrix_MultiplyByMatrix(&m1, &m2, &m3);
+	  	matrix_MultiplyByMatrix(&m1, &m2, &m3);
+	  	matrix_MultiplyByMatrix(&m1, &m2, &m3);
 	  	matrix_Invert(&m1, &m3);
+	  	matrix_MultiplyByMatrix(&m1, &m2, &m3);
+	  	matrix_MultiplyByMatrix(&m1, &m2, &m3);
+	  	matrix_Copy(&m1, &m2);
+
+	  	matrix_AddMatrix(&m1, &m2, &m3);
+	  	matrix_SubtractMatrix(&m1, &m2, &m3);
+	  	matrix_MultiplyByMatrix(&m1, &m2, &m3);
+	  	matrix_Copy(&m1, &m2);
+
+	  	matrix_SubtractMatrix(&m1, &m2, &m3);
+	  	matrix_MultiplyByMatrix(&m1, &m2, &m3);
+	  	matrix_MultiplyByMatrix(&m1, &m2, &m3);
+	  	matrix_Copy(&m1, &m2);
 	  }
 	  endTime = time1[T1];
 	  writeDebugStreamLine("Time taken: %d", endTime - startTime);
