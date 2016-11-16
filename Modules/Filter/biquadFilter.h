@@ -1,3 +1,4 @@
+// Biquad filter is a standard 2nd-order filter
 #ifndef BCI_BIQUADFILTER_H_INCLUDED
 #define BCI_BIQUADFILTER_H_INCLUDED
 

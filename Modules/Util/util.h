@@ -48,20 +48,4 @@ enum LEDState
  */
 #define waitForLCDRelease() while(nLCDButtons != 0) { wait1Msec(1); }
 
-/**
- * Dumps all current motor and sensor values to the debug stream
- */
-void dumpLevels();
-
-/**
- * Prints which transmitters are connected, if the competition switch is
- * connected, and which mode the competition is in
- */
-void printnVexRCRecieveState();
-
-/**
- * Prints the current main battery voltage every 10 seconds
- */
-task printBatteryVoltage();
-
 #endif //BCI_UTIL_H_INCLUDED

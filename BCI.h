@@ -4,10 +4,11 @@
 #include "Modules\Math\math.h"
 
 #include "Modules\Util\joystickDefinitions.h"
-#include "Modules\Util\util.c"
 #include "Modules\Util\semaphore.h"
 #include "Modules\Util\uart.c"
+#include "Modules\Util\util.h"
 #include "Modules\Util\timer.c"
+#include "Modules\Util\error.c"
 
 #include "Modules\Filter\emaFilter.c"
 #include "Modules\Filter\demaFilter.c"
@@ -31,6 +32,7 @@
   #include "Modules\Heap\heap.c"
   #include "Modules\Heap\block.c"
   #include "Modules\Heap\arrayList.c"
+  #include "Modules\Math\matrix.c"
 #endif
 
 #include "Modules\Etc\suppressWarning.c"
