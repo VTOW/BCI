@@ -5,10 +5,9 @@ This library contains a collection of useful features to help with software deve
 ----------------
 
 Currently, BCI features these tools:
- - Common math definitions and macros
- - Redefinitions of all joystick channels and buttons
- - Semaphore wrappers
- - UART wrappers
+ - Dynamic memory (heap based)
+ - ArrayList data structure
+ - Matrix math
  - Filters (IIR, etc.)
  - PID control (position and velocity domain)
  - TBH control
@@ -16,7 +15,10 @@ Currently, BCI features these tools:
  - Motor slew rate controller
  - LCD menu system
  - PID-based autonomous functions (drive in a straight line, etc.)
- - Dynamic memory (heap based)
+ - Common math definitions and macros
+ - Redefinitions of all joystick channels and buttons
+ - Semaphore wrappers
+ - UART wrappers
 
 ----------------
 
