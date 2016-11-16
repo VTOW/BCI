@@ -1,10 +1,6 @@
 #ifndef BCI_H_INCLUDED
 #define BCI_H_INCLUDED
 
-#if defined(BCI_USE_EKF)
-  #define BCI_USE_MATRIX;
-#endif
-
 #if defined(BCI_USE_BLOCK) || defined(BCI_USE_MATRIX) || defined(BCI_USE_ARRAYLIST)
   #define BCI_USE_HEAP
 #endif
@@ -105,10 +101,6 @@
 
 #ifdef BCI_USE_MATRIX
   #include "Modules\Math\matrix.c"
-#endif
-
-#ifdef BCI_USE_EKF
-  #include "Modules\Math\ekf.c"
 #endif
 
 #include "Modules\Etc\suppressWarning.c"
