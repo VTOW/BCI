@@ -10,6 +10,7 @@
 //We will have a quadrature encoder for the PID controller to run off of and a
 //motor to control the robot
 
+#define BCI_USE_VEL_PID
 #include "..\..\BCI.h"
 
 vel_PID myPID; //Make a pid controller

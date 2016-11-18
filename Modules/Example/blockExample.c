@@ -1,5 +1,5 @@
-#define BCI_USE_HEAP
-#define BCI_HEAP_DEBUG
+#define BCI_USE_BLOCK
+#define BCI_BLOCK_DEBUG
 #include "..\..\BCI.h"
 
 task main()

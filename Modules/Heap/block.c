@@ -86,7 +86,7 @@ bool block_Set(block *b, const unsigned int loc, const float data)
       util_PrintBlockError(s);
     #endif
 
-    return BCI_HEAP_FAIL;
+    return false;
   }
 
   return heap_Set(b->loc + loc, data);

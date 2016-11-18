@@ -9,6 +9,7 @@
 
 //We will have two motors called leftMotor and rightMotor
 
+#define BCI_USE_MOTORCONTROL
 #include "..\..\BCI.h"
 
 task main()

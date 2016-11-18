@@ -347,13 +347,25 @@ bool matrix_Minors(const matrix *mat, matrix *result)
         int y = 0;
         for(unsigned int n = 0; n < mat->columns - 1; n++)
         {
-          matrix_Set(&tmp, x, y, matrix_Get(mat, m + (m >= i), n + (n >= j)));
+          #if defined(BCI_MATRIX_O0)
+            matrix_Set(&tmp, x, y, matrix_Get(mat, m + (m >= i), n + (n >= j)));
+          #elif defined(BCI_MATRIX_O1)
+            matrix_Set_Inline_2((&tmp), x, y, matrix_Get_Inline_2(mat, m + (m >= i), n + (n >= j)));
+          #elif defined(BCI_MATRIX_O2)
+            matrix_Set_Inline_3((&tmp), x, y, matrix_Get_Inline_3(mat, m + (m >= i), n + (n >= j)));
+          #endif
           y++;
         }
         x++;
       }
 
-      matrix_Set(result, i, j, matrix_Determinant(&tmp));
+      #if defined(BCI_MATRIX_O0)
+        matrix_Set(result, i, j, matrix_Determinant(&tmp));
+      #elif defined(BCI_MATRIX_O1)
+        matrix_Set_Inline_2(result, i, j, matrix_Determinant(&tmp));
+      #elif defined(BCI_MATRIX_O2)
+        matrix_Set_Inline_3(result, i, j, matrix_Determinant(&tmp));
+      #endif
     }
   }
 
@@ -385,7 +397,13 @@ bool matrix_Cofactor(const matrix *mat, matrix *result)
     {
       if((i + j) % 2 == 1)
       {
-        matrix_Set(result, j, i, matrix_Get(result, j, i) * -1);
+        #if defined(BCI_MATRIX_O0)
+          matrix_Set(result, j, i, matrix_Get(result, j, i) * -1);
+        #elif defined(BCI_MATRIX_O1)
+          matrix_Set_Inline_2(result, j, i, matrix_Get_Inline_2(result, j, i) * -1);
+        #elif defined(BCI_MATRIX_O2)
+          matrix_Set_Inline_3(result, j, i, matrix_Get_Inline_3(result, j, i) * -1);
+        #endif
       }
     }
   }
@@ -576,7 +594,13 @@ bool matrix_Invert(const matrix *mat, matrix *result)
 
   if (mat->rows == 1)
   {
-    matrix_Set(result, 0, 0, 1.0 / matrix_Get(mat, 0, 0));
+    #if defined(BCI_MATRIX_O0)
+      matrix_Set(result, 0, 0, 1.0 / matrix_Get(mat, 0, 0));
+    #elif defined(BCI_MATRIX_O1)
+      matrix_Set_Inline_2(result, 0, 0, 1.0 / matrix_Get_Inline_2(mat, 0, 0));
+    #elif defined(BCI_MATRIX_O2)
+      matrix_Set_Inline_3(result, 0, 0, 1.0 / matrix_Get_Inline_3(mat, 0, 0));
+    #endif
     return true;
   }
 
@@ -589,6 +613,8 @@ bool matrix_Invert(const matrix *mat, matrix *result)
 
   if (det == 0)
   {
+    matrix_Free(&tmp);
+    matrix_Free(&tmp2);
     return false;
   }
 
@@ -597,7 +623,6 @@ bool matrix_Invert(const matrix *mat, matrix *result)
 
   matrix_Free(&tmp);
   matrix_Free(&tmp2);
-
   return true;
 }
 

@@ -1,5 +1,5 @@
-#define BCI_USE_HEAP
-#define BCI_HEAP_DEBUG
+#define BCI_USE_ARRAYLIST
+//#define BCI_HEAP_DEBUG
 #include "..\..\BCI.h"
 
 task main()

@@ -1,3 +1,4 @@
+#define BCI_USE_BIQUAD_FILTER
 #include "..\..\BCI.h"
 
 task main

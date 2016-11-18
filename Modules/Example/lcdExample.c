@@ -3,6 +3,7 @@
  * reference, see BCI\Modules\Core\lcdControl.h
  */
 
+#define BCI_USE_LCDCONTROL
 #define MENU_NUM 3 //Tell BCI we want to have three menus
 #define LCD_NO_SAFETY //Our example doesn't use the competition template, so we don't need a safety
 #include "..\..\BCI.h" //Include BCI after we've told it what we want

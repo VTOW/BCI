@@ -30,8 +30,10 @@ float arrayList_Get(const arrayList *list, const unsigned int index)
   //Bounds check
   if (index < 0 || index > list->b.size)
   {
-    #ifdef BCI_HEAP_DEBUG
-      writeDebugStreamLine("BCI HEAP ERROR: arrayList_Get: Invalid location: %d", index);
+    #ifdef BCI_ARRAYLIST_DEBUG
+      string s;
+      sprintf(s, "Get: Invalid location: %d", index);
+      util_PrintArrayListError(s);
     #endif
 
     return BCI_HEAP_FAIL;
@@ -45,11 +47,13 @@ bool arrayList_Set(arrayList *list, const unsigned int index, const float data)
   //Bounds check
   if (index < 0 || index >= list->b.size)
   {
-    #ifdef BCI_HEAP_DEBUG
-      writeDebugStreamLine("BCI HEAP ERROR: arrayList_Set: Invalid location: %d", index);
+    #ifdef BCI_ARRAYLIST_DEBUG
+      string s;
+      sprintf(s, "Set: Invalid location: %d", index);
+      util_PrintArrayListError(s);
     #endif
 
-    return BCI_HEAP_FAIL;
+    return false;
   }
 
   return block_Set(&(list->b), index, data);
@@ -59,10 +63,14 @@ bool arrayList_Add(arrayList *list, const float data)
 {
   if (!list->firstAdd)
   {
-    arrayList_EnsureCapacity(list, list->b.size + 1);
+    if (!arrayList_EnsureCapacity(list, list->b.size + 1))
+    {
+    	return false;
+    }
   }
   list->firstAdd = false;
   block_Set(&(list->b), list->usedSpace++, data);
+  return true;
 }
 
 float arrayList_Remove(arrayList *list, const unsigned int index)
@@ -70,8 +78,10 @@ float arrayList_Remove(arrayList *list, const unsigned int index)
   //Bounds check
   if (index < 0 || index > list->b.size)
   {
-    #ifdef BCI_HEAP_DEBUG
-      writeDebugStreamLine("BCI HEAP ERROR: arrayList_Set: Invalid location: %d", index);
+    #ifdef BCI_ARRAYLIST_DEBUG
+      string s;
+      sprintf(s, "Set: Invalid location: %d", index);
+      util_PrintArrayListError(s);
     #endif
 
     return BCI_HEAP_FAIL;
@@ -82,7 +92,7 @@ float arrayList_Remove(arrayList *list, const unsigned int index)
   //If index isn't the last element, we have to shift bottom elements up
   if (index != list->b.size)
   {
-    for (unsigned int i = index; i < list->b.size - 1; i++)
+    for (int i = index; i < list->b.size - 1; i++)
     {
       block_Set(&(list->b), index, block_Get(&(list->b), index + 1));
     }
