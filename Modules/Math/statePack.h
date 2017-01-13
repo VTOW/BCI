@@ -10,21 +10,21 @@ typedef struct statePack_t
  * Translates this SP
  * @param sp    SP to translate
  * @param dist  Length to translate
- * @param angle Angle for translation (specified in global frame)
+ * @param angle Angle for translation (degrees) (specified in global frame)
  */
 void sp_Translate(statePack &sp, const int dist, const int angle);
 
 /**
  * Rotates this SP
  * @param sp    SP to rotate
- * @param angle Angle to rotate by
+ * @param angle Angle to rotate by (degrees)
  */
 void sp_Rotate(statePack &sp, const int angle);
 
 /**
  * Rotates this SP around a point
  * @param sp    SP to rotate
- * @param angle Angle to rotate by
+ * @param angle Angle to rotate by (degrees)
  * @param x     X coordinate
  * @param y     Y coordinate
  */
