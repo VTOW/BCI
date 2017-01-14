@@ -22,6 +22,7 @@
 #endif
 
 #include "Modules\Math\math.h"
+#include "Modules\Math\statePack.c"
 
 #include "Modules\Util\joystickDefinitions.h"
 #include "Modules\Util\semaphore.h"
