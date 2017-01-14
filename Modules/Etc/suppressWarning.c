@@ -210,6 +210,10 @@ void ZQ_KILL_WARNING(void *trash)
 		lcd_linkMenus((menu*)0);
 		startTask(lcdControlTask);
 	#endif
+
+	sp_Translate((statePack*)0, 0, 0);
+	sp_Rotate((statePack*)0, 0);
+	sp_Rotate_Point((statePack*)0, 0, 0, 0);
 }
 
 #endif //BCI_SUPPRESSWARNING_C_INCLUDED
