@@ -12,14 +12,14 @@ typedef struct statePack_t
  * @param dist  Length to translate
  * @param angle Angle for translation (degrees) (specified in global frame)
  */
-void sp_Translate(statePack &sp, const int dist, const int angle);
+void sp_Translate(statePack *sp, const int dist, const int angle);
 
 /**
  * Rotates this SP
  * @param sp    SP to rotate
  * @param angle Angle to rotate by (degrees)
  */
-void sp_Rotate(statePack &sp, const int angle);
+void sp_Rotate(statePack *sp, const int angle);
 
 /**
  * Rotates this SP around a point
@@ -28,6 +28,6 @@ void sp_Rotate(statePack &sp, const int angle);
  * @param x     X coordinate
  * @param y     Y coordinate
  */
-void sp_Rotate_Point(statePack &sp, const int angle, const long x, const long y);
+void sp_Rotate_Point(statePack *sp, const int angle, const long x, const long y);
 
 #endif //BCI_STATEPACK_H_INCLUDED
