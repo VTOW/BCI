@@ -13,11 +13,7 @@
   #define BCI_USE_DEMA_FILTER
 #endif
 
-#if defined(BCI_USE_PID_OPT)
-  #define BCI_USE_POS_PID
-#endif
-
-#if defined(BCI_USE_PID_OPT) || defined(BCI_USE_LCDCONTROL)
+#if defined(BCI_USE_LCDCONTROL)
   #define BCI_USE_TIMER
 #endif
 
@@ -82,10 +78,6 @@
 
 #ifdef BCI_USE_LCDCONTROL
   #include "Modules\LCD\lcdControl.c"
-#endif
-
-#ifdef BCI_USE_PID_OPT
- #include "Modules\PID_Optional\driveStraight.c"
 #endif
 
 #ifdef BCI_USE_HEAP
