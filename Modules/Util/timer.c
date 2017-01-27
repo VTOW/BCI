@@ -3,7 +3,7 @@
 
 #include "timer.h"
 
-void timer_Initialize(timer* timer)
+void timer_Initialize(timer *timer)
 {
 	timer->firstCalled = nSysTime;
 	timer->lastCalled = 0;
@@ -12,19 +12,19 @@ void timer_Initialize(timer* timer)
 	timer->repeatMark = -1;
 }
 
-long timer_GetDT(timer* timer)
+long timer_GetDT(timer *timer)
 {
 	long dt = nSysTime - timer->lastCalled;
 	timer->lastCalled = nSysTime;
 	return dt;
 }
 
-long timer_GetStartingTime(timer* timer)
+long timer_GetStartingTime(timer *timer)
 {
 	return timer->firstCalled;
 }
 
-long timer_GetDTFromStart(timer* timer)
+long timer_GetDTFromStart(timer *timer)
 {
 	return nSysTime - timer->firstCalled;
 }
