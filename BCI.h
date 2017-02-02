@@ -2,19 +2,27 @@
 #define BCI_H_INCLUDED
 
 #if defined(BCI_USE_BLOCK) || defined(BCI_USE_MATRIX) || defined(BCI_USE_ARRAYLIST)
-  #define BCI_USE_HEAP
+  #ifndef BCI_USE_HEAP
+    #define BCI_USE_HEAP
+  #endif
 #endif
 
 #if defined(BCI_USE_MATRIX) || defined(BCI_USE_ARRAYLIST)
-  #define BCI_USE_BLOCK
+  #ifndef BCI_USE_BLOCK
+    #define BCI_USE_BLOCK
+  #endif
 #endif
 
 #if defined(BCI_USE_BANGBANG) || defined(BCI_USE_VEL_PID) || defined(BCI_USE_VEL_TBH)
-  #define BCI_USE_DEMA_FILTER
+  #ifndef BCI_USE_DEMA_FILTER
+    #define BCI_USE_DEMA_FILTER
+  #endif
 #endif
 
 #if defined(BCI_USE_LCDCONTROL)
-  #define BCI_USE_TIMER
+  #ifndef BCI_USE_TIMER
+    #define BCI_USE_TIMER
+  #endif
 #endif
 
 #include "Modules\Math\math.h"
