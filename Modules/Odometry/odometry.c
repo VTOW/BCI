@@ -14,6 +14,11 @@ void odometry_Initialize(const tSensors leftQuad, const tSensors rightQuad, cons
   bci_internal_odom.rightQuad = rightQuad;
 }
 
+void odometry_GuessScaleFactor(const float chassisDiameter, const float wheelDiameter)
+{
+  
+}
+
 task trackOdometry()
 {
   SensorValue[bci_internal_odom.leftQuad] = 0;

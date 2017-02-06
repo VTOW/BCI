@@ -30,6 +30,14 @@ long BCI_Odometry_X, BCI_Odometry_Y, BCI_Odometry_Theta;
 void odometry_Initialize(const tSensors leftQuad, const tSensors rightQuad, const long start_x, const long start_y, const long start_theta, const float scaleFactor = 9.2345);
 
 /**
+ * Takes a guess at calculating your scale factor. This will never be as
+ * accurate as experimentally determining it yourself.
+ * @param chassisDiameter Diameter of chassis in inches
+ * @param wheelDiameter   Diameter of wheel in inches
+ */
+void odometry_GuessScaleFactor(const float chassisDiameter, const float wheelDiameter);
+
+/**
  * Tracks the realtime odometry of the robot and produces a global position
  * estimate written to the globals above. THIS TASK CLEARS THE QUAD ENCODERS
  * YOU SUPPLY! DO NOT WRITE TO THE VALUES OF THE QUADS ENCODERS! If you change
