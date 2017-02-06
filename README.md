@@ -5,6 +5,7 @@ This library contains a collection of useful features to help with software deve
 Code in this library is based on the work of:
  - James Pearman
  - Justin Marple (https://github.com/JMarple/BNSLibrary)
+ - Griffin Tabor
 
 ----------------
 
