@@ -210,6 +210,12 @@ void ZQ_KILL_WARNING(void *trash)
 	sp_Translate((statePack*)0, 0, 0);
 	sp_Rotate((statePack*)0, 0);
 	sp_Rotate_Point((statePack*)0, 0, 0, 0);
+
+	#ifdef BCI_USE_ODOMETRY
+		odometry_Initialize((tSensors)0, (tSensors)0, 0, 0, 0, 9.2345);
+		odometry_GuessScaleFactor(0.0, 0.0);
+		startTask(trackOdometry);
+	#endif
 }
 
 #endif //BCI_SUPPRESSWARNING_C_INCLUDED
