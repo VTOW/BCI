@@ -34,36 +34,48 @@ task trackOdometry()
 
   float leftMM, rightMM, mm;
 
+  int leftSample, rightSample;
+
   while (true)
   {
-    int leftSample = SensorValue[leftDrive];
-    int rightSample = SensorValue[rightDrive];
+    //Save quads
+    leftSample = SensorValue[bci_internal_odom.leftQuad];
+    rightSample = SensorValue[bci_internal_odom.rightQuad];
 
+    //Get delta
     leftTicks = leftSample - lastLeft;
     rightTicks = rightSample - lastRight;
 
+    //Save last vals
     lastLeft = leftSample;
     lastRight = rightSample;
 
+    //Convert to mm
     leftMM = (float)leftTicks / bci_internal_odom.scale;
     rightMM = (float)rightTicks / bci_internal_odom.scale;
 
+    //Get avg delta
     mm = (leftMM + rightMM) / 2.0;
 
+    //Get theta
     theta += (rightTicks - leftTicks) / bci_internal_odom.turnScale;
 
+    //Wrap theta
     if(theta > 180)
       theta = theta - 360;
     if(theta < -180)
       theta = 360 + theta;
 
+    //Do the odom math
     bci_internal_odom.pos_x += mm * cosDegrees(theta);
     bci_internal_odom.pos_y += mm * sinDegrees(theta);
 
+    //Save to global
     BCI_Odometry_X = bci_internal_odom.pos_x;
     BCI_Odometry_Y = bci_internal_odom.pos_y;
     BCI_Odometry_Theta = bci_internal_odom.pos_theta;
 
+    //Task wait
     wait1Msec(5);
   }
 }
