@@ -3,20 +3,26 @@
 
 #include "odometry.h"
 
-void odometry_Initialize(const tSensors leftQuad, const tSensors rightQuad, const long start_x, const long start_y, const long start_theta, const float scaleFactor = 9.2345)
+void odometry_Initialize(const tSensors leftQuad, const tSensors rightQuad, const long start_x, const long start_y, const long start_theta)
 {
   bci_internal_odom.pos_x = start_x;
   bci_internal_odom.pos_y = start_y;
   bci_internal_odom.pos_theta = start_theta;
 
-  bci_internal_odom.scaleFactor = scaleFactor;
   bci_internal_odom.leftQuad = leftQuad;
   bci_internal_odom.rightQuad = rightQuad;
 }
 
-void odometry_GuessScaleFactor(const float chassisDiameter, const float wheelDiameter)
+void odometry_SetScales(const float scale, const float turnScale)
 {
-  
+  bci_internal_odom.scale = scale;
+  bci_internal_odom.turnScale = turnScale;
+}
+
+void odometry_GuessScales(const float chassisDiameter, const float wheelDiameter)
+{
+  bci_internal_odom.scale = wheelDiameter * PI * UTIL_IN_TO_MM; //1 in = 25.4 mm
+  bci_internal_odom.turnScale = chassisDiameter / wheelDiameter;
 }
 
 task trackOdometry()
@@ -39,12 +45,12 @@ task trackOdometry()
     lastLeft = leftSample;
     lastRight = rightSample;
 
-    leftMM = (float)leftTicks / LEFT_CLICKS_PER_MM;
-    rightMM = (float)rightTicks / RIGHT_CLICKS_PER_MM;
+    leftMM = (float)leftTicks / bci_internal_odom.scale;
+    rightMM = (float)rightTicks / bci_internal_odom.scale;
 
     mm = (leftMM + rightMM) / 2.0;
 
-    theta += (rightTicks - leftTicks) / scaleFactor;
+    theta += (rightTicks - leftTicks) / bci_internal_odom.turnScale;
 
     if(theta > 180)
       theta = theta - 360;
