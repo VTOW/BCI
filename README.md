@@ -11,6 +11,7 @@ Code in this library is based on the work of:
 
 Currently, BCI features these tools:
  - Dynamic memory (heap based)
+ - Position tracking (odometry)
  - ArrayList data structure
  - Matrix math
  - Filters (IIR, etc.)
