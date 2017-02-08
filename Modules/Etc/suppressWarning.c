@@ -112,10 +112,6 @@ void ZQ_KILL_WARNING(void *trash)
 	ZQ_KILL_WARNING((void*)LED_ON);
 	ZQ_KILL_WARNING((void*)vrNoXmiters);
 
-	#ifdef BCI_USE_PID_OPT
-	 PID_Opt_DriveStraight(0,(tMotor*)0,(tMotor*)0,(tSensors)0,0,(tSensors)0,(pos_PID*)0,(pos_PID*)0);
-	#endif
-
 	#ifdef BCI_USE_HEAP
 		heap_Init();
 		heap_Malloc(0);
@@ -214,6 +210,13 @@ void ZQ_KILL_WARNING(void *trash)
 	sp_Translate((statePack*)0, 0, 0);
 	sp_Rotate((statePack*)0, 0);
 	sp_Rotate_Point((statePack*)0, 0, 0, 0);
+
+	#ifdef BCI_USE_ODOMETRY
+		odometry_Initialize((tSensors)0, (tSensors)0, 0, 0, 0);
+		odometry_GuessScales(0.0, 0.0);
+		odometry_SetScales(0.0, 0.0);
+		startTask(trackOdometry);
+	#endif
 }
 
 #endif //BCI_SUPPRESSWARNING_C_INCLUDED

@@ -2,23 +2,27 @@
 #define BCI_H_INCLUDED
 
 #if defined(BCI_USE_BLOCK) || defined(BCI_USE_MATRIX) || defined(BCI_USE_ARRAYLIST)
-  #define BCI_USE_HEAP
+  #ifndef BCI_USE_HEAP
+    #define BCI_USE_HEAP
+  #endif
 #endif
 
 #if defined(BCI_USE_MATRIX) || defined(BCI_USE_ARRAYLIST)
-  #define BCI_USE_BLOCK
+  #ifndef BCI_USE_BLOCK
+    #define BCI_USE_BLOCK
+  #endif
 #endif
 
 #if defined(BCI_USE_BANGBANG) || defined(BCI_USE_VEL_PID) || defined(BCI_USE_VEL_TBH)
-  #define BCI_USE_DEMA_FILTER
+  #ifndef BCI_USE_DEMA_FILTER
+    #define BCI_USE_DEMA_FILTER
+  #endif
 #endif
 
-#if defined(BCI_USE_PID_OPT)
-  #define BCI_USE_POS_PID
-#endif
-
-#if defined(BCI_USE_PID_OPT) || defined(BCI_USE_LCDCONTROL)
-  #define BCI_USE_TIMER
+#if defined(BCI_USE_LCDCONTROL)
+  #ifndef BCI_USE_TIMER
+    #define BCI_USE_TIMER
+  #endif
 #endif
 
 #include "Modules\Math\math.h"
@@ -84,10 +88,6 @@
   #include "Modules\LCD\lcdControl.c"
 #endif
 
-#ifdef BCI_USE_PID_OPT
- #include "Modules\PID_Optional\driveStraight.c"
-#endif
-
 #ifdef BCI_USE_HEAP
   #include "Modules\Heap\heap.c"
 #endif
@@ -102,6 +102,10 @@
 
 #ifdef BCI_USE_MATRIX
   #include "Modules\Math\matrix.c"
+#endif
+
+#ifdef BCI_USE_ODOMETRY
+  #include "Modules\Odometry\odometry.c"
 #endif
 
 #include "Modules\Etc\suppressWarning.c"
