@@ -58,17 +58,17 @@ task trackOdometry()
     mm = (leftMM + rightMM) / 2.0;
 
     //Get theta
-    theta += (rightTicks - leftTicks) / bci_internal_odom.turnScale;
+    bci_internal_odom.pos_theta += (rightTicks - leftTicks) / bci_internal_odom.turnScale;
 
     //Wrap theta
-    if(theta > 180)
-      theta = theta - 360;
-    if(theta < -180)
-      theta = 360 + theta;
+    if(bci_internal_odom.pos_theta > 180)
+      bci_internal_odom.pos_theta = bci_internal_odom.pos_theta - 360;
+    if(bci_internal_odom.pos_theta < -180)
+      bci_internal_odom.pos_theta = 360 + bci_internal_odom.pos_theta;
 
     //Do the odom math
-    bci_internal_odom.pos_x += mm * cosDegrees(theta);
-    bci_internal_odom.pos_y += mm * sinDegrees(theta);
+    bci_internal_odom.pos_x += mm * cosDegrees(bci_internal_odom.pos_theta);
+    bci_internal_odom.pos_y += mm * sinDegrees(bci_internal_odom.pos_theta);
 
     //Save to global
     BCI_Odometry_X = bci_internal_odom.pos_x;
