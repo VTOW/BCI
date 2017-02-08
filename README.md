@@ -5,11 +5,13 @@ This library contains a collection of useful features to help with software deve
 Code in this library is based on the work of:
  - James Pearman
  - Justin Marple (https://github.com/JMarple/BNSLibrary)
+ - Griffin Tabor
 
 ----------------
 
 Currently, BCI features these tools:
  - Dynamic memory (heap based)
+ - Position tracking (odometry)
  - ArrayList data structure
  - Matrix math
  - Filters (IIR, etc.)
