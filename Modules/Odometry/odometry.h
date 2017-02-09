@@ -25,14 +25,14 @@ long BCI_Odometry_X, BCI_Odometry_Y, BCI_Odometry_Theta;
  * @param start_y     Starting y coordinate (mm)
  * @param start_theta Starting theta rotation (deg)
  */
-void odometry_Initialize(const tSensors leftQuad, const tSensors rightQuad, const long start_x, const long start_y, const long start_theta);
+void odom_Initialize(const tSensors leftQuad, const tSensors rightQuad, const long start_x, const long start_y, const long start_theta);
 
 /**
  * Sets the scale and turn scale for the odometry task.
  * @param scale       Conversion between encoder ticks and millimeters.
  * @param turnScale   Conversion between encoder tick difference and degrees.
  */
-void odometry_SetScales(const float scale, const float turnScale);
+void odom_SetScales(const float scale, const float turnScale);
 
 /**
  * Takes a guess at calculating your scale and turning scale. This will never be
@@ -40,7 +40,7 @@ void odometry_SetScales(const float scale, const float turnScale);
  * @param chassisDiameter Diameter of wheel base in inches
  * @param wheelDiameter   Diameter of wheel in inches
  */
-void odometry_GuessScales(const float chassisDiameter, const float wheelDiameter);
+void odom_GuessScales(const float chassisDiameter, const float wheelDiameter);
 
 /**
  * Tracks the realtime odometry of the robot and produces a global position
