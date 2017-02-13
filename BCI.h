@@ -13,7 +13,7 @@
   #endif
 #endif
 
-#if defined(BCI_USE_BANGBANG) || defined(BCI_USE_VEL_PID) || defined(BCI_USE_VEL_TBH)
+#if defined(BCI_USE_BANGBANG) || defined(BCI_USE_VEL_PID) || defined(BCI_USE_VEL_TBH) || defined(BCI_USE_CUSTOM_TRUESPEED)
   #ifndef BCI_USE_DEMA_FILTER
     #define BCI_USE_DEMA_FILTER
   #endif
@@ -107,6 +107,8 @@
 #ifdef BCI_USE_ODOMETRY
   #include "Modules\Odometry\odometry.c"
 #endif
+
+#include "Modules\Control\trueSpeed.c"
 
 #include "Modules\Etc\suppressWarning.c"
 
