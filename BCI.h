@@ -25,6 +25,12 @@
   #endif
 #endif
 
+#if defined(BCI_USE_AUTOTUNE)
+  #ifndef BCI_USE_POS_PID
+    #define BCI_USE_POS_PID
+  #endif
+#endif
+
 #include "Modules\Math\math.h"
 #include "Modules\Math\statePack.c"
 
@@ -106,6 +112,10 @@
 
 #ifdef BCI_USE_ODOMETRY
   #include "Modules\Odometry\odometry.c"
+#endif
+
+#ifdef BCI_USE_AUTOTUNE
+  #include "Modules\Autotune\autotune.c"
 #endif
 
 #include "Modules\Etc\suppressWarning.c"
