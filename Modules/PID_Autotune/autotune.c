@@ -83,6 +83,8 @@ void autotune_Run(tMotor *leftMotors, const int numLeftMotors, tMotor *rightMoto
     if (abs(highestExtreme - lowestExtreme) > 50)
     {
       kP += 0.1;
+      writeDebugStreamLine("Reset robot position! Two seconds before next iteration...");
+      wait1Msec(2000);
     }
     //Else we found the correct kP
     else
