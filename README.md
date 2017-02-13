@@ -20,7 +20,6 @@ Currently, BCI features these tools:
  - Bang-bang control
  - Motor slew rate controller
  - LCD menu system
- - PID-based autonomous functions (drive in a straight line, etc.)
  - Common math definitions and macros
  - Redefinitions of all joystick channels and buttons
  - Semaphore wrappers
