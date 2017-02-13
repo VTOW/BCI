@@ -115,7 +115,7 @@
 #endif
 
 #ifdef BCI_USE_AUTOTUNE
-  #include "Modules\Autotune\autotune.c"
+  #include "Modules\PID_Autotune\autotune.c"
 #endif
 
 #include "Modules\Etc\suppressWarning.c"
