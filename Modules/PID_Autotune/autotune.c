@@ -28,6 +28,7 @@ void autotune_Run(tMotor *leftMotors, const int numLeftMotors, tMotor *rightMoto
     {
     	lastQuadAvg = quadAvg;
       quadAvg = ((SensorValue[leftQuad] - leftQuadStart) + (SensorValue[rightQuad] - rightQuadStart)) / 2.0;
+      pos_PID_StepController(&pid);
 
       //Power motors
       for (int m = 0; m < numLeftMotors; m++)
