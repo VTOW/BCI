@@ -5,13 +5,17 @@
 
 void autotune_Run(tMotor *leftMotors, const int numLeftMotors, tMotor *rightMotors, const int numRightMotors, const tSensors leftQuad, const tSensors rightQuad, const long target)
 {
+	float kP = 0.1;
+
   while (true)
   {
     const long leftQuadStart = SensorValue[leftQuad], rightQuadStart = SensorValue[rightQuad];
 
     pos_PID pid;
-    float quadAvg = 0, lastQuadAvg = 0, kP = 0.1;
+    float quadAvg = 0, lastQuadAvg = 0;
+    writeDebugStreamLine("kP: %1.1f", kP);
     pos_PID_InitController(&pid, &quadAvg, kP, 0, 0);
+    pos_PID_SetTargetPosition(&pid, target);
 
     //Local maximums and minimums
     const int numExtremesRequired = 10;
@@ -22,8 +26,8 @@ void autotune_Run(tMotor *leftMotors, const int numLeftMotors, tMotor *rightMoto
     //Find extremes
     while (extremeCounter < numExtremesRequired)
     {
+    	lastQuadAvg = quadAvg;
       quadAvg = ((SensorValue[leftQuad] - leftQuadStart) + (SensorValue[rightQuad] - rightQuadStart)) / 2.0;
-      pos_PID_StepController(&pid);
 
       //Power motors
       for (int m = 0; m < numLeftMotors; m++)
@@ -39,13 +43,14 @@ void autotune_Run(tMotor *leftMotors, const int numLeftMotors, tMotor *rightMoto
       //Check for peak
       if (!lastExtremeWasPeak)
       {
-        if (quadAvg > lastQuadAvg)
+        if (quadAvg >= lastQuadAvg)
         {
           extremes[extremeCounter] = quadAvg;
           times[extremeCounter] = nSysTime;
         }
         else
         {
+        	writeDebugStreamLine("found peak");
           extremeCounter++;
           lastExtremeWasPeak = !lastExtremeWasPeak;
         }
@@ -53,13 +58,14 @@ void autotune_Run(tMotor *leftMotors, const int numLeftMotors, tMotor *rightMoto
       //Check for valley
       else
       {
-        if (quadAvg < lastQuadAvg)
+        if (quadAvg <= lastQuadAvg)
         {
           extremes[extremeCounter] = quadAvg;
           times[extremeCounter] = nSysTime;
         }
         else
         {
+        	writeDebugStreamLine("found valley");
           extremeCounter++;
           lastExtremeWasPeak = !lastExtremeWasPeak;
         }
@@ -68,23 +74,46 @@ void autotune_Run(tMotor *leftMotors, const int numLeftMotors, tMotor *rightMoto
       wait1Msec(15);
     }
 
-    //Get lowest and highest extremes
-    int lowestExtreme = extremes[0], highestExtreme = extremes[0];
-    for (int i = 0; i < numExtremesRequired; i++)
+    //Stop motors
+    for (int m = 0; m < numLeftMotors; m++)
     {
-      if (extremes[i] > highestExtreme)
-        highestExtreme = extremes[i];
-      else if (extremes[i] < lowestExtreme)
-        lowestExtreme = extremes[i];
+      motor[leftMotors[m]] = 0;
     }
+
+    for (int m = 0; m < numRightMotors; m++)
+    {
+      motor[rightMotors[m]] = 0;
+    }
+
+    bool didPassInspection = true;
+    for (int index = 0; index < numExtremesRequired; index++)
+    {
+	    //Get lowest and highest extremes
+	    int lowestExtreme = extremes[0], highestExtreme = extremes[0];
+	    int nextLowestExtreme = extremes[0], nextHighestExtreme = extremes[0];
+	    for (int i = index; i < numExtremesRequired; i++)
+	    {
+	      if (extremes[i] > highestExtreme)
+	    		highestExtreme = extremes[i];
+	    	else if (extremes[i] < highestExtreme && extremes[i] > nextHighestExtreme)
+	    		nextHighestExtreme = extremes[i];
+	      else if (extremes[i] < lowestExtreme)
+	        lowestExtreme = extremes[i];
+	      else if (extremes[i] > lowestExtreme && extremes[i] < nextLowestExtreme)
+	      	nextLowestExtreme = extremes[i];
+	    }
+
+	    if (abs(highestExtreme - nextHighestExtreme) > 50 || abs(lowestExtreme - nextLowestExtreme) > 50)
+	    	didPassInspection = false;
+	 	}
 
     //If the extreme extremes are too different, increase kP because we are not
     //oscillating consistently enough
-    if (abs(highestExtreme - lowestExtreme) > 50)
+    if (!didPassInspection)
     {
       kP += 0.1;
-      writeDebugStreamLine("Reset robot position! Two seconds before next iteration...");
-      wait1Msec(2000);
+      writeDebugStreamLine("Reset robot position! Four seconds before next iteration...");
+      wait1Msec(4000);
     }
     //Else we found the correct kP
     else
