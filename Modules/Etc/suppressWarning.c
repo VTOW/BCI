@@ -63,6 +63,7 @@ void ZQ_KILL_WARNING(void *trash)
 		pos_PID_ChangeSensor((pos_PID*)0, (tSensors)0);
 		pos_PID_ChangeSensor((pos_PID*)0, (tMotor)0);
 		pos_PID_ChangeSensor((pos_PID*)0, (float*)0);
+	  pos_PID_ChangeBounds((pos_PID*)0,0,0);
 	#endif
 
 	#ifdef BCI_USE_TIMER

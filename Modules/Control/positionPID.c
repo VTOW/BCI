@@ -17,6 +17,8 @@ void pos_PID_InitController(pos_PID *pid, const tSensors sensor, const float kP,
 
 	pid->errorThreshold = errorThreshold;
 	pid->integralLimit = integralLimit;
+	pid->upperBound = 127;
+	pid->lowerBound = -127;
 
 	pid->dt = 0;
 	pid->currentTime = 0;
@@ -45,6 +47,8 @@ void pos_PID_InitController(pos_PID *pid, const tMotor imeMotor, const float kP,
 
 	pid->errorThreshold = errorThreshold;
 	pid->integralLimit = integralLimit;
+	pid->upperBound = 127;
+	pid->lowerBound = -127;
 
 	pid->dt = 0;
 	pid->prevTime = 0;
@@ -71,6 +75,8 @@ void pos_PID_InitController(pos_PID *pid, const float *var, const float kP, cons
 
 	pid->errorThreshold = errorThreshold;
 	pid->integralLimit = integralLimit;
+	pid->upperBound = 127;
+	pid->lowerBound = -127;
 
 	pid->dt = 0;
 	pid->prevTime = 0;
@@ -86,6 +92,12 @@ void pos_PID_InitController(pos_PID *pid, const float *var, const float kP, cons
 void pos_PID_ChangeBias(pos_PID *pid, const float kBias)
 {
 	pid->kBias = kBias;
+}
+
+void pos_PID_ChangeBounds(pos_PID *pid, const int upper, const int lower)
+{
+	pid->upperBound = upper;
+	pid->lowerBound = lower;
 }
 
 void pos_PID_ChangeSensor(pos_PID *pid, const tSensors sensor)
@@ -203,6 +215,16 @@ int pos_PID_StepController(pos_PID *pid)
 	//Calculate output
 	pid->outVal = (pid->error * pid->kP) + (pid->integral * pid->kI) + (pid->derivative * pid->kD) + pid->kBias;
 
+	//Bound output
+	if (pid->outVal > pid->upperBound)
+	{
+		pid->outVal = pid->upperBound;
+	}
+	else if (pid->outVal < pid->lowerBound)
+	{
+		pid->outVal = pid->lowerBound;
+	}
+
 	return pid->outVal;
 }
 
@@ -245,6 +267,16 @@ int pos_PID_StepController(pos_PID *pid, const float val)
 
 	//Calculate output
 	pid->outVal = (pid->error * pid->kP) + (pid->integral * pid->kI) + (pid->derivative * pid->kD) + pid->kBias;
+
+	//Bound output
+	if (pid->outVal > pid->upperBound)
+	{
+		pid->outVal = pid->upperBound;
+	}
+	else if (pid->outVal < pid->lowerBound)
+	{
+		pid->outVal = pid->lowerBound;
+	}
 
 	return pid->outVal;
 }

@@ -19,6 +19,8 @@ typedef struct pos_PID_t
 	//PID limits
 	int errorThreshold;
 	int integralLimit;
+	int upperBound;
+	int lowerBound;
 
 	//Timestep
 	float dt;
@@ -83,6 +85,14 @@ void pos_PID_InitController(pos_PID *pid, const float *var, const float kP, cons
  * @param kBias New kBias term
  */
 void pos_PID_ChangeBias(pos_PID *pid, const float kBias);
+
+/**
+ * Sets new upper and lower bounds for the ouput of the controller
+ * @param pid   PID controller to use
+ * @param upper Upper bound
+ * @param lower Lower bound
+ */
+void pos_PID_ChangeBounds(pos_PID *pid, const int upper, const int lower);
 
 /**
  * Changes the sensor
