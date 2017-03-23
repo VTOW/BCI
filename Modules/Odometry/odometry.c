@@ -62,9 +62,9 @@ task trackOdometry()
 
     //Wrap theta
     if(bci_internal_odom.pos_theta > 180)
-      bci_internal_odom.pos_theta = bci_internal_odom.pos_theta - 360;
-    if(bci_internal_odom.pos_theta < -180)
-      bci_internal_odom.pos_theta = 360 + bci_internal_odom.pos_theta;
+      bci_internal_odom.pos_theta -= 360;
+    if(bci_internal_odom.pos_theta <= -180)
+      bci_internal_odom.pos_theta += 360;
 
     //Do the odom math
     bci_internal_odom.pos_x += mm * cosDegrees(bci_internal_odom.pos_theta);
