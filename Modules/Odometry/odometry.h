@@ -32,7 +32,7 @@ void odom_Initialize(const tSensors leftQuad, const tSensors rightQuad, const lo
  * @param scale       Conversion between encoder ticks and millimeters.
  * @param turnScale   Conversion between encoder tick difference and degrees.
  */
-void odom_SetScales(const float scale, const float turnScale);
+void odom_SetScales(const float scale, const float turnScale, const float ticksPerRev = UTIL_QUAD_TPR);
 
 /**
  * Takes a guess at calculating your scale and turning scale. This will never be

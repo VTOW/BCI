@@ -19,10 +19,10 @@ void odom_SetScales(const float scale, const float turnScale)
   bci_internal_odom.turnScale = turnScale;
 }
 
-void odom_GuessScales(const float chassisDiameter, const float wheelDiameter)
+void odom_GuessScales(const float chassisDiameter, const float wheelDiameter, const float ticksPerRev)
 {
-  bci_internal_odom.scale = wheelDiameter * PI * UTIL_IN_TO_MM; //1 in = 25.4 mm
-  bci_internal_odom.turnScale = chassisDiameter / wheelDiameter;
+  bci_internal_odom.scale = (wheelDiameter * PI * UTIL_IN_TO_MM) / ticksPerRev;
+  bci_internal_odom.turnScale = 1.0 / (chassisDiameter * UTIL_IN_TO_MM);
 }
 
 task trackOdometry()
