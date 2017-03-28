@@ -104,10 +104,6 @@
   #include "Modules\Math\matrix.c"
 #endif
 
-#ifdef BCI_USE_ODOMETRY
-  #include "Modules\Odometry\odometry.c"
-#endif
-
 #include "Modules\Etc\suppressWarning.c"
 
 #endif //BCI_H_INCLUDED
