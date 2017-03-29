@@ -51,14 +51,14 @@ task trackOdometry()
     lastRight = rightSample;
 
     //Convert to mm
-    leftMM = (float)leftTicks / bci_internal_odom.scale;
-    rightMM = (float)rightTicks / bci_internal_odom.scale;
+    leftMM = (float)leftTicks * bci_internal_odom.scale;
+    rightMM = (float)rightTicks * bci_internal_odom.scale;
 
     //Get avg delta
     mm = (leftMM + rightMM) / 2.0;
 
     //Get theta
-    bci_internal_odom.pos_theta += (rightTicks - leftTicks) / bci_internal_odom.turnScale;
+    bci_internal_odom.pos_theta += (rightTicks - leftTicks) * bci_internal_odom.turnScale;
 
     //Wrap theta
     if(bci_internal_odom.pos_theta > 180)
