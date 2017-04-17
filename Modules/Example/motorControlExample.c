@@ -28,7 +28,7 @@ task main()
 
   //Force the slew rate controller to jump leftMotor down to power 10, skipping
   //the slewing process
-  setMotorSpeed_Bypass(leftMotor, 0);
+  setMotorSpeed_Bypass(leftMotor, 10);
 
   //Read the current (requested) power of leftMotor
   getMotorSpeed(leftMotor);
